@@ -1,0 +1,36 @@
+# CI for the bird-ai release mirror. This file is the proof that the exported
+# tree is well-formed with NO Bird monorepo context — it runs on a
+# GitHub-hosted runner against the checked-in mirror content only.
+#
+# Source of truth: clients/ai/.mirror/ in the Bird monorepo. Do not edit on the
+# mirror; changes are synced from the monorepo.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate plugin manifests are well-formed JSON
+        run: |
+          for f in .claude-plugin/marketplace.json .cursor-plugin/marketplace.json \
+                   plugins/*/.claude-plugin/plugin.json \
+                   plugins/*/.codex-plugin/plugin.json \
+                   plugins/*/.cursor-plugin/plugin.json; do
+            echo "checking $f"
+            python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$f"
+          done
+      - name: Every plugin has at least one skill
+        run: |
+          for p in plugins/*/; do
+            ls "$p"skills/*/SKILL.md >/dev/null
+          done

@@ -1,0 +1,23 @@
+{
+  "name": "bird",
+  "displayName": "Bird",
+  "version": "0.1.0",
+  "description": "Drive the Bird platform from your coding agent — operate the Bird API from the terminal with the `bird` CLI.",
+  "author": {
+    "name": "Bird",
+    "url": "https://github.com/messagebird"
+  },
+  "homepage": "https://bird.com",
+  "repository": "https://github.com/messagebird/bird-ai",
+  "license": "MIT",
+  "keywords": [
+    "cursor",
+    "bird",
+    "email",
+    "messaging",
+    "cli",
+    "api",
+    "webhooks",
+    "agent"
+  ]
+}

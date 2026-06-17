@@ -1,0 +1,41 @@
+{
+  "name": "bird",
+  "version": "0.1.0",
+  "description": "Drive the Bird platform from your coding agent — operate the Bird API from the terminal with the `bird` CLI.",
+  "author": {
+    "name": "Bird",
+    "url": "https://github.com/messagebird"
+  },
+  "homepage": "https://bird.com",
+  "repository": "https://github.com/messagebird/bird-ai",
+  "license": "MIT",
+  "keywords": [
+    "bird",
+    "email",
+    "messaging",
+    "cli",
+    "api",
+    "webhooks",
+    "agent"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Bird",
+    "shortDescription": "Drive the Bird platform from your coding agent.",
+    "longDescription": "Operate the Bird API from the terminal with the `bird` CLI — send and inspect email, manage sending domains and webhook endpoints, and check CLI auth. Skills install natively via Codex.",
+    "developerName": "Bird",
+    "category": "Coding",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Interactive"
+    ],
+    "websiteURL": "https://bird.com",
+    "defaultPrompt": [
+      "Send an email with the bird CLI",
+      "List sent emails and check if one bounced",
+      "Set up an outbound webhook"
+    ],
+    "screenshots": []
+  }
+}
