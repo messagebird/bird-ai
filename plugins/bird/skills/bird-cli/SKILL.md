@@ -1,6 +1,6 @@
 ---
 name: bird-cli
-description: Drive the Bird API from the terminal with the `bird` CLI — send and inspect email, manage sending domains and webhook endpoints, and check CLI auth/config. Use when someone says "send an email with the bird CLI", "list sent emails", "did that email bounce", "what domain can I send from", "add a sending domain", "set up a webhook", "is the CLI authenticated", or otherwise wants to operate Bird from a shell or an agent loop. Not for the Bird HTTP API directly or the Go/TS SDKs.
+description: Drive the Bird API from the terminal with the `bird` CLI — send and inspect email, manage sending domains, dedicated IPs and IP pools, and webhook endpoints, and check CLI auth/config. Use when someone says "send an email with the bird CLI", "list sent emails", "did that email bounce", "what domain can I send from", "add a sending domain", "list my dedicated IPs", "create an IP pool", "assign an IP to a pool", "set up a webhook", "is the CLI authenticated", or otherwise wants to operate Bird from a shell or an agent loop. Not for the Bird HTTP API directly or the Go/TS SDKs.
 ---
 
 # Bird CLI
@@ -21,6 +21,7 @@ curl -fsSL https://cli.platform.bird.com/install.sh | sh
 
 - Send or inspect email messages → [email](references/email.md)
 - Manage sending domains, or find a verified `from` to send from → [domains](references/domains.md)
+- Manage dedicated IPs and IP pools (sending reputation) → [ip-pools](references/ip-pools.md)
 - Manage outbound webhook endpoints → [webhooks](references/webhooks.md)
 - Inspect resolved CLI configuration → `bird config show` (sibling operation; node not yet authored)
 

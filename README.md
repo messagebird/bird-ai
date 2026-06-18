@@ -1,10 +1,19 @@
 # Bird AI Marketplace
 
-Skills, agents, and commands for driving the [Bird](https://bird.com) platform from your coding agent. Install the `bird` plugin and your agent can operate the Bird API directly.
+Skills, agents, and commands for driving the [Bird](https://bird.com) platform from your coding agent. Your agent drives Bird through the `bird` CLI; the [`bird` plugin](#set-up) in this marketplace installs the skills that teach it Bird's workflows, and on Claude Code it bundles Bird's hosted MCP server too.
 
 > This marketplace is generated inside Bird's internal monorepo, which is the single source of truth; this repository tracks tagged releases. `make generate` won't work from a clone here.
 
-## Install
+## Set up
+
+Install the `bird` CLI first: it is how the agent talks to Bird. Then add the `bird` plugin for the skills.
+
+```bash
+curl -fsSL https://cli.platform.bird.com/install.sh | sh   # install the bird CLI
+bird auth login                                            # sign in (browser, no API key)
+```
+
+Then install the plugin for your client.
 
 ### Claude Code
 
