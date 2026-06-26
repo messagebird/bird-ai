@@ -4,17 +4,9 @@ Manage the outbound endpoints Bird delivers events to. Five actions on one resou
 
 These are _outbound_ endpoints — URLs Bird POSTs events to — and there's no `update`: to change an endpoint's URL, event set, or label you `delete` it and `create` a new one, which issues a fresh signing secret the receiver has to adopt.
 
-## State check, then act
+## Pick the action
 
-Every action calls the live API, so first confirm credentials — a missing key fails the same way a real error does, and the wasted round-trip hides the actual problem:
-
-```
-bird auth status --format json
-```
-
-Hand off to [authenticate](authenticate.md) unless `valid` is `true`, then come back — that node explains why the check gates on `valid` being `true`. Don't tell the user to authenticate and stop — the task stalls there.
-
-Then branch on what they asked for:
+Branch on what the user asked for:
 
 - **Register a new endpoint** → _Create_ below.
 - **See what's registered, or inspect one** → _List_ and _Get_ below.
