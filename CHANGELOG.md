@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.1
+
+- Add inbound-email (email forwarding) guidance to the `bird-cli` skill: mint and manage forward addresses (`bird email inbound-addresses`) and read the mail received at them (`bird email inbound-messages`).
+
+## 0.5.0
+
+- Add the `email-audit` skill: audit a domain's email authentication (DMARC, SPF, DKIM, BIMI, MX) and explain the fixes like a deliverability consultant.
+- Add email deliverability-tools guidance to the `bird-cli` skill: validate a DMARC or BIMI record and run a full domain audit (`bird email tools ...`).
+
 ## 0.3.0
 
 - BREAKING: Email resources are namespaced under `email`: `bird email`, `bird email domains`, `bird email dedicated-ips`, `bird email ip-pools`. Resource naming is aligned across the CLI and MCP.
