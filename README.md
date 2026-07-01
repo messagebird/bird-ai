@@ -11,6 +11,8 @@ curl -fsSL https://cli.platform.bird.com/install.sh | sh   # install the bird CL
 bird auth login                                            # sign in (browser, no API key)
 ```
 
+On macOS or Linux you can also install with Homebrew: `brew install messagebird/tap/bird`.
+
 Then jump to your client below. The fastest path is to paste the setup prompt and let your agent do the rest; a manual path is under each one.
 
 ## Claude Code
