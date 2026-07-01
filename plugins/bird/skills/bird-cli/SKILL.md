@@ -1,6 +1,6 @@
 ---
 name: bird-cli
-description: Drive the Bird API from the terminal with the `bird` CLI — send and inspect email, manage sending domains (`bird email domains`), dedicated IPs (`bird email dedicated-ips`) and IP pools (`bird email ip-pools`), and webhook endpoints, open and follow up on support tickets (`bird support-tickets`), check CLI auth/config, and search the Bird documentation (`bird docs search`). Use when someone says "send an email with the bird CLI", "how do I do X in Bird", "list sent emails", "did that email bounce", "what domain can I send from", "add a sending domain", "list my dedicated IPs", "create an IP pool", "assign an IP to a pool", "set up a webhook", "open a support ticket", "reply to a support ticket", "wait for a support reply", "is the CLI authenticated", or otherwise wants to operate Bird from a shell or an agent loop. Not for the Bird HTTP API directly or the Go/TS SDKs.
+description: Drive the Bird API from the terminal with the `bird` CLI — send and inspect email, manage sending domains (`bird email domains`), dedicated IPs (`bird email dedicated-ips`) and IP pools (`bird email ip-pools`), receive email at inbound forward addresses (`bird email inbound-addresses`) and read the mail received there (`bird email inbound-messages`), and webhook endpoints, open and follow up on support tickets (`bird support-tickets`), check CLI auth/config, and search the Bird documentation (`bird docs search`). Use when someone says "send an email with the bird CLI", "how do I do X in Bird", "list sent emails", "did that email bounce", "what domain can I send from", "add a sending domain", "list my dedicated IPs", "create an IP pool", "assign an IP to a pool", "mint an inbound address", "forward a mailbox to Bird", "what email did I receive", "read a received email", "set up a webhook", "open a support ticket", "reply to a support ticket", "wait for a support reply", "is the CLI authenticated", or otherwise wants to operate Bird from a shell or an agent loop. Not for the Bird HTTP API directly or the Go/TS SDKs.
 ---
 
 # Bird CLI
@@ -22,6 +22,7 @@ curl -fsSL https://cli.platform.bird.com/install.sh | sh
 - Send or inspect email messages → [email](references/email.md)
 - Manage sending domains (`bird email domains`), or find a verified `from` to send from → [domains](references/domains.md)
 - Manage dedicated IPs (`bird email dedicated-ips`) and IP pools (`bird email ip-pools`) (sending reputation) → [ip-pools](references/ip-pools.md)
+- Receive email at inbound forward addresses (`bird email inbound-addresses`), or read the mail received there (`bird email inbound-messages`) → [inbound](references/inbound.md)
 - Manage outbound webhook endpoints → [webhooks](references/webhooks.md)
 - Open a support ticket, reply to it, or wait for a support agent reply → [support](references/support.md)
 - Answer a how-to or reference question about Bird from the documentation → [docs](references/docs.md) (public — skips Step 0)
