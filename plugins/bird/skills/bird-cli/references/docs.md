@@ -4,7 +4,7 @@ Answer how-to and reference questions about Bird from the documentation instead 
 
 ## Search
 
-`bird docs search --q "<question or keywords>"` returns the most relevant documentation sections as JSON, ordered by relevance. Each result carries:
+`bird docs search "<question or keywords>"` returns the most relevant documentation sections as JSON, ordered by relevance. Each result carries:
 
 - `title` / `section` — the page and the matching heading.
 - `url` — deep link to that section.
@@ -33,6 +33,6 @@ With no subagent available, fetch the `markdown_url` and read it yourself.
 
 ## Recipe
 
-1. `bird docs search --q "how do I verify a sending domain"` — find the right page; read the snippets to pick the best result.
+1. `bird docs search "how do I verify a sending domain"` — find the right page; read the snippets to pick the best result.
 2. Fetch that result's `markdown_url` (delegate to a subagent if you can) — read the whole page.
 3. Answer from that text and cite the result's `url`.
