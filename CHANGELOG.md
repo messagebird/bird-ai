@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+- Update the `bird-cli` skill for the 0.6.0 CLI: SMS (`bird sms` — send, list, get, plus `bird sms templates`), contacts, audiences, and contact properties (`bird contacts`, `bird audiences`, `bird contact-properties`), and email `send-batch`.
+
 ## 0.5.1
 
 - Add inbound-email (email forwarding) guidance to the `bird-cli` skill: mint and manage forward addresses (`bird email inbound-addresses`) and read the mail received at them (`bird email inbound-messages`).

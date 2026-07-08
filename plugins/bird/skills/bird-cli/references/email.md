@@ -1,12 +1,12 @@
 # Email
 
-Send email messages through Bird and inspect what was already sent. Three actions on one resource: `send`, `list`, `get`.
+Send email messages through Bird and inspect what was already sent. Actions on one resource: `send`, `send-batch`, `list`, `get`.
 
-`send` delivers to explicit recipient addresses with raw html/text — there's no audience, template, or broadcast path here.
+`send` delivers one message to explicit recipient addresses with raw html/text; `send-batch` posts many distinct messages in one call. There's no audience, template, or broadcast path here.
 
 ## Procedure
 
-- The `from` must be a sender the workspace can use: a verified sending domain, or the shared onboarding domain on a new workspace. If not: The sender domain is not verified (the send would 422). Use a verified domain, send from the shared onboarding domain on a new workspace, or register a domain and complete DNS verification. (use `bird email domains list`, `bird email domains create`)
+- The `from` must be a sender the workspace can use: a verified sending domain, or the shared onboarding domain on a new workspace.
 - `bird email send`: Returns `accepted` (HTTP 202), delivered asynchronously; not confirmation of delivery.
   - Confirm delivery or inspect bounces by reading the message back. (`bird email get`)
 
@@ -42,6 +42,10 @@ So match the sender to the recipient: from the shared domain, send to the user's
 ### Done when
 
 The command returns a message object (HTTP 202) with an `id` and `status: accepted`. `accepted` means Bird took the message, not that it landed — delivery is asynchronous. To find out whether it actually delivered or bounced, read it back later with _Get_; the counts there are the source of truth.
+
+## Send batch
+
+`bird email send-batch` posts many distinct messages in one request — each with its own recipients and body — rather than one message to many recipients. Build the batch as a JSON array via `--body-file <path|->` (`bird email send-batch --example` prints the shape). The response is a batch object; each entry is `accepted` independently, so read the batch back to confirm per-message delivery. The sender rules from _Send_ apply to every message in the batch.
 
 ## List
 
