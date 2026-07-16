@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Bird's agent marketplace — skills, agents, and commands for driving the Bird platform from Claude Code, Codex, Cursor, Copilot, and Droid.",
-    "version": "0.6.0"
+    "version": "0.9.1"
   },
   "plugins": [
     {

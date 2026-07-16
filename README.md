@@ -15,6 +15,10 @@ On macOS or Linux you can also install with Homebrew: `brew install messagebird/
 
 Then jump to your client below. The fastest path is to paste the setup prompt and let your agent do the rest; a manual path is under each one.
 
+## No Bird account yet?
+
+`bird auth login` signs in to an account you already have. An agent with no account can create one itself from the terminal, no browser needed: `bird auth signup` emails a six-digit code, `bird auth verify-email` exchanges it for a single-use ticket, and `bird auth create-org` mints and stores the credential. Set `BIRD_API_URL` to your region's host first (e.g. `https://us1.platform.bird.com`). Full walkthrough: [Self-serve signup](https://bird.com/docs/ai/self-serve-signup).
+
 ## Claude Code
 
 Paste this prompt into Claude Code and it installs the CLI, signs you in, installs the skills, and sends a test email:

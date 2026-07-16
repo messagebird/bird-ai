@@ -4,7 +4,7 @@ Drive the Bird platform from your coding agent.
 
 ## Skills
 
-- **`bird-cli`** — operate the Bird API from the terminal with the `bird` CLI: send and inspect email, manage sending domains and webhook endpoints, and check CLI auth. Install the CLI with `curl -fsSL https://cli.platform.bird.com/install.sh | sh`.
+- **`bird-cli`** — operate the Bird API from the terminal with the `bird` CLI: send and inspect email, manage sending domains and webhook endpoints, check CLI auth, and create a new Bird account from scratch (browserless [self-serve signup](https://bird.com/docs/ai/self-serve-signup)). Install the CLI with `curl -fsSL https://cli.platform.bird.com/install.sh | sh`.
 
 ## MCP server
 

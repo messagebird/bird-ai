@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.8.8
+
+- Correct the verification guidance in the `bird-cli` skill: a verification you have already resolved is no longer checkable and comes back as a missing verification, not a `success: false` result.
+
+## 0.8.0
+
+- Add account-onboarding guidance to the `bird-cli` skill: create an account, organization, and workspace without a browser (`bird auth signup`, `bird auth verify-email`, `bird auth create-org`).
+- Add verification guidance to the `bird-cli` skill: send a one-time passcode and check it (`bird verify verifications`).
+
+## 0.7.0
+
+- Add WhatsApp guidance to the `bird-cli` skill: send messages and browse history (`bird whatsapp` — send, list, get, list-events) and list approved templates (`bird whatsapp templates`).
+
 ## 0.6.0
 
 - Update the `bird-cli` skill for the 0.6.0 CLI: SMS (`bird sms` — send, list, get, plus `bird sms templates`), contacts, audiences, and contact properties (`bird contacts`, `bird audiences`, `bird contact-properties`), and email `send-batch`.
