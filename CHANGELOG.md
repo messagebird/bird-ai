@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.2
+
+- Internal improvements.
+
 ## 0.8.8
 
 - Correct the verification guidance in the `bird-cli` skill: a verification you have already resolved is no longer checkable and comes back as a missing verification, not a `success: false` result.
