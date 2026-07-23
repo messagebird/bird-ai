@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.3
+
+- The plugin now connects Bird's hosted MCP server at the vanity host `https://mcp.bird.com` (replacing `mcp.platform.bird.com`), and the bundled `bird-cli` skill installs from `https://cli.bird.com/install.sh`.
+- Move marketplace generation into the beak codegen toolchain (packaging only; no API changes)
+
 ## 0.9.2
 
 - Internal improvements.

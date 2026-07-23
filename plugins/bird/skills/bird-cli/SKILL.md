@@ -10,7 +10,7 @@ description: Operate Bird from the terminal with the `bird` CLI, the agent-facin
 If `bird` isn't installed (`command -v bird` finds nothing), install it first — a checksum-verified download to `~/.local/bin` (or `/usr/local/bin`):
 
 ```
-curl -fsSL https://cli.platform.bird.com/install.sh | sh
+curl -fsSL https://cli.bird.com/install.sh | sh
 ```
 
 ## The path
