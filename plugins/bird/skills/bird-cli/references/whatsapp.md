@@ -1,16 +1,15 @@
 # WhatsApp
 
-Send WhatsApp template messages through Bird, inspect what was sent, follow a message's event timeline, and browse the templates you can send. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`); `bird whatsapp templates` browses the approved template catalogue (`list`).
+Send WhatsApp template messages through Bird, inspect what was sent, and follow a message's event timeline. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`); browse the approved template catalogue in the Bird dashboard.
 
 Branch on what they asked for:
 
 - **Send a message** → _Send_ below.
 - **Find or inspect already-sent messages, or follow one's lifecycle** → _List_, _Get_, and _List events_ below.
-- **Browse approved templates** → _Templates_ below.
 
 ## Send
 
-`bird whatsapp send --to <e164> --template <name>` sends a template message to one recipient. Templates are currently the only supported content type — every send needs one, so browse them first with `bird whatsapp templates list`.
+`bird whatsapp send --to <e164> --template <name>` sends a template message to one recipient. Templates are currently the only supported content type — every send needs one, so browse your workspace's approved templates in the Bird dashboard first.
 
 - `--to` — recipient phone number in E.164 format (e.g. `+15551234567`).
 - `--template` — the template's name (e.g. `bird_otp`).
@@ -30,12 +29,6 @@ Bird selects the sender number from the template's category — there is no `--f
 ## List events
 
 `bird whatsapp list-events <message-id>` returns the lifecycle event timeline for one message, in chronological order (e.g. sent, delivered, read, failed). Filter by `--type` (e.g. `whatsapp.delivered`, `whatsapp.failed`).
-
-## Templates
-
-`bird whatsapp templates` is read-only — you browse templates approved elsewhere (Meta/WhatsApp template review), then send one with `bird whatsapp send --template`.
-
-- `bird whatsapp templates list` returns the templates available to the workspace. The catalogue is small and returned in full — this list is not paginated.
 
 ## Traps
 
