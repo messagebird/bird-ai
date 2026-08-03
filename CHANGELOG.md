@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.2
+
+- Email message reads and send responses now report `requested_language` and `resolved_language`.
+- Email message reads and send responses now report `template_id` and `template_version_id`. A template's live version changes each time you submit it, so the version is what identifies the wording a message was actually delivered with, and the two together fetch that content back.
+
 ## 0.11.1
 
 - Fix the WhatsApp CLI reference doc: the send template is addressed by slug, not name.
