@@ -9,10 +9,10 @@ Branch on what they asked for:
 
 ## Send
 
-`bird whatsapp send --to <e164> --template <name>` sends a template message to one recipient. Templates are currently the only supported content type — every send needs one, so browse your workspace's approved templates in the Bird dashboard first.
+`bird whatsapp send --to <e164> --template <slug>` sends a template message to one recipient. Templates are currently the only supported content type — every send needs one, so browse your workspace's approved templates in the Bird dashboard first.
 
 - `--to` — recipient phone number in E.164 format (e.g. `+15551234567`).
-- `--template` — the template's name (e.g. `bird_otp`).
+- `--template` — the template, by its slug (e.g. `bird_otp`).
 - `--language` — the template variant's language code (e.g. `en` or `pt_BR`); omit when the template has a single language.
 - `--components` — a JSON array filling the template's placeholders (body/header/button component objects), e.g. `--components '[{"type":"body","parameters":[{"type":"text","text":"A1B2C3D4"}]}]'`.
 
