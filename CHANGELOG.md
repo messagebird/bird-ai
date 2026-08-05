@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.1
+
+- Updated the bird-cli ip-pools skill reference: deleting an IP pool that still holds dedicated IPs now returns 409 (ResourceInUse), not 422.
+
 ## 0.12.0
 
 - Route the bird-cli skill to email templates, covering the create-author-submit loop and the traps around it.

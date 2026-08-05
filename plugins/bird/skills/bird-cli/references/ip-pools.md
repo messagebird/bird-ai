@@ -37,7 +37,7 @@ Every mutation takes flags or a `--body-file` JSON body (`--example` prints the 
 
 - **Mutations are organization-scoped.** Reads work with a normal workspace login; create/update/delete/assign need organization permission. A workspace-only login gets exit `4`, not a hint to add a flag.
 - **`ips create` and `ip-pools create` are dual-outcome.** You get either the created object or a top-up-required result when the wallet is short; branch on which one you got, not on the status code (both are success). `ips create` spends money.
-- **A pool with any IP can't be deleted, even a cancelling one.** `email dedicated-ips delete` sets `cancels_at` in the future and the IP keeps its pool slot until then, so `email ip-pools delete` returns `422` (`IPPoolContainsIPs`) until the pool is genuinely empty.
+- **A pool with any IP can't be deleted, even a cancelling one.** `email dedicated-ips delete` sets `cancels_at` in the future and the IP keeps its pool slot until then, so `email ip-pools delete` returns `409` (`ResourceInUse`) until the pool is genuinely empty.
 - **The shared pool can't hold dedicated IPs.** `ips assign <id> --pool-id ipp_shared` returns `422`; the shared pool is for non-dedicated sending only.
 - **There is always exactly one default pool.** You move the default to another pool, you never clear it. Setting `--is-default` false on the current default is rejected.
 
