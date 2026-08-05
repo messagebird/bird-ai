@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.2
+
+- The `bird-cli` skill now documents `--from` as required on a free-text SMS send; only a template send picks its own sender.
+
 ## 0.12.1
 
 - Updated the bird-cli ip-pools skill reference: deleting an IP pool that still holds dedicated IPs now returns 409 (ResourceInUse), not 422.
