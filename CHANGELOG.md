@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.0
+
+- Add a voice node to the bird-cli skill: reading the call log, the statistics family, and the trunk, caller-ID, and destination settings a refused call is diagnosed against.
+- `bird whatsapp send` gains `--template-id`, addressing a template by its `wat_` id instead of `--template` (slug); `--language` now takes a BCP-47 tag such as `pt-BR`.
+
 ## 0.12.2
 
 - The `bird-cli` skill now documents `--from` as required on a free-text SMS send; only a template send picks its own sender.

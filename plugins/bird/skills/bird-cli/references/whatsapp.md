@@ -13,7 +13,8 @@ Branch on what they asked for:
 
 - `--to` — recipient phone number in E.164 format (e.g. `+15551234567`).
 - `--template` — the template, by its slug (e.g. `bird_otp`).
-- `--language` — the template variant's language code (e.g. `en` or `pt_BR`); omit when the template has a single language.
+- `--template-id` — the template, by its id (`wat_…`); alternative to `--template`.
+- `--language` — the template variant's language tag (e.g. `en` or `pt-BR`); omit when the template has a single language.
 - `--components` — a JSON array filling the template's placeholders (body/header/button component objects), e.g. `--components '[{"type":"body","parameters":[{"type":"text","text":"A1B2C3D4"}]}]'`.
 
 Bird selects the sender number from the template's category — there is no `--from`. **Done when** the command returns a message object with an `id` and `status: accepted`. Like email and SMS, `accepted` means Bird took the message, not that it landed; read it back with _Get_ or follow _List events_ to confirm delivery.
