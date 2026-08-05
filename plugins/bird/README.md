@@ -8,7 +8,9 @@ Drive the Bird platform from your coding agent.
 
 ## MCP server
 
-The plugin also declares Bird's hosted MCP server at `https://mcp.bird.com` — a remote (Streamable HTTP) server with a browser OAuth sign-in, no API key. On Claude Code, installing the plugin connects it automatically. On other clients, add it to your MCP config by hand; see the [marketplace README](../../README.md#mcp-server-support).
+The plugin also declares Bird's hosted MCP server at `https://mcp.bird.com`, a remote (Streamable HTTP) server with a browser OAuth sign-in, no API key. On Claude Code, installing the plugin registers it for you; on other clients, add it to your MCP config by hand.
+
+Registering the server is not the same as authenticating it. The server is OAuth-gated, so sign in once per client: in Claude Code run `/mcp`, select `bird`, and choose **Authenticate**, then approve Bird's consent screen in the browser. Until you do, the tools are listed and every call fails. Per-client steps are in the [marketplace README](../../README.md).
 
 ## Install
 

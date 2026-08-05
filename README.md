@@ -58,7 +58,7 @@ claude plugin marketplace add messagebird/bird-ai
 claude plugin install bird@bird-ai
 ```
 
-**MCP server:** installing the plugin connects Bird's hosted server at `https://mcp.bird.com` automatically. Nothing else to configure.
+**MCP server:** installing the plugin registers Bird's hosted server at `https://mcp.bird.com`, so there is nothing to configure. You do have to sign in once, because the server is OAuth-gated: run `/mcp`, select `bird`, press Enter, and choose **Authenticate**. Your browser opens Bird's consent screen; approve it and the tools work. Until then `claude mcp list` reports `bird` as `! Needs authentication` and every tool call fails. For a headless run (`claude -p`) there is no `/mcp` panel, so authenticate first with `claude mcp login bird`.
 
 ## Cursor
 
@@ -86,6 +86,8 @@ To set the skills up by hand, add the `messagebird/bird-ai` marketplace under **
 }
 ```
 
+Then sign in: open **Cursor Settings → Tools & Integrations**, and under **MCP Tools** click **Needs login** next to `bird`. Approve Bird's consent screen in the browser and return to Cursor. The tools fail until you do.
+
 ## Codex
 
 Paste this prompt into Codex:
@@ -112,6 +114,12 @@ codex plugin add bird@bird-ai
 ```toml
 [mcp_servers.bird]
 url = "https://mcp.bird.com"
+```
+
+Then sign in, which opens your browser for Bird's consent screen:
+
+```bash
+codex mcp login bird
 ```
 
 ## GitHub Copilot
@@ -145,6 +153,8 @@ copilot plugin install bird@bird-ai
 }
 ```
 
+VS Code asks you to trust the server the first time it starts, then runs the sign-in itself: approve Bird's consent screen in the browser window it opens. If no window appears, start `bird` from the **MCP: List Servers** command. Your grant is listed under the **Accounts** menu → **Manage Trusted MCP Servers**, which is also where you revoke it.
+
 ## Factory Droid
 
 Paste this prompt into Droid:
@@ -172,10 +182,12 @@ cp -r bird-ai/plugins/bird/skills/bird-cli .factory/skills/bird-cli
 droid mcp add bird https://mcp.bird.com --type http
 ```
 
+Then run `/mcp` inside droid and complete the browser sign-in from the server manager.
+
 ## What's in the `bird` plugin
 
 - **`bird-cli`**: operate the Bird API from the terminal. Send and inspect email, manage sending domains, dedicated IPs and IP pools, and webhook endpoints, and check CLI auth.
-- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Auto-connected on Claude Code; a one-time config elsewhere (above).
+- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code, a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
 
 ## License
 

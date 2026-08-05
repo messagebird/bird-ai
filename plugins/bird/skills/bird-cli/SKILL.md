@@ -1,6 +1,6 @@
 ---
 name: bird-cli
-description: Operate Bird from the terminal with the `bird` CLI, the agent-facing surface for the Bird API. Covers email (send, batch, inbound, sending domains, dedicated IPs, IP pools, deliverability), SMS and WhatsApp (send plus templates), one-time-passcode verification, contacts, audiences, contact properties, webhooks, support tickets, account signup and onboarding, and auth, config, and documentation search. Use it for any request to send, inspect, or manage those from a shell or an agent loop, or to create and onboard a new Bird account. Not for calling the Bird HTTP API directly or the language SDKs.
+description: Operate Bird from the terminal with the `bird` CLI, the agent-facing surface for the Bird API. Covers email (send, batch, reusable templates, inbound, sending domains, dedicated IPs, IP pools, deliverability), SMS and WhatsApp (send plus templates), one-time-passcode verification, contacts, audiences, contact properties, webhooks, support tickets, account signup and onboarding, and auth, config, and documentation search. Use it for any request to send, inspect, or manage those from a shell or an agent loop, or to create and onboard a new Bird account. Not for calling the Bird HTTP API directly or the language SDKs.
 ---
 
 # Bird CLI
@@ -20,6 +20,7 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 **Step 1 — Run the operation the user asked for:**
 
 - Send or inspect email messages (`bird email`, including `send-batch`) → [email](references/email.md)
+- Author reusable email templates, submit a draft, or roll one back (`bird email templates`) → [email-templates](references/email-templates.md)
 - Send or inspect SMS messages, or browse SMS templates (`bird sms`) → [sms](references/sms.md)
 - Send or inspect WhatsApp messages, follow a message's events, or browse WhatsApp templates (`bird whatsapp`) → [whatsapp](references/whatsapp.md)
 - Verify a recipient with a one-time passcode — send a code, then check what they submit (`bird verify verifications`) → [verify](references/verify.md)

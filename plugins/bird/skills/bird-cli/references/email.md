@@ -2,7 +2,9 @@
 
 Send email messages through Bird and inspect what was already sent. Actions on one resource: `send`, `send-batch`, `list`, `get`.
 
-`send` delivers one message to explicit recipient addresses with raw html/text; `send-batch` posts many distinct messages in one call. There's no audience, template, or broadcast path here.
+`send` delivers one message to explicit recipient addresses, carrying either raw html/text or a stored template; `send-batch` posts many distinct messages in one call. There's no audience or broadcast path here.
+
+**Sending a stored template.** `--template <slug|emt_…>` sends a template's live version in place of `--subject`/`--html`/`--text`, with `--parameters '{"first_name":"Ada"}'` supplying its variables. The two content modes are exclusive, and on a template send the values belong to the template, so passing `--parameters` alongside inline content is a different thing entirely. A send that omits `--category` takes the template's own classification. Authoring the templates you send here is [email-templates](email-templates.md).
 
 ## Procedure
 

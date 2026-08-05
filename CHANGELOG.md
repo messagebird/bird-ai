@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.0
+
+- Route the bird-cli skill to email templates, covering the create-author-submit loop and the traps around it.
+
 ## 0.11.2
 
 - Email message reads and send responses now report `requested_language` and `resolved_language`.
@@ -20,7 +24,7 @@
 ## 0.9.3
 
 - The plugin now connects Bird's hosted MCP server at the vanity host `https://mcp.bird.com` (replacing `mcp.platform.bird.com`), and the bundled `bird-cli` skill installs from `https://cli.bird.com/install.sh`.
-- Move marketplace generation into the beak codegen toolchain (packaging only; no API changes)
+- Internal improvements.
 
 ## 0.9.2
 
