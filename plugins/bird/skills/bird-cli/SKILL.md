@@ -42,4 +42,5 @@ These hold across operations, so the nodes rely on them instead of repeating the
 
 - **Output is JSON by default** (`--format json`). Single-record commands (`get`, `status`, `show`) also take `--format text` for a human-readable card. List commands ignore `--format text` and always emit JSON, so a script can pipe them through `jq` without a per-command branch.
 - **Exit codes carry the failure category** so a caller can branch without parsing prose: `2` invalid usage or input, `3` not found, `4` auth or permission denied, `1` anything else. Errors print to stderr; data to stdout.
+- **Transient failures are retried for you.** A rate limit, a 5xx, or a network blip is retried twice with backoff before the command fails, so an error marked `retryable` has already been through that — re-running it immediately rarely helps. `--max-retries 0` turns it off when you drive your own retry loop.
 - **The login sets the region.** The token from `bird auth login` is bound to one workspace and its region, which picks the API host; override with `--base-url`/`BIRD_API_URL`. Details and the state check live in [authenticate](references/authenticate.md).

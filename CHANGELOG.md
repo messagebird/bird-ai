@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.14.0
+
+- Contact responses no longer include `channels`; read email and phone presence directly.
+- The bird CLI skill now states that transient failures are retried before a command fails, so an agent does not immediately re-run a command whose error is already the result of exhausted retries.
+
 ## 0.13.0
 
 - Add a voice node to the bird-cli skill: reading the call log, the statistics family, and the trunk, caller-ID, and destination settings a refused call is diagnosed against.
