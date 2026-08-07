@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.15.0
+
+- Realtime app management reaches the command surfaces: provision and manage Realtime apps, rotate the keys their clients connect with, and read the regions an app can run in. Nine operations as `bird realtime` commands and as MCP tools. The SDKs are unchanged — publishing and channel inspection stay their business, and app management is deliberately not on them.
+
 ## 0.14.1
 
 - Bird's Cursor plugin now carries a logo, so the Bird mark shows on its card in Cursor's plugin list.

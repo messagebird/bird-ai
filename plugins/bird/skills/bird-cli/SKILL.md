@@ -1,6 +1,6 @@
 ---
 name: bird-cli
-description: Operate Bird from the terminal with the `bird` CLI, the agent-facing surface for the Bird API. Covers email (send, batch, reusable templates, inbound, sending domains, dedicated IPs, IP pools, deliverability), SMS and WhatsApp (send plus templates), one-time-passcode verification, contacts, audiences, contact properties, webhooks, support tickets, account signup and onboarding, and auth, config, and documentation search. Use it for any request to send, inspect, or manage those from a shell or an agent loop, or to create and onboard a new Bird account. Not for calling the Bird HTTP API directly or the language SDKs.
+description: Operate Bird from the terminal with the `bird` CLI, the agent-facing surface for the Bird API. Covers email (send, batch, reusable templates, inbound, sending domains, dedicated IPs, IP pools, deliverability), SMS and WhatsApp (send plus templates), one-time-passcode verification, Realtime app and key provisioning, contacts, audiences, contact properties, webhooks, support tickets, account signup and onboarding, and auth, config, and documentation search. Use it for any request to send, inspect, or manage those from a shell or an agent loop, or to create and onboard a new Bird account. Not for calling the Bird HTTP API directly or the language SDKs.
 ---
 
 # Bird CLI
@@ -24,6 +24,7 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 - Send or inspect SMS messages, or browse SMS templates (`bird sms`) → [sms](references/sms.md)
 - Send or inspect WhatsApp messages, follow a message's events, or browse WhatsApp templates (`bird whatsapp`) → [whatsapp](references/whatsapp.md)
 - Inspect voice calls, or find out why one was refused (`bird voice`) → [voice](references/voice.md)
+- Provision Realtime apps and rotate the keys their clients connect with (`bird realtime`) → [realtime](references/realtime.md)
 - Verify a recipient with a one-time passcode — send a code, then check what they submit (`bird verify verifications`) → [verify](references/verify.md)
 - Manage contacts, audiences, and contact properties (`bird contacts`, `bird audiences`, `bird contact-properties`) → [contacts](references/contacts.md)
 - Manage sending domains (`bird email domains`), or find a verified `from` to send from → [domains](references/domains.md)
