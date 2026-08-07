@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.1
+
+- Bird's Cursor plugin now carries a logo, so the Bird mark shows on its card in Cursor's plugin list.
+
 ## 0.14.0
 
 - Contact responses no longer include `channels`; read email and phone presence directly.

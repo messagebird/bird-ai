@@ -1,7 +1,7 @@
 {
   "name": "bird",
   "displayName": "Bird",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "Drive the Bird platform from your coding agent — operate the Bird API from the terminal with the `bird` CLI, and audit a domain's email authentication.",
   "author": {
     "name": "Bird",
@@ -19,5 +19,6 @@
     "api",
     "webhooks",
     "agent"
-  ]
+  ],
+  "logo": "assets/logo.svg"
 }
