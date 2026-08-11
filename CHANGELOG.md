@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.0
+
+- Verify gains a next-channel action: when a recipient reports the passcode never arrived, send a fresh one on the next channel in the verification's plan without waiting out the resend cooldown. Identify the verification by the same recipient you started it with, as with a check — there is still no id to store. Every passcode already sent stays valid, so a late arrival can still be checked. Available as `verify.verifications.nextChannel` / `NextChannel` / `next_channel` / `nextChannel` on the TypeScript, Go, Python, and PHP SDKs, `bird verify verifications next-channel` on the CLI, and the `verify_verifications_next_channel` MCP tool. A verification whose channel plan is exhausted answers `422 NoNextChannel`.
+- Corrected the email templates skill reference to describe the fixed list ordering (workspace templates lead, built-in catalogue trails).
+- The create-verification docs no longer name SMS as the phone channel: a phone recipient is verified over the phone channels enabled for its destination country, in that country's configured order.
+
 ## 0.15.0
 
 - Realtime app management reaches the command surfaces: provision and manage Realtime apps, rotate the keys their clients connect with, and read the regions an app can run in. Nine operations as `bird realtime` commands and as MCP tools. The SDKs are unchanged — publishing and channel inspection stay their business, and app management is deliberately not on them.

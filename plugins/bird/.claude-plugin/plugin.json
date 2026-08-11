@@ -1,7 +1,7 @@
 {
   "name": "bird",
-  "version": "0.15.0",
-  "description": "Drive the Bird platform from your coding agent — operate the Bird API from the terminal with the `bird` CLI, and audit a domain's email authentication.",
+  "version": "0.16.0",
+  "description": "Drive Bird from your coding agent: operate the Bird API from the terminal with the `bird` CLI, send across email, SMS, and WhatsApp, and audit a domain's email authentication.",
   "author": {
     "name": "Bird",
     "url": "https://github.com/messagebird"
@@ -11,12 +11,16 @@
   "license": "MIT",
   "keywords": [
     "bird",
-    "email",
-    "messaging",
-    "cli",
     "api",
-    "webhooks",
-    "agent"
+    "cli",
+    "agent",
+    "messaging",
+    "email",
+    "sms",
+    "whatsapp",
+    "verify",
+    "realtime",
+    "webhooks"
   ],
   "mcpServers": {
     "bird": {

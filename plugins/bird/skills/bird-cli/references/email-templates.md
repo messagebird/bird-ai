@@ -31,7 +31,7 @@ bird email send --from hello@yourdomain.com --to a@b.com --template welcome-emai
 
 ## Read
 
-- `bird email templates list` returns a cursor envelope, newest first, spanning both the workspace's own templates and Bird's built-in catalogue (built-ins lead the first page). Narrow with `--scope workspace|system`, `--category`, `--source`, and `--q`, which matches slug, name, **and** description.
+- `bird email templates list` returns a cursor envelope spanning both the workspace's own templates and Bird's built-in catalogue: the workspace's own templates lead (newest first), with the built-in catalogue trailing once they're exhausted. Narrow with `--scope workspace|system`, `--category`, `--source`, and `--q`, which matches slug, name, **and** description.
 - `bird email templates get <slug|emt_…>` returns one template's metadata and the state of each language it holds. It carries **no content** — that is deliberate, so opening a template costs the same at one language or twenty-five.
 - `bird email templates versions list <emt_…>` returns the draft plus every submitted version, newest first.
 - `bird email templates versions get <emt_…> <emv_…>` returns one version's frozen content and the `variables` it expects.

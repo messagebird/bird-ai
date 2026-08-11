@@ -1,6 +1,6 @@
 # Verify
 
-Verify a recipient with a one-time passcode: start a verification to send a code over SMS or email, then check the code the recipient submits. `bird verify verifications` covers both steps (`create`, `check`). There is no id to store — the check is identified by the same recipient the verification was started for.
+Verify a recipient with a one-time passcode: start a verification to send a code to a phone number or an email address, then check the code the recipient submits. `bird verify verifications` covers both steps (`create`, `check`). There is no id to store — the check is identified by the same recipient the verification was started for.
 
 Branch on what they asked for:
 
@@ -9,7 +9,7 @@ Branch on what they asked for:
 
 ## Create
 
-`bird verify verifications create` starts a verification and sends the passcode. Give the recipient with `--phone-number <e164>` (verified over SMS), `--email-address <address>` (verified over email), or both; at least one is required.
+`bird verify verifications create` starts a verification and sends the passcode. Give the recipient with `--phone-number <e164>` (verified over the phone channels enabled for its destination country, in the order that country's configuration sets), `--email-address <address>` (verified over email), or both; at least one is required.
 
 - `--code-length <4–8>` overrides the configured passcode length for this verification.
 - `--channels <a,b>` reorders or narrows the delivery channels to try (e.g. `--channels email,sms`); omit for the configured order.
