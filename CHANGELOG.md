@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.19.0
+
+- **Breaking:** a contact's phone identifier is now named `phone_number`, matching the rest of the API. It replaces `phone` in create, update, batch-upsert and read bodies; the `GET /v1/contacts` filter becomes `?phone_number=`; the `identifier` filter value and the batch `match_on` / `matched_on` values become `phone_number` — they name the field, so they move with it. On the TCR brand surface, a brand's own `phone` becomes `phone_number` as well. The CLI's `bird contacts create|update` take `--phone-number`, and `bird contacts list` filters on `--phone-number`. Qualified compounds are unchanged: `mobile_phone`, `primary_phone` and `business_contact_phone` keep their names.
+- **Breaking:** a verification's email recipient is now named `email`, replacing `email_address` — `bird verify verifications create|check|next-channel` take `--email`, and the JSON these commands print renames the matching field on `to`. Scripts passing the old flag, or reading `to.email_address` with `jq`, need updating. Phone recipients are unchanged: `--phone-number` and `to.phone_number` keep their names.
+
 ## 0.18.0
 
 - **Breaking:** `carrier` and `mcc_mnc` are omitted from `sms.sent`, `sms.delivered` and `sms.received` webhook payloads when the carrier reports none, instead of arriving as `null`; `subject` on `sms.received` behaves the same way. They are now optional rather than required, so a typed field changes to a pointer or an optional — check for absence where you checked for `null`. This matches how the message resource has always reported the same fields.
