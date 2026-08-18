@@ -39,7 +39,7 @@ bird email send --from hello@yourdomain.com --to a@b.com --template welcome-emai
 
 ```
 # templates that have never gone live
-bird email templates list --scope workspace | jq -r '.data[] | select(.published_version_id == null) | .slug'
+bird email templates list --scope workspace | jq -r '.data[] | select(.live_version_id == null) | .slug'
 ```
 
 ## Mutate

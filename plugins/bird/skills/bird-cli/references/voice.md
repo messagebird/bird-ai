@@ -2,13 +2,14 @@
 
 Read Bird Voice — SIP trunking — from the terminal. `bird voice list`/`get` is the per-call log and `bird voice stats` the aggregates over it; `bird voice trunks`, `bird voice caller-ids`, and `bird voice destinations` read the three settings that decide whether a call is admitted at all.
 
-**There is no command that places a call.** A Bird Voice call is placed by the customer's own equipment: their PBX, SBC, or SIP client sends a SIP `INVITE` to the trunk's host, and Bird carries it to the phone network. So every command here is a read, and the question this node answers is either "what happened?" or "why was it refused?".
+Calls are placed by SIP clients — a PBX, the dashboard phone, or `bird voice tools test-call`, which drives a local `baresip` through a trunk (_Placing a test call_ below). Everything else here is a read: "what happened?" or "why was it refused?".
 
 Branch on what they asked for:
 
 - **What calls happened, or what is happening right now** → _Calls_ below.
 - **Aggregates over a period — answer rates, durations, where the traffic goes** → _Stats_ below.
 - **Why a call was refused** → _Diagnosing a refused call_ below; start there rather than reading one command at a time.
+- **Proving a trunk carries calls** → _Placing a test call_ below.
 
 ## Calls
 
@@ -50,16 +51,33 @@ Rate fields are null rather than zero when their denominator is zero: `asr` when
 When a call did not go through, work outward from the record, because the record already names the cause:
 
 1. **Read the call.** `bird voice get <vcl_…>` — `rejection_reason` names the specific gate that turned the call away, and `sip_response_code` deliberately does not distinguish causes, so do not read it as one. (For the same reason, `bird voice stats by-response-code` will not tell you _why_ Bird refused a batch of calls — it reports SIP outcomes, and the refusals share one code. Go to `rejection_reason` on the records.) A call Bird turned away before any record existed will not be in the log at all, which itself points at credentials or the source address.
-2. **Check the trunk.** `bird voice trunks get <spt_…>` (find the id with `bird voice trunks list`). A trunk admits traffic only through its address allow list (`ip_acls`) or its allowed API keys (`allowed_api_key_ids`); **a trunk with both empty admits nothing**, which is deliberate. `routing_configured: false` means no carrier route is live for the workspace yet — operator-managed, not something the customer can fix.
+2. **Check the trunk.** `bird voice trunks get <spt_…>` (find the id with `bird voice trunks list`). Read `outbound_enabled` first: **a trunk with it false refuses every outbound call before any credential is considered**, and a new trunk carries no direction until one is turned on in the dashboard. Then admission: a trunk admits traffic through its address allow list (`ip_acls`), its allowed API keys (`allowed_api_key_ids`), or session credentials (`session_credentials_enabled`); **a trunk with all three empty or off admits nothing**, which is deliberate. `routing_configured: false` means no carrier route is live for the workspace yet — operator-managed, not something the customer can fix.
 3. **Check the caller ID.** `bird voice caller-ids list` — only a `verified` caller ID may be presented on an outbound call. `pending` means verification has not completed; `failed` is terminal (the caller ID has to be deleted and re-created to retry).
 4. **Check the destination.** `bird voice destinations list` — a call to a country the workspace has not `enabled` is refused even when everything else is in order. A country whose `status` is not `available` is one Bird does not currently carry calls to at all, which no workspace setting overrides.
 
+## Placing a test call
+
+`bird voice tools test-call <e164>` places one real call through a trunk, to prove the trunk works. It needs `baresip` on PATH (`brew install baresip`, `apt install baresip`), and it uses the machine's own microphone and speakers, so it is only worth running where a human can hear the result.
+
+`--trunk` and `--caller-id` default to the workspace's first trunk and first verified caller ID, and both are printed when they are inferred. The call is capped by `--duration` (default 30s, max 2m).
+
+The SIP password comes from the trunk's own admission, in this order:
+
+- `BIRD_VOICE_TEST_CALL_API_KEY`, when set, is used as the secret on any trunk that challenges. It must be a `bk_` key the trunk allows.
+- Otherwise, on a trunk with `session_credentials_enabled`, the command mints a session credential for the call. **Minting needs `voice:write`**, so a `voice:read` grant fails here and nowhere else.
+- Otherwise, an API key secret from `BIRD_API_KEY` when that is how the CLI is authenticated.
+- A trunk with neither session credentials nor allowed keys is admitted by source address alone, and the command sends no password.
+
+Allowing a key on a trunk, turning session credentials on, and verifying a caller ID are all dashboard steps the CLI cannot take.
+
+**Done when** the outcome is read off the record, not off the exit code: `baresip` exits 0 whether or not the call connected, so finish with `bird voice list --limit 1`. `--dry-run` prints the account file and the `baresip` command without dialing, which is also how to hand the line to some other SIP client.
+
 ## Traps
 
-- **No command places a call.** If the user wants to make a test call, the answer is their SIP equipment, not the CLI.
+- **`test-call` is the only command that places one,** and it is a real billed call. Everything else here reads.
 - **In-flight and final statuses cannot be combined** in one `--status` filter. Two requests, not one.
 - **`bird voice list` is per-call, `bird voice stats` is aggregate.** Reaching for `list` to compute a rate is the common mistake; the summary already has it.
-- **Every voice command is read-only, and all of them are.** Creating a trunk, registering a caller ID, or changing the destination allowlist is dashboard-only; there is no `bird voice … create`.
-- **A `voice:read` grant is enough for everything here.** A read-only voice key cannot authenticate a trunk for SIP, but that is a property of placing calls, not of these commands.
+- **The only write is `bird voice session-credentials create`,** which mints a short-lived SIP password for a calling client (`test-call` calls it for you). Creating a trunk, registering a caller ID, or changing the destination allowlist is dashboard-only; there is no `bird voice … create` for any of them.
+- **A `voice:read` grant covers every read here;** minting needs `voice:write`. A plain `bird auth login` requests a read-only baseline that carries no voice scope at all, so every command here needs `--scope voice:read` or `--scope voice:write` at login.
 
 These actions inherit the output (`--format`), exit-code, and credential-resolution conventions from the `bird-cli` entry; the credential step itself is [authenticate](authenticate.md).

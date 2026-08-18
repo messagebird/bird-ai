@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.20.0
+
+- Telegram is a known verification channel, so a verification can be created with `telegram` in `options.channels` and a passcode can be delivered over it.
+- `bird-cli` voice reference: `bird voice tools test-call` places a test call, session credentials are a third trunk admission control, and `bird voice session-credentials create` is a write.
+- Fixed the email templates skill reference to use live_version_id instead of the retired published_version_id.
+- The `bird-cli` skill's verify reference now matches the shipped commands: it takes `--email` for an email recipient in place of the removed `--email-address`, documents `bird verify verifications next-channel`, and names WhatsApp among the channels a passcode is delivered over.
+
 ## 0.19.1
 
 - The bird-cli skill now documents the lookup command group.
