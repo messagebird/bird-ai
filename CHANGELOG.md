@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.21.0
+
+- **Breaking:** the voice trunk, caller-ID and destination tools now require the `voice_management` scope in place of `voice`, so a token holding only `voice` gets `403`. Re-authorize with `voice_management:read` added, or issue a new API key holding both scopes.
+- The `bird-cli` skill's WhatsApp reference no longer claims templates are the only content type a send can carry: `bird whatsapp send` still sends template messages only, but the wider API also accepts free-form content.
+
 ## 0.20.0
 
 - Telegram is a known verification channel, so a verification can be created with `telegram` in `options.channels` and a passcode can be delivered over it.

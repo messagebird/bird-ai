@@ -9,7 +9,7 @@ Branch on what they asked for:
 
 ## Send
 
-`bird whatsapp send --to <e164> --template <slug>` sends a template message to one recipient. Templates are currently the only supported content type — every send needs one, so browse your workspace's approved templates in the Bird dashboard first.
+`bird whatsapp send --to <e164> --template <slug>` sends a template message to one recipient. This command sends template messages only — browse your workspace's approved templates in the Bird dashboard first; the wider API also accepts free-form content, but this command has no flags for it yet.
 
 - `--to` — recipient phone number in E.164 format (e.g. `+15551234567`).
 - `--template` — the template, by its slug (e.g. `bird_otp`).
