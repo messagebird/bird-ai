@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.22.1
+
+- `bird api-keys create` takes `--name`, a repeatable `--scope <area>:<level>`, `--expires-at` and `--cidr`, so a key can be minted from flags instead of a JSON body file. `--body-file` still works, and a flag replaces the field it names rather than adding to it.
+- The `bird-cli` skill's email templates reference now covers the `--theme` filter, alongside `--scope`, `--category`, `--source`, and `--q`.
+
 ## 0.22.0
 
 - Registering or resubmitting a 10DLC campaign under a brand registered as a public company now fails until that brand's Auth+ vetting has completed, and names the vetting call to make instead. The campaign registry always refused these campaigns; it now costs nothing to find out, since the refusal arrives before the registration fee.
