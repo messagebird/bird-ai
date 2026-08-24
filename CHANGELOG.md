@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.22.0
+
+- Registering or resubmitting a 10DLC campaign under a brand registered as a public company now fails until that brand's Auth+ vetting has completed, and names the vetting call to make instead. The campaign registry always refused these campaigns; it now costs nothing to find out, since the refusal arrives before the registration fee.
+- Registering or resubmitting a 10DLC brand for a publicly-traded company now accepts `auto_request_auth_plus`, opting in to Bird requesting the required Auth+ vetting once the brand is approved. It is refused for any other entity type, and the vetting fee is charged when the request is placed rather than at registration.
+- Add `bird sms 10dlc brands vettings list` and `bird sms 10dlc brands vettings create` for ordering a 10DLC brand's external vetting and reading past attempts.
+- **Breaking:** `bird sms 10dlc brands create`, `bird sms 10dlc brands submissions create`, `bird sms 10dlc campaigns create` and `bird sms 10dlc campaigns submissions create` rename flags, most of them gaining the prefix that says which record the value belongs to (`--business-…`, `--contact-…`, `--legal-entity-…`, `--use-case-…`, `--opt-in-…`, `--opt-out-…`). Body-file keys move with the flags, and `--stock-exchange` now takes a lowercase value, so `NASDAQ` is `nasdaq`. Check every script and body file driving these four commands against `bird help <command>`, which lists the current names.
+- **Breaking:** `bird sms 10dlc campaigns create` now takes `--use-case-category` in place of `--use-case`, and the body key is `use_case_category`. Resubmitting is unaffected: `campaigns submissions create` never took the use case, carrying it forward from the current submission instead.
+- Issue a workspace API key from the CLI and MCP: bird api-keys create, and the api_keys_create tool. The token is returned once. Requires a login carrying api_keys:write; an API key cannot issue another key.
+- The `bird-cli` skill's WhatsApp reference now covers free-form sends: the content flags, the `--from` requirement, and the 24-hour customer service window a free-form message has to land inside.
+- The `bird-cli` skill's WhatsApp reference now covers the senders a workspace can use: `bird whatsapp numbers list|get` and `bird whatsapp business-accounts list`, and what a number's WhatsApp state says about why a send was refused.
+
 ## 0.21.0
 
 - **Breaking:** the voice trunk, caller-ID and destination tools now require the `voice_management` scope in place of `voice`, so a token holding only `voice` gets `403`. Re-authorize with `voice_management:read` added, or issue a new API key holding both scopes.
