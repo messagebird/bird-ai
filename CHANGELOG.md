@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.23.0
+
+- `sms 10dlc brands create` takes an optional `--identity-id`, naming the compliance party the brand describes. It records which business the registration is for, so registrations filed for the same business are tied to one another, and brands return `identity_id` on read, null when none was named.
+- The party is created separately with `POST /v1/compliance/identities`; naming it on a brand does not create it, and it must belong to the same workspace, since naming another workspace's party is a `404` like a party that does not exist.
+- `sms 10dlc brands submissions create` takes it too, because a resubmit sends the same body a registration does. It may attach a party to a brand registered without one; it cannot move a brand to a different party, which is a `422` naming `identity_id`.
+
 ## 0.22.1
 
 - `bird api-keys create` takes `--name`, a repeatable `--scope <area>:<level>`, `--expires-at` and `--cidr`, so a key can be minted from flags instead of a JSON body file. `--body-file` still works, and a flag replaces the field it names rather than adding to it.
