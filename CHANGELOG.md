@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.25.0
+
+- Add the `bird compliance requirements`, `bird compliance attachments upload`, `bird compliance submissions create` and `bird compliance submissions resupply` commands, so a country's registration paperwork can be read, evidenced, filed and corrected without the dashboard (`compliance_requirements`, `compliance_attachments_upload`, `compliance_submissions_create`, `compliance_submissions_resupply`). Filing answers is a legal representation about your business: `create` has no draft step and sends everything in one call.
+- Add `bird sms senders list` and `bird sms senders get` (`sms_senders_list`, `sms_senders_get`), which is also what makes `bird sms senders requirements` reachable — it is keyed by a sender id nothing else on these surfaces issued.
+
 ## 0.24.0
 
 - Read your WhatsApp traffic from the terminal and over MCP. `bird whatsapp stats summary`, `daily` and `hourly` (`whatsapp_stats_summary`, `whatsapp_stats_daily`, `whatsapp_stats_hourly`) return the period aggregate and its per-day or per-hour series, each restrictable to one template, category, sender or tag. `bird whatsapp stats by-error-code`, `by-template`, `by-template-category`, `by-tag` and `by-phone-number` rank the workspace's traffic along one dimension, and `bird whatsapp stats inbound …` counts what customers sent you. `bird whatsapp business-accounts get` (`whatsapp_business_accounts_get`) returns one connected WhatsApp Business Account, addressed by either its `waa_` id or the numeric id WhatsApp reports. All read-only.
