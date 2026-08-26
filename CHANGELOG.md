@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.24.0
+
+- Read your WhatsApp traffic from the terminal and over MCP. `bird whatsapp stats summary`, `daily` and `hourly` (`whatsapp_stats_summary`, `whatsapp_stats_daily`, `whatsapp_stats_hourly`) return the period aggregate and its per-day or per-hour series, each restrictable to one template, category, sender or tag. `bird whatsapp stats by-error-code`, `by-template`, `by-template-category`, `by-tag` and `by-phone-number` rank the workspace's traffic along one dimension, and `bird whatsapp stats inbound …` counts what customers sent you. `bird whatsapp business-accounts get` (`whatsapp_business_accounts_get`) returns one connected WhatsApp Business Account, addressed by either its `waa_` id or the numeric id WhatsApp reports. All read-only.
+- A received email's sender is read more reliably. `bird email inbound-messages list` and `get` (`email_inbound_messages_list`, `email_inbound_messages_get`) no longer fail on an address that differs only by quoting, and a `From` header that cannot be read falls back to the envelope sender.
+
 ## 0.23.0
 
 - `sms 10dlc brands create` takes an optional `--identity-id`, naming the compliance party the brand describes. It records which business the registration is for, so registrations filed for the same business are tied to one another, and brands return `identity_id` on read, null when none was named.

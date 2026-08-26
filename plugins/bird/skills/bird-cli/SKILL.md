@@ -22,7 +22,7 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 - Send or inspect email messages (`bird email`, including `send-batch`) → [email](references/email.md)
 - Author reusable email templates, submit a draft, or roll one back (`bird email templates`) → [email-templates](references/email-templates.md)
 - Send or inspect SMS messages, or browse SMS templates (`bird sms`) → [sms](references/sms.md)
-- Send or inspect WhatsApp messages, follow a message's events, read the numbers and business accounts the workspace sends from, or browse WhatsApp templates (`bird whatsapp`) → [whatsapp](references/whatsapp.md)
+- Send or inspect WhatsApp messages, follow a message's events, read the numbers and business accounts the workspace sends from, read WhatsApp traffic statistics, or browse WhatsApp templates (`bird whatsapp`) → [whatsapp](references/whatsapp.md)
 - Inspect voice calls, find out why one was refused, or place a test call (`bird voice`) → [voice](references/voice.md)
 - Provision Realtime apps and rotate the keys their clients connect with (`bird realtime`) → [realtime](references/realtime.md)
 - Verify a recipient with a one-time passcode — send a code, then check what they submit (`bird verify verifications`) → [verify](references/verify.md)

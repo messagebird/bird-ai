@@ -1,12 +1,13 @@
 # WhatsApp
 
-Send WhatsApp messages through Bird, templates or free-form content, inspect what was sent, follow a message's event timeline, and read the numbers the workspace sends from. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`) and its senders (`numbers`, `business-accounts`); browse the approved template catalogue in the Bird dashboard.
+Send WhatsApp messages through Bird, templates or free-form content, inspect what was sent, follow a message's event timeline, read the numbers and business accounts the workspace sends from, and read traffic statistics. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`), its senders (`numbers`, `business-accounts`), and its stats (`stats`); browse the approved template catalogue in the Bird dashboard.
 
 Branch on what they asked for:
 
 - **Send a message** → _Send_ below.
 - **Find or inspect already-sent messages, or follow one's lifecycle** → _List_, _Get_, and _List events_ below.
 - **Pick a sender, or work out why a send was refused** → _Numbers_ and _Business accounts_ below.
+- **Read traffic volume, delivery/failure rates, or a breakdown by dimension** → _Stats_ below.
 
 ## Send
 
@@ -40,6 +41,20 @@ Each number carries the state WhatsApp reports for it (`status`, `quality_rating
 ## Business accounts
 
 `bird whatsapp business-accounts list` returns the WhatsApp Business Accounts the workspace has connected, as a cursor envelope. Each account carries the state WhatsApp last reported for it: its own status, how far WhatsApp's review of it has got, and whether Meta verified the business behind it.
+
+`bird whatsapp business-accounts get <business-account-ref>` returns one account, addressed by either the `waa_` id the list reports or the numeric id WhatsApp reports in `waba`. `--format text` prints a card. An account the list does not show is not-found here either, in both forms.
+
+## Stats
+
+`bird whatsapp stats …` reads aggregate views over your own WhatsApp traffic. Every subcommand takes an optional `--from`/`--to` window and `--timezone`; all of them emit JSON only, so pull fields with `jq`. The bounds are calendar days (`YYYY-MM-DD`) except on `hourly` and `inbound hourly`, which parse RFC 3339 instants (`2026-08-20T09:00:00Z`) and reject a bare day client-side; `summary` accepts either form and reports by day or by hour to match.
+
+- **The period aggregate:** `bird whatsapp stats summary` returns counts (accepted, sent, delivered, failed, rejected), delivery and failure rates, read engagement, and latency percentiles. `--from`/`--to` default to the trailing 30 days here; `--compare previous_period` adds the deltas against the window before.
+- **The series:** `bird whatsapp stats daily` and `bird whatsapp stats hourly` return one row per day or hour, gap-filled so a silent bucket is a zero row. `--from`/`--to` are optional: `daily` defaults to the trailing 30 days, `hourly` to the trailing 168 hours.
+- **Restricting the aggregate or a series to one dimension:** `--template`, `--category`, `--phone-number` or `--tag`, one at a time. These work on `summary`, `daily` and `hourly` only.
+- **The breakdowns:** `bird whatsapp stats by-error-code`, `by-template`, `by-template-category`, `by-tag` and `by-phone-number` each return the workspace's rows for that one dimension, ranked by volume (accepted volume, or failure count on `by-error-code`, whose rows carry only `error_code` and `count`), capped by `--limit` (default 50, max 200). `--from`/`--to` are optional and default to the trailing 30 days. A breakdown takes no dimension filter: it is already a single-dimension view. To follow one template or tag over time, filter `daily` by it instead.
+- **Received messages:** `bird whatsapp stats inbound summary|daily|hourly` and `bird whatsapp stats inbound by-phone-number` count what customers sent you, separately from what you sent them.
+
+Counts are attributed to the day the message was accepted, so a delivery confirmation arriving Wednesday for a message accepted the prior Monday lands in Monday's row; recent buckets under-report while callbacks are still arriving, and `period.data_as_of` in every response is how fresh the answer is.
 
 ## Traps
 
