@@ -1,12 +1,13 @@
 # WhatsApp
 
-Send WhatsApp messages through Bird, templates or free-form content, inspect what was sent, follow a message's event timeline, read the numbers and business accounts the workspace sends from, and read traffic statistics. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`), its senders (`numbers`, `business-accounts`), and its stats (`stats`); browse the approved template catalogue in the Bird dashboard.
+Send WhatsApp messages through Bird, templates or free-form content, inspect what was sent, follow a message's event timeline, read the numbers and business accounts the workspace sends from, and read traffic statistics. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`), its senders (`numbers`, including a `precheck` before you buy one, and `business-accounts`), and its stats (`stats`); browse the approved template catalogue in the Bird dashboard.
 
 Branch on what they asked for:
 
 - **Send a message** → _Send_ below.
 - **Find or inspect already-sent messages, or follow one's lifecycle** → _List_, _Get_, and _List events_ below.
 - **Pick a sender, or work out why a send was refused** → _Numbers_ and _Business accounts_ below.
+- **Check whether WhatsApp will accept a number before buying it** → _Numbers_ below (`precheck`).
 - **Read traffic volume, delivery/failure rates, or a breakdown by dimension** → _Stats_ below.
 
 ## Send
@@ -35,6 +36,8 @@ A Bird-managed template picks its own sender from its category and must omit `--
 ## Numbers
 
 `bird whatsapp numbers list` returns a page of the numbers the workspace can send from, as a cursor envelope (`{ "data": [...], "next_cursor": ... }`). Narrow with `--phone-number` (E.164, normalized before matching), `--waba` (the `waba` value a business account carries, not its `waa_` id), `--status` (repeatable), and `--scope` (`system` for platform-managed numbers, `workspace` for the ones you connected yourself). `bird whatsapp numbers get <number-id>` returns one number; `--format text` prints a card.
+
+`bird whatsapp numbers precheck <phone-number>` asks WhatsApp whether it will accept a number before you buy it, and answers `{ "phone_number": ..., "outcome": "available" | "unavailable" }`. No number is connected to your workspace, but this is a write rather than a lookup, so check the one number you intend to buy rather than a list of candidates. Confirm the number with the user before running it, and retry an uncertain result with the same `--idempotency-key` you sent the first time: a fresh key asks WhatsApp again rather than replaying the verdict. The two reasons behind `unavailable` — already in use on WhatsApp, or a number WhatsApp cannot serve — are not told apart, so treat it as a number to skip. The answer describes this moment: an available number can be taken by someone else before you connect it.
 
 Each number carries the state WhatsApp reports for it (`status`, `quality_rating`, `messaging_limit`, `throughput_level`) as of `meta_synced_at`, which is a reading taken roughly hourly rather than a live value. A number whose connection has not succeeded carries `error` with Bird's classification, plus WhatsApp's own words and code where WhatsApp was the one that refused; it is present while a number is still retrying as well as once it has given up.
 

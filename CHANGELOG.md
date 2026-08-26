@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.26.0
+
+- Ask WhatsApp whether it will accept a phone number before you buy it. `bird whatsapp numbers precheck <phone-number>` (`whatsapp_numbers_precheck`) answers `available` or `unavailable` for one number in E.164 format. No number is connected to your workspace, but this is a write rather than a lookup, so check the number you intend to buy rather than sweeping a list. A number that is available now can still be taken by someone else before you connect it.
+
 ## 0.25.0
 
 - Add the `bird compliance requirements`, `bird compliance attachments upload`, `bird compliance submissions create` and `bird compliance submissions resupply` commands, so a country's registration paperwork can be read, evidenced, filed and corrected without the dashboard (`compliance_requirements`, `compliance_attachments_upload`, `compliance_submissions_create`, `compliance_submissions_resupply`). Filing answers is a legal representation about your business: `create` has no draft step and sends everything in one call.
