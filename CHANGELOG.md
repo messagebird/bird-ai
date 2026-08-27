@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.29.0
+
+- `bird compliance identities list` lists the businesses a workspace has stored as compliance parties, so a registration can name the one it is for. The same read is available as an MCP tool.
+- Backward paging now documents `refresh_cursor` alongside `prev_cursor` as an accepted anchor, so the cursor that re-reads a list from its leading edge is discoverable without cross-referencing the response schema.
+
 ## 0.28.0
 
 - Add `bird sms senders create` and `bird sms senders registrations create` (`sms_senders_create`, `sms_senders_registrations_create`), so a workspace can claim an alphanumeric sender and register it for a country without the dashboard. Registering a priced alphanumeric sender takes a setup fee and a recurring monthly charge; registering a number is free.
