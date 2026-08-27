@@ -36,6 +36,8 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 - Manage outbound webhook endpoints → [webhooks](references/webhooks.md)
 - Issue a workspace API key (`bird api-keys create`) → [api-keys](references/api-keys.md) (needs a login carrying `api_keys:write`; an API key cannot run it)
 - Find out why acquiring a number or registering a sender was refused for a reason about the organization rather than the country, and settle the requirement behind it (`bird trust`) → [trust](references/trust.md)
+- Find the business a 10DLC brand is registered for, so `brands create` can name it (`bird compliance identities list`) → [compliance-identities](references/compliance-identities.md)
+- Register a 10DLC brand for US A2P traffic, or file a submission against one (`bird sms 10dlc brands create`, `bird sms 10dlc brands submissions create`) → sibling operations; node not yet authored, `--help` on each carries the field list
 - Open a support ticket, reply to it, or wait for a support agent reply → [support](references/support.md)
 - Answer a how-to or reference question about Bird from the documentation → [docs](references/docs.md) (public — skips Step 0)
 - Inspect resolved CLI configuration → `bird config show` (sibling operation; node not yet authored)
