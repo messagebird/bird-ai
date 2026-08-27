@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.27.0
+
+- `bird whatsapp media <message-id> <media-id>` (`whatsapp_media`) downloads the image, video, audio clip, sticker or document on a received WhatsApp message. Bytes go to `--output` or stdout; `--url` prints the short-lived download URL instead. The MCP tool returns the file inline up to 5 MiB, or the URL above that.
+
 ## 0.26.0
 
 - Ask WhatsApp whether it will accept a phone number before you buy it. `bird whatsapp numbers precheck <phone-number>` (`whatsapp_numbers_precheck`) answers `available` or `unavailable` for one number in E.164 format. No number is connected to your workspace, but this is a write rather than a lookup, so check the number you intend to buy rather than sweeping a list. A number that is available now can still be taken by someone else before you connect it.
