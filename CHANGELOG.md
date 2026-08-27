@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.30.0
+
+- Ship the vendor-neutral Agent Plugins 1.0 manifest pair (plugin.json + mcp.json) at the plugin root, so clients that read the spec load the skills and the hosted MCP server without a per-tool conversion.
+
 ## 0.29.0
 
 - `bird compliance identities list` lists the businesses a workspace has stored as compliance parties, so a registration can name the one it is for. The same read is available as an MCP tool.

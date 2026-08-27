@@ -1,4 +1,5 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bird",
   "version": "0.30.0",
   "description": "Drive Bird from your coding agent: operate the Bird API from the terminal with the `bird` CLI, send across email, SMS, and WhatsApp, and audit a domain's email authentication.",
@@ -21,11 +22,5 @@
     "verify",
     "realtime",
     "webhooks"
-  ],
-  "mcpServers": {
-    "bird": {
-      "type": "http",
-      "url": "https://mcp.bird.com"
-    }
-  }
+  ]
 }

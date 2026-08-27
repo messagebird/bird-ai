@@ -5,8 +5,8 @@
     "url": "https://github.com/messagebird"
   },
   "metadata": {
-    "description": "Bird's agent marketplace: skills, agents, and commands for driving Bird from Claude Code, Codex, Cursor, Copilot, and Droid.",
-    "version": "0.29.0"
+    "description": "Bird's agent marketplace: skills plus the hosted MCP server, for Claude Code, Codex, Cursor, Copilot, and Droid.",
+    "version": "0.30.0"
   },
   "plugins": [
     {

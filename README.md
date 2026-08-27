@@ -1,6 +1,6 @@
 # Bird AI Marketplace
 
-Skills for driving the [Bird](https://bird.com) platform from your coding agent. Your agent operates Bird through the `bird` CLI; the `bird` plugin in this marketplace installs the skills that teach it Bird's workflows. On Claude Code it also wires up Bird's hosted MCP server.
+Skills for driving the [Bird](https://bird.com) platform from your coding agent. Your agent operates Bird through the `bird` CLI; the `bird` plugin in this marketplace installs the skills that teach it Bird's workflows, and on clients that read the plugin's MCP declaration it wires up Bird's hosted MCP server too.
 
 ## Quick start
 
@@ -36,6 +36,12 @@ bird auth status
 ```
 
 The code arrives by email, so it comes from outside the CLI — read it from the inbox and pass it to step 2. Signup and verification are region-agnostic; you pick the region once, at `create-org`, so there is no host or environment variable to set. Every step is self-describing: append `--help` for the flags, `--example` for a ready-to-edit request body, or `--response-schema` for what it returns — none of them need a credential, so an agent can plan the whole chain before running it. Full walkthrough: [Self-serve signup](https://bird.com/docs/ai/self-serve-signup).
+
+## Any Agent Plugins client
+
+The plugin ships a root `plugin.json` and `mcp.json` following [Agent Plugins](https://agent-plugins.org/specification), the portable plugin format. A client that implements the specification loads it from this repository as it is: the skills and the hosted MCP server, in one install. Point the client at `github.com/messagebird/bird-ai` and install `bird` from `plugins/bird`.
+
+For a client with its own plugin format, or none, find it below.
 
 ## Claude Code
 
@@ -187,7 +193,7 @@ Then run `/mcp` inside droid and complete the browser sign-in from the server ma
 ## What's in the `bird` plugin
 
 - **`bird-cli`**: operate the Bird API from the terminal. Send and inspect email, manage sending domains, dedicated IPs and IP pools, and webhook endpoints, and check CLI auth.
-- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code, a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
+- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code and on any Agent Plugins host; a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
 
 ## License
 
