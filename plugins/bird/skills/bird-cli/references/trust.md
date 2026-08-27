@@ -12,7 +12,7 @@ Then branch on what you have:
 
 ## What an action needs
 
-`bird trust actions requirements <action>` lists the requirements one action depends on, each with whether the organization has met it and how it gets met. The actions are `buy_number`, `register_sender_id`, and `add_sender_id` (claim an alphanumeric sender). More may be added, so treat an unfamiliar value as valid rather than rejecting it.
+`bird trust actions requirements <action>` lists the requirements one action depends on, each with whether the organization has met it and how it gets met. The actions are `buy_number`, `register_sender_id`, `add_sender_id` (claim an alphanumeric sender), and `register_verified_number` (register a phone number as a verified caller ID). More may be added, so treat an unfamiliar value as valid rather than rejecting it.
 
 Every requirement must be met before the action is permitted; the order they come back in is a suggestion, not a sequence.
 

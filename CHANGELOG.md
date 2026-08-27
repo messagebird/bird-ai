@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.32.0
+
+- The bird-cli skill covers `register_verified_number`, the trust action behind registering a phone number as a verified caller ID.
+
 ## 0.31.0
 
 - Add tools for received-email volumes and the hosted unsubscribe page.
