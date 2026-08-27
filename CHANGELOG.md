@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.31.0
+
+- Add tools for received-email volumes and the hosted unsubscribe page.
+- The bird-cli skill covers the new bird preferences command group.
+- `whatsapp_numbers_profile_update` accepts `display_name`, which requests a new display name; `new_display_name_status` says whether WhatsApp is reviewing it or accepted it without a review.
+- The `bird-cli` skill now covers `bird whatsapp templates`, routing to a reference for browsing WhatsApp templates, their versions, and each version's per-language content.
+
 ## 0.30.0
 
 - Ship the vendor-neutral Agent Plugins 1.0 manifest pair (plugin.json + mcp.json) at the plugin root, so clients that read the spec load the skills and the hosted MCP server without a per-tool conversion.

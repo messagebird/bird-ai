@@ -1,6 +1,6 @@
 # WhatsApp
 
-Send WhatsApp messages through Bird, templates or free-form content, inspect what was sent, follow a message's event timeline, connect and manage the numbers and business accounts the workspace sends from, and read traffic statistics. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`), its senders (`numbers`, including a `precheck` before you buy one, and `business-accounts`), and its stats (`stats`); browse the approved template catalogue in the Bird dashboard.
+Send WhatsApp messages through Bird, templates or free-form content, inspect what was sent, follow a message's event timeline, connect and manage the numbers and business accounts the workspace sends from, and read traffic statistics. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`), its senders (`numbers`, including a `precheck` before you buy one, and `business-accounts`), its stats (`stats`), and its templates (`templates`).
 
 Branch on what they asked for:
 
@@ -10,12 +10,13 @@ Branch on what they asked for:
 - **Pick a sender, or work out why a send was refused** → _Numbers_ and _Business accounts_ below.
 - **Check whether WhatsApp will accept a number before buying it** → _Numbers_ below (`precheck`).
 - **Read traffic volume, delivery/failure rates, or a breakdown by dimension** → _Stats_ below.
+- **Browse templates, their versions, or a version's per-language content** → [whatsapp-templates](whatsapp-templates.md).
 
 ## Send
 
 `bird whatsapp send --to <e164>` sends one message to one recipient, carrying exactly one kind of content:
 
-- **A template:** `--template <slug>` or `--template-id <wat_…>`, with `--language` for the variant and `--components '<json>'` filling its placeholders (e.g. `--components '[{"type":"body","parameters":[{"type":"text","text":"A1B2C3D4"}]}]'`). Browse your workspace's approved templates in the Bird dashboard.
+- **A template:** `--template <slug>` or `--template-id <wat_…>` (mutually exclusive), with `--language` for the variant and `--components '<json>'` filling its placeholders (e.g. `--components '[{"type":"body","parameters":[{"type":"text","text":"A1B2C3D4"}]}]'`). Browse your workspace's approved templates with `bird whatsapp templates list`.
 - **Free-form content:** `--text` (with `--preview-url`), `--image`, `--video`, `--audio` (with `--voice` for a voice note), `--sticker`, `--document` (with `--filename`), or a location (`--latitude`/`--longitude`, with `--location-name`/`--location-address`). `--caption` labels an image, video, or document.
 
 A Bird-managed template picks its own sender from its category and must omit `--from`; a template your workspace authored requires `--from`, the same as free-form content. `--tag` and `--metadata` attach labels.

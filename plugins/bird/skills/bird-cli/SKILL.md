@@ -1,6 +1,6 @@
 ---
 name: bird-cli
-description: Operate Bird from the terminal with the `bird` CLI, the agent-facing surface for the Bird API. Covers email (send, batch, reusable templates, inbound, sending domains, dedicated IPs, IP pools, deliverability), SMS and WhatsApp (send, templates, and checking whether WhatsApp will accept a number before you buy it), toll-free verification drafting, SMS sender claim and per-country registration, one-time-passcode verification, the organization trust requirements that gate buying a number or registering a sender, email-address and phone-number lookup, Realtime app and key provisioning, contacts, audiences, contact properties, webhooks, support tickets, account signup and onboarding, and auth, config, and documentation search. Use it for any request to send, inspect, or manage those from a shell or an agent loop, or to create and onboard a new Bird account. Not for calling the Bird HTTP API directly or the language SDKs.
+description: Operate Bird from the terminal with the `bird` CLI, the agent-facing surface for the Bird API. Covers email (send, batch, reusable templates, inbound, sending domains, dedicated IPs, IP pools, deliverability), SMS and WhatsApp (send, templates, and checking whether WhatsApp will accept a number before you buy it), toll-free verification drafting, SMS sender claim and per-country registration, one-time-passcode verification, the organization trust requirements that gate buying a number or registering a sender, email-address and phone-number lookup, Realtime app and key provisioning, contacts, audiences, contact properties, messaging preferences (consent grants and opt-outs), webhooks, support tickets, account signup and onboarding, and auth, config, and documentation search. Use it for any request to send, inspect, or manage those from a shell or an agent loop, or to create and onboard a new Bird account. Not for calling the Bird HTTP API directly or the language SDKs.
 ---
 
 # Bird CLI
@@ -24,13 +24,17 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 - Send or inspect SMS messages, or browse SMS templates (`bird sms`) → [sms](references/sms.md)
 - Draft the carrier verification a US toll-free number needs before it can send, read what the carrier asks for, or see why one was declined (`bird sms tfn verifications`) → [tfn-verifications](references/tfn-verifications.md)
 - Claim an alphanumeric SMS sender, find out what a country requires of it, or register it for a country (`bird sms senders`) → [sms-senders](references/sms-senders.md)
-- Send or inspect WhatsApp messages, follow a message's events, connect or manage the numbers and business accounts the workspace sends from, check whether WhatsApp will accept a number before buying it, read WhatsApp traffic statistics, or browse WhatsApp templates (`bird whatsapp`) → [whatsapp](references/whatsapp.md)
+- Send or inspect WhatsApp messages, follow a message's events, connect or manage the numbers and business accounts the workspace sends from, check whether WhatsApp will accept a number before buying it, or read WhatsApp traffic statistics (`bird whatsapp`) → [whatsapp](references/whatsapp.md)
+- Browse WhatsApp templates, their versions, and each version's per-language content (`bird whatsapp templates`) → [whatsapp-templates](references/whatsapp-templates.md)
 - Inspect voice calls, find out why one was refused, configure a SIP trunk or an inbound number, enable or disable calling to a country, or place a test call (`bird voice`) → [voice](references/voice.md)
 - Provision Realtime apps and rotate the keys their clients connect with (`bird realtime`) → [realtime](references/realtime.md)
 - Verify a recipient with a one-time passcode — send a code, then check what they submit (`bird verify verifications`) → [verify](references/verify.md)
 - Find out about a recipient before you use it — grade an email address, or identify a phone number and its network (`bird lookup`) → [lookup](references/lookup.md)
 - Manage contacts, audiences, and contact properties (`bird contacts`, `bird audiences`, `bird contact-properties`) → [contacts](references/contacts.md)
+- Record and look up messaging consent grants and opt-outs (`bird preferences`) → [preferences](references/preferences.md)
 - Manage sending domains (`bird email domains`), or find a verified `from` to send from → [domains](references/domains.md)
+- Count how much mail the workspace received, by period, day or hour (`bird email stats inbound`) → [received-mail-stats](references/received-mail-stats.md)
+- Style the hosted page a marketing recipient lands on when they unsubscribe (`bird email unsubscribe-page`) → [unsubscribe-page](references/unsubscribe-page.md)
 - Manage dedicated IPs (`bird email dedicated-ips`) and IP pools (`bird email ip-pools`) (sending reputation) → [ip-pools](references/ip-pools.md)
 - Receive email at inbound forward addresses (`bird email inbound-addresses`), or read the mail received there (`bird email inbound-messages`) → [inbound](references/inbound.md)
 - Manage outbound webhook endpoints → [webhooks](references/webhooks.md)
