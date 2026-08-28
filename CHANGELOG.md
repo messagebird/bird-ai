@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.32.1
+
+- The API keys reference lists `workspace` among the `--scope` areas, and states what a key cannot do: issue keys, or change members and settings.
+
 ## 0.32.0
 
 - The bird-cli skill covers `register_verified_number`, the trust action behind registering a phone number as a verified caller ID.
