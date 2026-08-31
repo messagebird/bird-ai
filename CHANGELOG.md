@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.36.0
+
+- `bird whatsapp send` gains `--interactive`, which takes reply buttons, a list menu, a link button, media cards, or a request for the recipient's location or contact details as a JSON object, and `--in-reply-to`, which quotes an earlier message from the same conversation. The `whatsapp_send` MCP tool carries both.
+
 ## 0.35.0
 
 - Mailboxes now report `size_bytes`: the stored bytes of their retained messages (the metadata and extracted text kept for the retention tier plus attachment bytes). Plans can cap it per mailbox; a send from a mailbox at its cap is rejected with `E17049`.

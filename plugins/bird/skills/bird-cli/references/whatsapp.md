@@ -18,8 +18,9 @@ Branch on what they asked for:
 
 - **A template:** `--template <slug>` or `--template-id <wat_…>` (mutually exclusive), with `--language` for the variant and `--components '<json>'` filling its placeholders (e.g. `--components '[{"type":"body","parameters":[{"type":"text","text":"A1B2C3D4"}]}]'`). Browse your workspace's approved templates with `bird whatsapp templates list`.
 - **Free-form content:** `--text` (with `--preview-url`), `--image`, `--video`, `--audio` (with `--voice` for a voice note), `--sticker`, `--document` (with `--filename`), or a location (`--latitude`/`--longitude`, with `--location-name`/`--location-address`). `--caption` labels an image, video, or document.
+- **Interactive content:** `--interactive '<json>'` sends reply buttons, a list menu, a link button, media cards, or a single button asking the recipient to share their location or their phone number (e.g. `--interactive '{"type":"button","body_text":"Reschedule?","buttons":[{"type":"quick_reply","quick_reply":{"slug":"yes","text":"Yes"}}]}'`). A tap comes back as an ordinary inbound message: a reply button or list row as `interactive_reply`, a location or contact card as `location`/`contact_cards` on `bird whatsapp get`.
 
-A Bird-managed template picks its own sender from its category and must omit `--from`; a template your workspace authored requires `--from`, the same as free-form content. `--tag` and `--metadata` attach labels.
+`--in-reply-to <wam-id>` quotes an earlier message from the same conversation, with any content kind. A Bird-managed template picks its own sender from its category and must omit `--from`; a template your workspace authored requires `--from`, the same as free-form and interactive content. `--tag` and `--metadata` attach labels.
 
 **Done when** the command returns a message object with an `id` and `status: accepted`. Like email and SMS, `accepted` means Bird took the message, not that it landed; read it back with _Get_ or follow _List events_ to confirm delivery.
 
