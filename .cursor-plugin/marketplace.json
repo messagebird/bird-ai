@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Bird's agent marketplace: skills plus the hosted MCP server, for Claude Code, Codex, Cursor, Copilot, and Droid.",
-    "version": "0.32.1"
+    "version": "0.33.0"
   },
   "plugins": [
     {

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.33.0
+
+- Add the `webhooks_update` tool.
+- `api_keys_create` accepts the `webhooks` scope.
+
 ## 0.32.1
 
 - The API keys reference lists `workspace` among the `--scope` areas, and states what a key cannot do: issue keys, or change members and settings.
