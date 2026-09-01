@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.39.0
+
+- Add the `compliance_attachments_list` and `compliance_attachments_delete` tools for reviewing the registration attachments a workspace has uploaded and removing one no registration has cited yet. Deleting an attachment a registration already cites is refused, because it is kept as evidence.
+- Add the `compliance_submissions_get` tool for reading back a compliance submission: every answer it carries, which were accepted, which are still under review, and the reason a refused one was rejected.
+
 ## 0.38.0
 
 - **Breaking:** `email_send_batch` items no longer accept `idempotency_key`. Only the batch-level key was ever sent, because the API carries idempotency in a per-request header, so a per-item key could not be honoured. An item that set one was accepted and ignored; it is now rejected. Set `idempotency_key` on the batch instead.
