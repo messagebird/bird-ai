@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.40.0
+
+- A WhatsApp send can carry up to five contact cards, as `--contact-cards` on `bird whatsapp send` and `contact_cards` on the `whatsapp_send` tool and each SDK's send. A card's name needs `formatted_name` plus at least one other part, and a phone number in E.164 earns the card a button that opens a chat with it.
+
 ## 0.39.0
 
 - Add the `compliance_attachments_list` and `compliance_attachments_delete` tools for reviewing the registration attachments a workspace has uploaded and removing one no registration has cited yet. Deleting an attachment a registration already cites is refused, because it is kept as evidence.
