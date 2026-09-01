@@ -1,6 +1,6 @@
 # WhatsApp
 
-Send WhatsApp messages through Bird, templates or free-form content, inspect what was sent, follow a message's event timeline, connect and manage the numbers and business accounts the workspace sends from, and read traffic statistics. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`), its senders (`numbers`, including a `precheck` before you buy one, and `business-accounts`), its stats (`stats`), and its templates (`templates`).
+Send WhatsApp messages through Bird, templates or free-form content, inspect what was sent, follow a message's event timeline, connect and manage the numbers and business accounts the workspace sends from, and read traffic statistics. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`), its senders (`numbers`, including a `precheck` before you buy one, and `business-accounts`), its stats (`stats`), and its templates (`templates`, both reading them and authoring them).
 
 Branch on what they asked for:
 
@@ -11,6 +11,7 @@ Branch on what they asked for:
 - **Check whether WhatsApp will accept a number before buying it** → _Numbers_ below (`precheck`).
 - **Read traffic volume, delivery/failure rates, or a breakdown by dimension** → _Stats_ below.
 - **Browse templates, their versions, or a version's per-language content** → [whatsapp-templates](whatsapp-templates.md).
+- **Create, edit, submit, or retire a template** → [whatsapp-templates](whatsapp-templates.md).
 
 ## Send
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.37.0
+
+- Email tools now accept a sender or recipient as an object with `email` and an optional `name`, alongside the plain-address and `Jane Doe <jane@acme.com>` forms their descriptions already offered.
+- An attachment's `content` now accepts a base64 string, the form every example uses. Empty content is refused at the tool rather than a round trip later.
+- `tags` now accepts the `{name, value}` array the API reference shows, as well as an object keyed by tag name.
+- Add the WhatsApp template authoring lifecycle to the CLI and MCP: `bird whatsapp templates create|update|delete|duplicate`, `bird whatsapp templates versions create|delete|submit`, and `bird whatsapp templates versions languages set|delete|discard`, plus the matching `whatsapp_templates_*` tools. Submit takes `--validate-only` to check a draft without freezing it, and both surfaces carry generated next-step guidance for the review states a template and each of its languages can be in.
+- `email_send_batch` said a message with no `category` sends as `transactional`. It never did: a message with no template and no category has always sent as `marketing`, and one with a template takes the template's own classification. Only the description changes, so a caller who omits `category` needs to do nothing; a caller who read the old text and wanted transactional mail has been sending marketing and should set `category` to `transactional`.
+
 ## 0.36.0
 
 - `bird whatsapp send` gains `--interactive`, which takes reply buttons, a list menu, a link button, media cards, or a request for the recipient's location or contact details as a JSON object, and `--in-reply-to`, which quotes an earlier message from the same conversation. The `whatsapp_send` MCP tool carries both.
