@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.38.0
+
+- **Breaking:** `email_send_batch` items no longer accept `idempotency_key`. Only the batch-level key was ever sent, because the API carries idempotency in a per-request header, so a per-item key could not be honoured. An item that set one was accepted and ignored; it is now rejected. Set `idempotency_key` on the batch instead.
+- `email_send_batch` and `sms_send_batch` items now take every field their single-send tool takes. On email that adds `tags`, `metadata`, `template`, `parameters`, `track_opens`, `track_clicks` and `ip_pool_id`, which no batch caller could send before. It also adds `scheduled_at`, which the API rejects on a batch item with a `422`; use `email_send` for a scheduled message.
+
 ## 0.37.0
 
 - Email tools now accept a sender or recipient as an object with `email` and an optional `name`, alongside the plain-address and `Jane Doe <jane@acme.com>` forms their descriptions already offered.
