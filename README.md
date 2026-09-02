@@ -48,7 +48,7 @@ For a client with its own plugin format, or none, find it below.
 Paste this prompt into Claude Code and it installs the CLI, signs you in, installs the skills, and sends a test email:
 
 ```text
-Bird is an infrastructure platform that makes it easy to send email to your users. Set Bird up for me, end to end.
+Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
 1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
 2. Sign me in: run `bird auth login` and open the browser link for me.
 3. Install Bird's skills so you know the workflows: run `claude plugin marketplace add messagebird/bird-ai`, then `claude plugin install bird@bird-ai`.
@@ -71,7 +71,7 @@ claude plugin install bird@bird-ai
 Paste this prompt into Cursor:
 
 ```text
-Bird is an infrastructure platform that makes it easy to send email to your users. Set Bird up for me, end to end.
+Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
 1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
 2. Sign me in: run `bird auth login` and open the browser link for me.
 3. Give yourself Bird's skills (Cursor installs plugins through its UI, so set them up by file instead): fetch the skills from https://github.com/messagebird/bird-ai and write them into `.cursor/rules/` as `.mdc` files.
@@ -99,7 +99,7 @@ Then sign in: open **Cursor Settings → Tools & Integrations**, and under **MCP
 Paste this prompt into Codex:
 
 ```text
-Bird is an infrastructure platform that makes it easy to send email to your users. Set Bird up for me, end to end.
+Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
 1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
 2. Sign me in: run `bird auth login` and open the browser link for me.
 3. Install Bird's skills so you know the workflows: run `codex plugin marketplace add messagebird/bird-ai`, then `codex plugin add bird@bird-ai` (check `codex plugin --help` if the exact form differs).
@@ -133,7 +133,7 @@ codex mcp login bird
 Paste this prompt into Copilot:
 
 ```text
-Bird is an infrastructure platform that makes it easy to send email to your users. Set Bird up for me, end to end.
+Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
 1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
 2. Sign me in: run `bird auth login` and open the browser link for me.
 3. Install Bird's skills so you know the workflows: run `copilot plugin marketplace add messagebird/bird-ai`, then `copilot plugin install bird@bird-ai`.
@@ -166,10 +166,10 @@ VS Code asks you to trust the server the first time it starts, then runs the sig
 Paste this prompt into Droid:
 
 ```text
-Bird is an infrastructure platform that makes it easy to send email to your users. Set Bird up for me, end to end.
+Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
 1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
 2. Sign me in: run `bird auth login` and open the browser link for me.
-3. Install Bird's skills so you know the workflows: Droid loads skills from `.factory/skills/`, so clone https://github.com/messagebird/bird-ai and copy `plugins/bird/skills/bird-cli` into `.factory/skills/bird-cli`.
+3. Install Bird's skills so you know the workflows: Droid loads skills from `.factory/skills/`, so clone https://github.com/messagebird/bird-ai and copy every directory in `plugins/bird/skills/` into `.factory/skills/`.
 4. Confirm who I am: run `bird whoami`, which prints the email of the account you're acting as.
 5. Send me a test email so I see it land in my own inbox: use my address from `bird whoami` as the recipient, send from onboarding@messagebird.dev, then confirm delivery with `bird email get`. Subject: "Your Bird account is ready". Body: "You're set up and ready to send. This email is the proof. Cheers, The Bird team".
 Then let's discuss next steps, given what Bird can do.
@@ -179,7 +179,7 @@ To set the skills up by hand:
 
 ```bash
 git clone https://github.com/messagebird/bird-ai
-cp -r bird-ai/plugins/bird/skills/bird-cli .factory/skills/bird-cli
+cp -r bird-ai/plugins/bird/skills/. .factory/skills/
 ```
 
 **MCP server:** add the hosted server once:
@@ -192,7 +192,8 @@ Then run `/mcp` inside droid and complete the browser sign-in from the server ma
 
 ## What's in the `bird` plugin
 
-- **`bird-cli`**: operate the Bird API from the terminal. Send and inspect email, manage sending domains, dedicated IPs and IP pools, and webhook endpoints, and check CLI auth.
+- **`bird-cli`**: operate the Bird API from the terminal. One reference per CLI command group, covering sending and inspecting messages on every channel Bird runs, the setup each channel needs before it can send, one-time-passcode verification, recipient lookup, contacts and audiences, messaging preferences, Realtime provisioning, webhooks, API keys, support tickets, and documentation search.
+- **`email-audit`**: grade a domain's live DMARC, SPF, DKIM, BIMI, and MX records and read the findings back as a prioritized fix list. DNS-only, so it needs no sign-in.
 - **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code and on any Agent Plugins host; a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
 
 ## License

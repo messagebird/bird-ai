@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.42.0
+
+- **Breaking:** organization and workspace names must be at least 3 characters and include a letter or number, so a name like `.` or `---` is now rejected; surrounding and repeated whitespace is collapsed before the name is stored.
+
 ## 0.41.0
 
 - Batch email sends now take `scheduled_at` on each item, so one batch can mix scheduled and immediate messages.
