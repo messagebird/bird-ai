@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.43.0
+
+- **Breaking:** changing a mailbox's `retention_tier` now applies to its stored messages in the background rather than as part of the update call. Lowering the tier a second time before the first change finishes is rejected with `E17050`; retry later. You can still raise the tier to one your plan permits. Large mailboxes can take hours to finish.
+- When your plan includes mailbox storage, the allowance is shared by every mailbox in the organization. Sending is rejected with `E17049` once the organization's mailboxes reach it. Soft-deleted mailboxes count while they can still be restored.
+
 ## 0.42.0
 
 - **Breaking:** organization and workspace names must be at least 3 characters and include a letter or number, so a name like `.` or `---` is now rejected; surrounding and repeated whitespace is collapsed before the name is stored.
