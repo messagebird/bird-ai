@@ -21,7 +21,7 @@ Then branch on what they asked for:
 
 `bird email send` builds an `EmailMessageSendRequest` and posts it. You can supply the body three ways, and they combine:
 
-- **Flags** — every body field has one: `--from`, `--to`/`--cc`/`--bcc`/`--reply-to` (repeatable or comma-separated), `--subject`, `--html`/`--html-file`, `--text`/`--text-file`, `--attach`, `--header`/`--tag` (Key=Value), `--metadata`, `--category`, `--ip-pool`, `--track-opens`/`--track-clicks`.
+- **Flags** — every body field has one: `--from`, `--to`/`--cc`/`--bcc`/`--reply-to` (repeatable or comma-separated), `--subject`, `--html`/`--html-file`, `--text`/`--text-file`, `--attach`, `--header`/`--tag` (Key=Value), `--metadata`, `--category`, `--ip-pool`, `--track-opens`/`--track-clicks`, `--scheduled-at` (RFC 3339, between 30 seconds and 30 days ahead).
 - **A JSON body via `--body-file <path|->`** — the whole request as one object: `bird email send --body-file body.json`; `-` reads stdin (`jq … | bird email send --body-file -`). The CLI never reads stdin unless `--body-file -` names it.
 - **Both** — flags override the matching field in the body, so one stored template serves many recipients: `bird email send --body-file campaign.json --to alice@acme.com`.
 
@@ -47,7 +47,7 @@ The command returns a message object (HTTP 202) with an `id` and `status: accept
 
 ## Send batch
 
-`bird email send-batch` posts many distinct messages in one request — each with its own recipients and body — rather than one message to many recipients. Build the batch as a JSON array via `--body-file <path|->` (`bird email send-batch --example` prints the shape). The response is a batch object; each entry is `accepted` independently, so read the batch back to confirm per-message delivery. The sender rules from _Send_ apply to every message in the batch.
+`bird email send-batch` posts many distinct messages in one request — each with its own recipients and body — rather than one message to many recipients. Build the batch as a JSON array via `--body-file <path|->` (`bird email send-batch --example` prints the shape). The response is a batch object; each entry is `accepted` independently, so read the batch back to confirm per-message delivery. The sender rules from _Send_ apply to every message in the batch. Preview a batch with `--dry-run` before sending, and pass `--idempotency-key <key>` when it might be retried. `send-batch` has no per-message field flags, so an item names its time as a `scheduled_at` field in its JSON object, on the same bounds `--scheduled-at` enforces on _Send_; one batch can mix scheduled and immediate items, and `bird email cancel` cancels a scheduled one before it fires.
 
 ## List
 
