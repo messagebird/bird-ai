@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.44.0
+
+- The API keys guidance now covers rotating a key, its grace period, and the permissions a rotation can add.
+
 ## 0.43.0
 
 - **Breaking:** changing a mailbox's `retention_tier` now applies to its stored messages in the background rather than as part of the update call. Lowering the tier a second time before the first change finishes is rejected with `E17050`; retry later. You can still raise the tier to one your plan permits. Large mailboxes can take hours to finish.
