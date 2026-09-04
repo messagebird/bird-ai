@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.45.0
+
+- **Breaking:** an alphanumeric SMS sender ID must now be 3 to 11 characters. Claiming a shorter one returns a `422`; a shorter sender your workspace already owns keeps sending.
+
 ## 0.44.0
 
 - The API keys guidance now covers rotating a key, its grace period, and the permissions a rotation can add.

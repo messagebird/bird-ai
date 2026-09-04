@@ -11,7 +11,7 @@ Branch on what they asked for:
 
 ## Create
 
-`bird sms senders create --type alpha --sender <string>` claims an alphanumeric sender: 1 to 11 letters, digits, spaces, dashes or underscores, at least one of them a letter. Claiming costs nothing. Where a country asks for no registration, the sender can reach it as soon as that destination is enabled on the workspace; everywhere else it needs a registration first.
+`bird sms senders create --type alpha --sender <string>` claims an alphanumeric sender: 3 to 11 letters, digits, spaces, dashes or underscores, at least one of them a letter. Claiming costs nothing. Where a country asks for no registration, the sender can reach it as soon as that destination is enabled on the workspace; everywhere else it needs a registration first.
 
 **Done when** the command returns a sender object with an `id` (`snd_…`). Keep that id: every other command in this group is keyed by it.
 
