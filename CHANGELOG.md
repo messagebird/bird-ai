@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.45.1
+
+- The email template commands and tools now describe the `compatibility` report their responses carry, and saving a language whose HTML has a `problem` returns a next action pointing back at the same write.
+
 ## 0.45.0
 
 - **Breaking:** an alphanumeric SMS sender ID must now be 3 to 11 characters. Claiming a shorter one returns a `422`; a shorter sender your workspace already owns keeps sending.
