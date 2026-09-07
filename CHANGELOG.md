@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.45.2
+
+- The `bird-cli` and `email-audit` skills now state their task scope in shorter descriptions.
+
 ## 0.45.1
 
 - The email template commands and tools now describe the `compatibility` report their responses carry, and saving a language whose HTML has a `problem` returns a next action pointing back at the same write.

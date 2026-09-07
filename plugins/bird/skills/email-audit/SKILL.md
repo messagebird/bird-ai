@@ -1,6 +1,6 @@
 ---
 name: email-audit
-description: Audit a domain's email-authentication setup and explain how to fix it — run `bird email tools audit <domain>` to resolve and grade the live DMARC, SPF, DKIM, BIMI, and MX records, then read the severity-tagged findings like a deliverability consultant. Use when someone asks "is my email set up correctly?", "why is my mail going to spam / getting marked as junk?", "audit my domain's email", "check my SPF/DKIM/DMARC", "why am I failing DMARC?", "is my domain spoofable?", "what's wrong with my email authentication?", or wants a domain's deliverability posture reviewed and prioritized fixes. For drafting or checking a *single* record before publishing it (not a live domain), use the per-record validators instead (`bird email tools validate-dmarc` / `validate-bimi`). Not for sending mail or managing domains — that is the bird-cli skill.
+description: Use when auditing a live domain's email authentication or spam-delivery problems involving DMARC, SPF, DKIM, BIMI, or MX; single-record drafts use bird validators.
 ---
 
 # Email authentication audit

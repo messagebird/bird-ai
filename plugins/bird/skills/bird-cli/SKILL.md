@@ -1,6 +1,6 @@
 ---
 name: bird-cli
-description: Operate Bird from the terminal with the `bird` CLI, the agent-facing surface for the Bird API. Covers email (send, batch, reusable templates, inbound, sending domains, dedicated IPs, IP pools, deliverability), SMS and WhatsApp (send, templates, and checking whether WhatsApp will accept a number before you buy it), toll-free verification drafting, SMS sender claim and per-country registration, one-time-passcode verification, the organization trust requirements that gate buying a number or registering a sender, email-address and phone-number lookup, Realtime app and key provisioning, contacts, audiences, contact properties, messaging preferences (consent grants and opt-outs), webhooks, support tickets, account signup and onboarding, and auth, config, and documentation search. Use it for any request to send, inspect, or manage those from a shell or an agent loop, or to create and onboard a new Bird account. Not for calling the Bird HTTP API directly or the language SDKs.
+description: Use when operating Bird through the bird CLI to send, inspect, or manage API resources or onboard an account; excludes client development.
 ---
 
 # Bird CLI
