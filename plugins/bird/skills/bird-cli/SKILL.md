@@ -1,11 +1,11 @@
 ---
 name: bird-cli
-description: Use when operating Bird through the bird CLI to send, inspect, or manage API resources or onboard an account; excludes client development.
+description: Use when operating Bird through the bird CLI to preview or send messages, inspect or manage API resources, or onboard an account; excludes client development.
 ---
 
 # Bird CLI
 
-`bird` is a single binary that talks to the Bird API. Each top-level command is one operation; every operation talks to the live API, so all of them need credentials first.
+`bird` is a single binary for the Bird API and local tools such as WhatsApp message previews. Account operations need credentials; local previews do not.
 
 If `bird` isn't installed (`command -v bird` finds nothing), install it first — a checksum-verified download to `~/.local/bin` (or `/usr/local/bin`):
 
@@ -15,7 +15,7 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 
 ## The path
 
-**Step 0 — Authenticate (shared prerequisite).** Every command below fails without a key, and the failure looks the same as a real error, so confirm credentials first: [authenticate](references/authenticate.md). It is a no-op when `bird auth status` already reports `valid: true`, so it is safe to run first every time. No account yet? Create one — account, organization, and workspace — from scratch: [onboarding](references/onboarding.md); it ends by storing the same credential a login would.
+**Step 0 — Authenticate for account operations.** For a WhatsApp preview, go directly to [Preview](references/whatsapp.md#preview). For account operations, confirm credentials first: [authenticate](references/authenticate.md). It is a no-op when `bird auth status` already reports `valid: true`. No account yet? Create one through [onboarding](references/onboarding.md); it ends by storing the same credential a login would.
 
 **Step 1 — Run the operation the user asked for:**
 
@@ -24,6 +24,7 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 - Send or inspect SMS messages, or browse SMS templates (`bird sms`) → [sms](references/sms.md)
 - Draft the carrier verification a US toll-free number needs before it can send, read what the carrier asks for, or see why one was declined (`bird sms tfn verifications`) → [tfn-verifications](references/tfn-verifications.md)
 - Claim an alphanumeric SMS sender, find out what a country requires of it, or register it for a country (`bird sms senders`) → [sms-senders](references/sms-senders.md)
+- Preview a WhatsApp message (`bird whatsapp preview`) → [Preview](references/whatsapp.md#preview) (local — skips Step 0)
 - Send or inspect WhatsApp messages, follow a message's events, connect or manage the numbers and business accounts the workspace sends from, check whether WhatsApp will accept a number before buying it, or read WhatsApp traffic statistics (`bird whatsapp`) → [whatsapp](references/whatsapp.md)
 - Browse WhatsApp templates, their versions, and each version's per-language content (`bird whatsapp templates`) → [whatsapp-templates](references/whatsapp-templates.md)
 - Inspect voice calls, find out why one was refused, configure a SIP trunk or an inbound number, enable or disable calling to a country, or place a test call (`bird voice`) → [voice](references/voice.md)
@@ -46,7 +47,7 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 - Answer a how-to or reference question about Bird from the documentation → [docs](references/docs.md) (public — skips Step 0)
 - Inspect resolved CLI configuration → `bird config show` (sibling operation; node not yet authored)
 
-Pick the one operation that matches the request; there is no ordering among them beyond the Step 0 auth they all share.
+Pick the operation that matches the request. Complete Step 0 only for operations that require an account.
 
 ## Conventions every command shares
 

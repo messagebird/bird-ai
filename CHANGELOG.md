@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.46.0
+
+- **Breaking:** filtering a WhatsApp template list by status now accepts only `draft`, `pending`, `active`, `rejected` and `inactive`, and refuses anything else instead of returning an empty page. A script passing another value to `--status`, or a host sending one as the `status` tool argument, needs the value corrected.
+- **Breaking:** a send that quotes a message Bird does not hold now fails with `404` `WhatsAppReferencedMessageNotFound` instead of `422` `WhatsAppInReplyToNotFound`; one Bird holds but cannot quote answers `422` `WhatsAppMessageNotQuotable`, and a quote Bird cannot look up answers `503` `WhatsAppMessageLookupUnavailable`, which is worth retrying. Update anything matching the old codes.
+- Preview WhatsApp service messages in the public message builder from the CLI and MCP.
+
 ## 0.45.2
 
 - The `bird-cli` and `email-audit` skills now state their task scope in shorter descriptions.
