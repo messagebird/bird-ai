@@ -23,6 +23,12 @@ The link omits `to`, `from`, `metadata`, and `tags`. Anyone with the link can re
 
 ## Send
 
+Start with `bird whatsapp send --example <kind>` for a ready-to-edit payload: `text`, `image`, `video`, `audio`, `document`, `sticker`, `location`, `contact-cards`, `template`, `interactive-button`, `interactive-list`, `interactive-cta-url`, `interactive-carousel`, `interactive-location-request-message`, or `interactive-request-contact-info`. Bare `--example` keeps the default template example.
+
+Interactive kinds have different shapes: reply buttons use `interactive.buttons`, lists use `interactive.list`, link buttons use `interactive.cta_url`, and carousels use `interactive.cards`. Copy the matching schema-derived example; do not extrapolate from the button kind. A list row uses `text`, not `title`; `title` names its section.
+
+Run `bird whatsapp send --body-file message.json --dry-run` to check the schema and print the resolved body without sending. Preview also checks the content schema before returning a link. These local checks do not verify account permissions, sender ownership, or the customer service window.
+
 `bird whatsapp send --to <e164>` sends one message to one recipient, carrying exactly one kind of content:
 
 - **A template:** `--template <slug>` or `--template-id <wat_…>` (mutually exclusive), with `--language` for the variant and `--components '<json>'` filling its placeholders (e.g. `--components '[{"type":"body","parameters":[{"type":"text","text":"A1B2C3D4"}]}]'`). Browse your workspace's approved templates with `bird whatsapp templates list`.
