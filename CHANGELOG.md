@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.48.0
+
+- Acknowledge and react to WhatsApp messages a contact sent you: mark one read, optionally showing a typing indicator while you compose a reply, place or replace an emoji reaction, take yours back, and read the log of every change to a message's reactions. A message's standing `reactions` are now returned alongside it.
+
 ## 0.47.1
 
 - Validate WhatsApp preview content and send requests, including dry runs, against the API schema before producing a link or sending. Print examples for each message kind with `bird whatsapp send --example interactive-list` and use the WhatsApp skill's guidance for nested interactive content.

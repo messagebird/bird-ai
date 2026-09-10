@@ -52,6 +52,18 @@ Run `bird whatsapp send --body-file message.json --dry-run` to check the schema 
 
 `bird whatsapp list-events <message-id>` returns the lifecycle event timeline for one message, in chronological order (e.g. sent, delivered, read, failed). Filter by `--type` (e.g. `whatsapp.delivered`, `whatsapp.failed`).
 
+## Acknowledging a received message
+
+`bird whatsapp mark-read <message-id>` marks one message the contact sent as read, showing them the blue ticks; WhatsApp marks every earlier message in that conversation read too. Add `--typing-indicator` to show a typing indicator at the same time — WhatsApp clears it when you send your next message or after 25 seconds, whichever comes first, and there is no command to clear it early, so ask for one only when you are about to reply. Repeating the call restarts that 25-second window, but only with a fresh `--idempotency-key` or none: a replayed key answers from the stored response without acknowledging anything again.
+
+Only an inbound message can be acknowledged. WhatsApp allows it for 30 days, but Bird keeps the provider id a receipt needs for 15, so an older message is not-found (exit `3`); a message the workspace sent is unprocessable.
+
+## Reactions
+
+`bird whatsapp reaction set <message-id> --emoji 👍` places one emoji on a message the contact sent, the same way tapping and holding does. The workspace holds at most one reaction per message, so setting another replaces it rather than adding a second. `bird whatsapp reaction remove <message-id> --yes` takes yours back; removing one from a message you never reacted to changes nothing and still succeeds.
+
+`bird whatsapp reaction list-events <message-id>` returns every change to that message's reactions, newest first, as a cursor envelope — each emoji placed, each replaced, each taken back, by the contact and by you. Page with `--limit`, `--starting-after`/`--ending-before`. Entries carry a `status`, so a reaction WhatsApp refused is visible here with its `error`. For what currently stands instead, read the `reactions` on `bird whatsapp get`.
+
 ## Numbers
 
 `bird whatsapp numbers list` returns a page of the numbers the workspace can send from, as a cursor envelope (`{ "data": [...], "next_cursor": ... }`). Narrow with `--phone-number` (E.164, normalized before matching), `--waba` (the `waba` value a business account carries, not its `waa_` id), `--status` (repeatable), and `--scope` (`system` for platform-managed numbers, `workspace` for the ones you connected yourself). `bird whatsapp numbers get <number-id>` returns one number; `--format text` prints a card.
@@ -100,6 +112,8 @@ Counts are attributed to the day the message was accepted, so a delivery confirm
 - **A platform-managed number reports no WhatsApp state.** A number with `scope: system` carries no `quality_rating`, `messaging_limit`, `throughput_level`, or `meta_synced_at`, and its `connected` status is Bird's own assertion. Their absence is not a fault to chase.
 - **`--waba` and `--scope=system` never overlap.** A platform-managed number belongs to no WhatsApp Business Account, so pairing the two filters always returns an empty page.
 - **Connecting a number does not finish it.** `create` only returns `preparing`. The number reaches `awaiting_signup` and carries `finish_setup_url`, and a person must open that link and complete WhatsApp's embedded signup in a browser. No command finishes it for them; polling past `awaiting_signup` without someone opening the link waits forever.
+- **A `202` is acceptance, not application.** `mark-read`, `reaction set` and `reaction remove` all answer once Bird has taken the request, not once WhatsApp has acted. Reactions carry no delivery or read receipt, so `reaction list-events` is the only place a refusal says why; a read receipt reports nothing at all, so there is nothing to poll and no webhook.
+- **Reactions go on messages the contact sent.** Reacting to your own outbound message is not supported and is refused, as is a message that is itself a reaction or one past WhatsApp's 30-day window — the latter two as not-found (exit `3`), because Bird keeps the id a reaction needs for 15 days and has nothing left to match.
 - **A flag cannot clear a profile field.** `--address`, `--description`, and `--email` are settable by flag, but clearing one requires an explicit `null` in a JSON body via `--body-file`. `--address null` sets the address to the literal four-character string "null", and the server accepts it without complaint.
 - **`websites` has no flag.** String arrays are body-file only by design, so it is set through `--body-file` alone.
 
