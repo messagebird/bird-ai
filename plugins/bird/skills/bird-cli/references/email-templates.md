@@ -5,6 +5,7 @@ A template is reusable email content that a send refers to by handle instead of 
 - `bird email templates` covers the template: `list`, `get`, `create`, `update`, `delete`, `duplicate`, `preview`.
 - `bird email templates versions` covers its versions: `list`, `get`, `delete`, `submit`, `rollback`.
 - `bird email templates versions languages` covers a version's per-language content: `list`, `get`, `set`, `update`, `delete`.
+- `bird email templates broadcasts` covers what blocks a delete: `list`.
 
 Sending a template is not here — it is a payload mode of [email](email.md) `send` (`--template <slug|emt_…>`).
 
@@ -36,6 +37,7 @@ bird email send --from hello@yourdomain.com --to a@b.com --template welcome-emai
 - `bird email templates versions list <emt_…>` returns the draft plus every submitted version, newest first.
 - `bird email templates versions get <emt_…> <emv_…>` returns one version's frozen content and the `variables` it expects.
 - `bird email templates versions languages list <emt_…> <emv_…>` names the languages a version holds, with revisions but no content; `… languages get <emt_…> <emv_…> <lang>` returns one language's subject and bodies.
+- `bird email templates broadcasts list <slug|emt_…>` returns the broadcasts that block deleting the template -- the `scheduled` and `accepted` ones, which have not pinned their content yet. A broadcast already `sending` is not listed and does not block the delete. This is the lookup that turns a delete refused for being in use into a list of broadcasts to cancel or repoint. That refusal is `E01028` `ResourceInUse`, shared by every delete-time dependency check, so match on the code rather than on a template-specific name; the guard composes the response `message` per edge, and the email-template one spells out this route.
 
 ```
 # templates that have never gone live

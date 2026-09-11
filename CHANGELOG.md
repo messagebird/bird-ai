@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.49.0
+
+- The email templates guidance now covers `bird email templates broadcasts list`, the lookup that names the broadcasts blocking a template delete.
+
 ## 0.48.0
 
 - Acknowledge and react to WhatsApp messages a contact sent you: mark one read, optionally showing a typing indicator while you compose a reply, place or replace an emoji reaction, take yours back, and read the log of every change to a message's reactions. A message's standing `reactions` are now returned alongside it.
