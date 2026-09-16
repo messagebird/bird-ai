@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.50.1
+
+- The Bird skill now documents how to download received-email attachments and raw messages with `--output`.
+
 ## 0.50.0
 
 - Add Competitive Insights and non-seed Inbox Insights operations to the SDKs, CLI and MCP server. Discover competitors and owned sending domains, manage watchlists and monitoring, and read campaign and deliverability reports. Insights API-key calls require preview access for the organization.
