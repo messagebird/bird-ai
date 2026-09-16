@@ -35,6 +35,8 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 - Record and look up messaging consent grants and opt-outs (`bird preferences`) → [preferences](references/preferences.md)
 - Manage sending domains (`bird email domains`), or find a verified `from` to send from → [domains](references/domains.md)
 - Count how much mail the workspace received, by period, day or hour (`bird email stats inbound`) → [received-mail-stats](references/received-mail-stats.md)
+- Inspect owned-domain placement and authentication (`bird email inbox-insights`) → [inbox-insights](references/inbox-insights.md)
+- Inspect competitive email intelligence (`bird email competitive`) → [competitive](references/competitive.md)
 - Style the hosted page a marketing recipient lands on when they unsubscribe (`bird email unsubscribe-page`) → [unsubscribe-page](references/unsubscribe-page.md)
 - Manage dedicated IPs (`bird email dedicated-ips`) and IP pools (`bird email ip-pools`) (sending reputation) → [ip-pools](references/ip-pools.md)
 - Receive email at inbound forward addresses (`bird email inbound-addresses`), or read the mail received there (`bird email inbound-messages`) → [inbound](references/inbound.md)

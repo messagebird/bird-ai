@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.50.0
+
+- Add Competitive Insights and non-seed Inbox Insights operations to the SDKs, CLI and MCP server. Discover competitors and owned sending domains, manage watchlists and monitoring, and read campaign and deliverability reports. Insights API-key calls require preview access for the organization.
+- Teach Bird agents to inspect SMS template versions and language content before sending.
+
 ## 0.49.0
 
 - The email templates guidance now covers `bird email templates broadcasts list`, the lookup that names the broadcasts blocking a template delete.

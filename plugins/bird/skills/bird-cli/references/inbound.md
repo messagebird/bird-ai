@@ -3,7 +3,7 @@
 Receive email at Bird. Bird mints **inbound addresses** (`ina_…`) — addresses like `wxjg6…@eu1.inbound.bird.com` that you forward a real mailbox to; Bird parses every message that arrives into a **received email** (`rem_…`) and fires the `email.received` webhook. Two command groups:
 
 - `bird email inbound-addresses` — the forward addresses: `list`, `get`, `create`, `update`, `delete`.
-- `bird email inbound-messages` — the mail received at them: `list`, `get`, `body`, `attachments` (all reads).
+- `bird email inbound-messages` — the mail received at them: `list`, `get`, `body`, `attachments`, `attachment`, `raw` (all reads).
 
 ## Procedure
 
@@ -15,7 +15,7 @@ Receive email at Bird. Bird mints **inbound addresses** (`ina_…`) — addresse
 
 ## Permissions
 
-Reads (`list`, `get`, `body`, `attachments`) need `emails:read`. Mutations (`create`, `update`, `delete`) need `email_management:write`; without it the command returns auth-denied (exit `4`), not a usage error.
+Reads (`list`, `get`, `body`, `attachments`, `attachment`, `raw`) need `emails:read`. Mutations (`create`, `update`, `delete`) need `email_management:write`; without it the command returns auth-denied (exit `4`), not a usage error.
 
 ## Addresses
 
@@ -34,6 +34,8 @@ Reads (`list`, `get`, `body`, `attachments`) need `emails:read`. Mutations (`cre
 - `bird email inbound-messages get <rem_…>` returns the parsed metadata (sender, subject, `received_at`, SPF/DKIM/DMARC results). The body is **not** included here.
 - `bird email inbound-messages body <rem_…>` returns the parsed `{ "html": ..., "text": ... }` body.
 - `bird email inbound-messages attachments <rem_…>` lists attachment metadata (`id`, `filename`, `content_type`, `size`).
+- `bird email inbound-messages attachment <rem_…> <attachment-id> --output attachment.pdf` downloads one attachment's bytes. Take its ID and filename from the attachment metadata.
+- `bird email inbound-messages raw <rem_…> --output message.eml` downloads the original MIME bytes. Done when the command succeeds and the output file is written.
 
 ```
 # read the newest message that arrived at one address
@@ -44,7 +46,7 @@ bird email inbound-messages body "$id"
 
 ## Traps
 
-- **Raw MIME and attachment bytes are not on the CLI.** `attachments` lists metadata only; the original message and the raw attachment bytes are binary and aren't exposed here (fetch them from the dashboard). List the attachments to see what arrived.
+- **Downloads write bytes to stdout unless `--output` is set.** Use an output file to keep message contents out of terminal logs; `attachments` lists metadata, while `attachment` downloads bytes.
 - **The label can't be cleared to empty.** `update --label ""` sets an empty string, not a cleared field; there's no CLI way to send a null clear.
 - **An empty message list is normal.** If `inbound-messages list` returns no `data`, mail hasn't arrived yet — mint an address and forward a mailbox to it (see the procedure above), then read again.
 
