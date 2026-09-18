@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.51.0
+
+- Send a WhatsApp message to a group by passing the group's ID as `to` and leaving `from` unset: the group sends on its own number. WhatsApp delivers neither interactive content nor an authentication template to a group, and a group that is unknown or no longer active is refused before the message is created.
+- Read how far a group send got from `recipient_count`, `delivered_count` and `read_count` on the message, and which participant each confirmation came from on the `recipient` of its delivered and read events.
+- Filter messages by `group_id` to list one group's conversation, inbound and outbound.
+
 ## 0.50.1
 
 - The Bird skill now documents how to download received-email attachments and raw messages with `--output`.
