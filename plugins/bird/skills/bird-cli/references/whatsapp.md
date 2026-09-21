@@ -1,137 +1,20 @@
-# WhatsApp
+# WhatsApp operations
 
-Send WhatsApp messages through Bird, templates or free-form content, inspect what was sent, follow a message's event timeline, connect and manage the numbers and business accounts the workspace sends from, and read traffic statistics. `bird whatsapp` covers the channel (`send`, `list`, `get`, `list-events`), its senders (`numbers`, including a `precheck` before you buy one, and `business-accounts`), its stats (`stats`), and its templates (`templates`, both reading them and authoring them).
-
-Branch on what they asked for:
-
-- **Send a message** → _Send_ below.
-- **Find or inspect already-sent messages, or follow one's lifecycle** → _List_, _Get_, and _List events_ below.
-- **Connect, rename, or disconnect a number, or manage its business profile** → _Numbers_ and _Connecting a number_ below.
-- **Pick a sender, or work out why a send was refused** → _Numbers_ and _Business accounts_ below.
-- **Check whether WhatsApp will accept a number before buying it** → _Numbers_ below (`precheck`).
-- **Read traffic volume, delivery/failure rates, or a breakdown by dimension** → _Stats_ below.
-- **Browse templates, their versions, or a version's per-language content** → [whatsapp-templates](whatsapp-templates.md).
-- **Create, edit, submit, or retire a template** → [whatsapp-templates](whatsapp-templates.md).
+Select the operation the user requested. Account operations inherit credentials, output and exit-code conventions from the Bird CLI entry. A local preview does not require authentication or send a message.
 
 ## Preview
 
-For a visual check of a drafted service message, save the Bird send payload as JSON and run `bird whatsapp preview --body-file message.json`. Use `--body-file -` to read stdin; `--open` also opens the browser. Authentication is not required and no message is sent.
+Follow [draft preview](whatsapp-preview.md) to validate supported content and return a builder link. The link exposes its content to anyone holding it; sending remains a separate requested action.
 
-The JSON result contains `preview_url`, which loads the message into the [public WhatsApp builder](https://bird.com/tools/whatsapp-message-builder). Return this link to the user when they ask to see an LLM-generated payload. MCP callers use `whatsapp_preview` with the send body in `payload`.
+## Account operations
 
-The link omits `to`, `from`, `metadata`, and `tags`. Anyone with the link can read its message content. Templates and reply quotes are unsupported; media needs URLs. The builder reports content it cannot represent without changing it, including unsupported contact-card fields. Content is limited to 24,000 UTF-8 bytes after compaction. **Done when** the user has the link; sending requires a separate request. Edits in the browser do not update the original file, so copy the edited JSON before sending it.
+Authenticate through [account access](authenticate.md), then read the matching procedure:
 
-## Send
+- [Send, list, inspect and follow message events](whatsapp-messages.md), including received media.
+- [Acknowledge a received message or manage reactions](whatsapp-receipts-and-reactions.md).
+- [Inspect, precheck, connect or manage numbers and business accounts](whatsapp-numbers-and-accounts.md).
+- [Manage STOP/START keyword rules](whatsapp-keyword-rules.md).
+- [Read traffic statistics](whatsapp-stats.md).
+- [Browse or author templates](whatsapp-templates.md).
 
-Start with `bird whatsapp send --example <kind>` for a ready-to-edit payload: `text`, `image`, `video`, `audio`, `document`, `sticker`, `location`, `contact-cards`, `template`, `interactive-button`, `interactive-list`, `interactive-cta-url`, `interactive-carousel`, `interactive-location-request-message`, or `interactive-request-contact-info`. Bare `--example` keeps the default template example.
-
-Interactive kinds have different shapes: reply buttons use `interactive.buttons`, lists use `interactive.list`, link buttons use `interactive.cta_url`, and carousels use `interactive.cards`. Copy the matching schema-derived example; do not extrapolate from the button kind. A list row uses `text`, not `title`; `title` names its section.
-
-Run `bird whatsapp send --body-file message.json --dry-run` to check the schema and print the resolved body without sending. Preview also checks the content schema before returning a link. These local checks do not verify account permissions, sender ownership, or the customer service window.
-
-`bird whatsapp send --to <e164>` sends one message to one recipient, carrying exactly one kind of content:
-
-- **A template:** `--template <slug>` or `--template-id <wat_…>` (mutually exclusive), with `--language` for the variant and `--components '<json>'` filling its placeholders (e.g. `--components '[{"type":"body","parameters":[{"type":"text","text":"A1B2C3D4"}]}]'`). Browse your workspace's approved templates with `bird whatsapp templates list`.
-- **Free-form content:** `--text` (with `--preview-url`), `--image`, `--video`, `--audio` (with `--voice` for a voice note), `--sticker`, `--document` (with `--filename`), or a location (`--latitude`/`--longitude`, with `--location-name`/`--location-address`). `--caption` labels an image, video, or document.
-- **Interactive content:** `--interactive '<json>'` sends reply buttons, a list menu, a link button, media cards, or a single button asking the recipient to share their location or their phone number (e.g. `--interactive '{"type":"button","body_text":"Reschedule?","buttons":[{"type":"quick_reply","quick_reply":{"slug":"yes","text":"Yes"}}]}'`). A tap comes back as an ordinary inbound message: a reply button or list row as `interactive_reply`, a location or contact card as `location`/`contact_cards` on `bird whatsapp get`.
-- **Contact cards:** `--contact-cards '<json>'` sends up to five contact cards, each a `name` plus optional `org`, `birthday`, `phone_numbers`, `emails`, `urls` and `addresses` (e.g. `--contact-cards '[{"name":{"formatted_name":"Barbara J. Johnson","first_name":"Barbara"},"phone_numbers":[{"phone_number":"+16505551234","type":"Mobile"}]}]'`). A `name` needs `formatted_name` plus at least one other part, or WhatsApp rejects the card; a phone number in E.164 is what earns the card a Message button, and any other form renders an Invite button instead.
-
-`--in-reply-to <wam-id>` quotes an earlier message from the same conversation, with any content kind. A Bird-managed template picks its own sender from its category and must omit `--from`; a template your workspace authored requires `--from`, the same as free-form and interactive content. `--tag` and `--metadata` attach labels.
-
-**Done when** the command returns a message object with an `id` and `status: accepted`. Like email and SMS, `accepted` means Bird took the message, not that it landed; read it back with _Get_ or follow _List events_ to confirm delivery.
-
-## List
-
-`bird whatsapp list` returns a page of sent messages, newest first, as a cursor envelope (`{ "data": [...], "next_cursor": ... }`); page with `--limit`, `--starting-after`/`--ending-before`. Narrow with `--created-after`/`--created-before` (RFC 3339), `--status` (repeatable), `--phone-number` (E.164 exact match), or `--bsuid` (Meta business-scoped user id). `list` only emits JSON, so pull fields with `jq`.
-
-## Get
-
-`bird whatsapp get <message-id>` returns one message with its delivery status. Default output is JSON; `--format text` prints a human-readable card. A missing id returns not-found (exit `3`).
-
-## List events
-
-`bird whatsapp list-events <message-id>` returns the lifecycle event timeline for one message, in chronological order (e.g. sent, delivered, read, failed). Filter by `--type` (e.g. `whatsapp.delivered`, `whatsapp.failed`).
-
-## Acknowledging a received message
-
-`bird whatsapp mark-read <message-id>` marks one message the contact sent as read, showing them the blue ticks; WhatsApp marks every earlier message in that conversation read too. Add `--typing-indicator` to show a typing indicator at the same time — WhatsApp clears it when you send your next message or after 25 seconds, whichever comes first, and there is no command to clear it early, so ask for one only when you are about to reply. Repeating the call restarts that 25-second window, but only with a fresh `--idempotency-key` or none: a replayed key answers from the stored response without acknowledging anything again.
-
-Only an inbound message can be acknowledged. WhatsApp allows it for 30 days, but Bird keeps the provider id a receipt needs for 15, so an older message is not-found (exit `3`); a message the workspace sent is unprocessable.
-
-## Reactions
-
-`bird whatsapp reaction set <message-id> --emoji 👍` places one emoji on a message the contact sent, the same way tapping and holding does. The workspace holds at most one reaction per message, so setting another replaces it rather than adding a second. `bird whatsapp reaction remove <message-id> --yes` takes yours back; removing one from a message you never reacted to changes nothing and still succeeds.
-
-`bird whatsapp reaction list-events <message-id>` returns every change to that message's reactions, newest first, as a cursor envelope — each emoji placed, each replaced, each taken back, by the contact and by you. Page with `--limit`, `--starting-after`/`--ending-before`. Entries carry a `status`, so a reaction WhatsApp refused is visible here with its `error`. For what currently stands instead, read the `reactions` on `bird whatsapp get`.
-
-## Numbers
-
-`bird whatsapp numbers list` returns a page of the numbers the workspace can send from, as a cursor envelope (`{ "data": [...], "next_cursor": ... }`). Narrow with `--phone-number` (E.164, normalized before matching), `--waba` (the `waba` value a business account carries, not its `waa_` id), `--status` (repeatable), and `--scope` (`system` for platform-managed numbers, `workspace` for the ones you connected yourself). `bird whatsapp numbers get <number-id>` returns one number; `--format text` prints a card.
-
-`bird whatsapp numbers precheck <phone-number>` asks WhatsApp whether it will accept a number before you buy it, and answers `{ "phone_number": ..., "outcome": "available" | "unavailable" }`. No number is connected to your workspace, but this is a write rather than a lookup, so check the one number you intend to buy rather than a list of candidates. Confirm the number with the user before running it, and retry an uncertain result with the same `--idempotency-key` you sent the first time: a fresh key asks WhatsApp again rather than replaying the verdict. The two reasons behind `unavailable` — already in use on WhatsApp, or a number WhatsApp cannot serve — are not told apart, so treat it as a number to skip. The answer describes this moment: an available number can be taken by someone else before you connect it.
-
-Each number carries the state WhatsApp reports for it (`status`, `quality_rating`, `messaging_limit`, `throughput_level`) as of `meta_synced_at`, which is a reading taken roughly hourly rather than a live value. A number whose connection has not succeeded carries `error` with Bird's classification, plus WhatsApp's own words and code where WhatsApp was the one that refused; it is present while a number is still retrying as well as once it has given up.
-
-`bird whatsapp numbers update <wan-id> --name <label>` changes your workspace's own label for a connected number; it has no bearing on what WhatsApp displays to the people it messages. `bird whatsapp numbers delete <wan-id> --yes` disconnects a number so it can no longer send. It requires `--yes` and never prompts, so a bare `delete` exits `2` rather than acting; re-run with `--yes` once you've confirmed the id with the user. It is not an undo away: reconnecting the same number means `create` again and a person completing embedded signup in a browser a second time.
-
-`bird whatsapp numbers profile get <wan-id>` reads the business profile WhatsApp shows for a connected number. `bird whatsapp numbers profile update <wan-id>` changes it, and only for a number the workspace connected itself once it reaches `connected` — a platform-managed number (`--scope system` in the list) has one profile shared by every workspace sending through it, so it is refused. One flag per field: `--about`, `--address`, `--description`, `--email`, `--vertical`, `--profile-picture-url`, `--username`, `--username-transfer-action`. `--username-transfer-action force_transfer` takes a username off another of the workspace's numbers, and the response names only the number you called it on, so confirm with the user before forcing one. **Done when** the response echoes the field back with your new value.
-
-## Connecting a number
-
-1. Find the number to connect: `bird numbers list`. It must be a dedicated number (`nda_` prefix) that can receive text messages; this is a different id space from `bird whatsapp numbers list`, whose `wan_` ids name connections that already exist.
-2. `bird whatsapp numbers create <nda-id>`, optionally with `--name` (a temporary label) and `--data-localization-region` (where message content is stored at rest; cannot be changed later). This returns the connection `preparing`, not connected.
-3. Poll `bird whatsapp numbers get <wan-id>` until `status` leaves `preparing`. `awaiting_signup` is the one that carries `finish_setup_url` and means go to step 4. `failed` is terminal: stop polling and read `error`, which says whether it was Bird or WhatsApp that refused and why.
-4. Hand `finish_setup_url` to a person. It is a browser flow behind an OAuth screen, WhatsApp's embedded signup, and only a human can complete it. **Done when** a subsequent `get` reports `connected`.
-
-## Business accounts
-
-`bird whatsapp business-accounts list` returns the WhatsApp Business Accounts the workspace has connected, as a cursor envelope. Each account carries the state WhatsApp last reported for it: its own status, how far WhatsApp's review of it has got, and whether Meta verified the business behind it.
-
-`bird whatsapp business-accounts get <business-account-ref>` returns one account, addressed by either the `waa_` id the list reports or the numeric id WhatsApp reports in `waba`. `--format text` prints a card. An account the list does not show is not-found here either, in both forms.
-
-## Keyword rules
-
-`bird whatsapp keyword-rules list` returns what a reply to one of the workspace's numbers does: Bird's own rules and the workspace's own, most specific first, which is the order an inbound message is matched against them. Filter with `--country`, `--waba`, `--operation` (`opt_out` or `opt_in`) or `--scope` (`system` or `workspace`). The list is not paginated: a workspace holds at most one rule per combination of operation, country and account.
-
-`bird whatsapp keyword-rules get <id>` reads either scope from one `wkr_` id space; `scope` on the row says whose it is.
-
-`bird whatsapp keyword-rules create --operation opt_out [--country US] [--waba 102290129340398] [--keywords ...] [--reply ...]` creates an override. `update <id>` changes `--keywords` and `--reply` only, and `delete <id> --yes` drops the override so Bird's rule answers the scope again.
-
-- **`keywords` is additive, never a replacement.** A rule of yours stores only what you added; `effective_keywords` on the response is Bird's set plus yours. That is why a keyword Bird ships later starts matching with no edit from the workspace, and why `keywords` on a read looks emptier than the behaviour suggests.
-- **On a `workspace` rule with no `country`, `effective_keywords` is not the whole matched set.** A `system` rule is exact whatever its country, because its set is its own row. For a rule of the workspace's with no `country`, the field carries Bird's worldwide set, because a read cannot know who will write; matching substitutes Bird's set for the sender's country, which can be larger. Do not present the field as the whole matched set for such a rule, and suggest setting a `country` when the workspace wants to see and extend exactly what those senders match.
-- **`country` is the sender's, not the number's.** It is worked out from the person's own phone number, the only country signal WhatsApp sends.
-
-## Media on received messages
-
-`bird whatsapp media <message-id> <media-id>` downloads the image, video, audio clip, sticker or document on a received message. The media id is the `id` on the content object `bird whatsapp get` returns, not the message id. Bytes go to `--output`, or to stdout when it is unset, so redirect or `--output` them rather than letting binary hit a terminal. `--url` prints the short-lived (15 minute) download URL instead, for handing to another tool; that URL authorizes itself, so do not send it an `Authorization` header. `--url` and `--output` cannot be combined — pick one. Media is kept 30 days after the message arrives; after that the message still lists the media's `mime_type` and `caption`, and this exits with a gone error.
-
-## Stats
-
-`bird whatsapp stats …` reads aggregate views over your own WhatsApp traffic. Every subcommand takes an optional `--from`/`--to` window and `--timezone`; all of them emit JSON only, so pull fields with `jq`. The bounds are calendar days (`YYYY-MM-DD`) except on `hourly` and `inbound hourly`, which parse RFC 3339 instants (`2026-08-20T09:00:00Z`) and reject a bare day client-side; `summary` accepts either form and reports by day or by hour to match.
-
-- **The period aggregate:** `bird whatsapp stats summary` returns counts (accepted, sent, delivered, failed, rejected), delivery and failure rates, read engagement, and latency percentiles. `--from`/`--to` default to the trailing 30 days here; `--compare previous_period` adds the deltas against the window before.
-- **The series:** `bird whatsapp stats daily` and `bird whatsapp stats hourly` return one row per day or hour, gap-filled so a silent bucket is a zero row. `--from`/`--to` are optional: `daily` defaults to the trailing 30 days, `hourly` to the trailing 168 hours.
-- **Restricting the aggregate or a series to one dimension:** `--template`, `--category`, `--phone-number` or `--tag`, one at a time. These work on `summary`, `daily` and `hourly` only.
-- **The breakdowns:** `bird whatsapp stats by-error-code`, `by-template`, `by-template-category`, `by-tag` and `by-phone-number` each return the workspace's rows for that one dimension, ranked by volume (accepted volume, or failure count on `by-error-code`, whose rows carry only `error_code` and `count`), capped by `--limit` (default 50, max 200). `--from`/`--to` are optional and default to the trailing 30 days. A breakdown takes no dimension filter: it is already a single-dimension view. To follow one template or tag over time, filter `daily` by it instead.
-- **Received messages:** `bird whatsapp stats inbound summary|daily|hourly` and `bird whatsapp stats inbound by-phone-number` count what customers sent you, separately from what you sent them.
-
-Counts are attributed to the day the message was accepted, so a delivery confirmation arriving Wednesday for a message accepted the prior Monday lands in Monday's row; recent buckets under-report while callbacks are still arriving, and `period.data_as_of` in every response is how fresh the answer is.
-
-## Traps
-
-- **Free-form content needs an open window.** It's deliverable only inside an open 24-hour customer service window, which the contact opens by messaging or calling you and resets each time they do it again. Bird does not track the window, so a send outside one is accepted and then fails with `service_window_expired` on the message's `last_error`. A template is the only content WhatsApp delivers outside one.
-- **`accepted` is not delivered.** WhatsApp delivery is asynchronous; the status on `send` only confirms Bird accepted the message. Read it back with `get`, or follow `list-events` for the full lifecycle.
-- **A platform-managed number reports no WhatsApp state.** A number with `scope: system` carries no `quality_rating`, `messaging_limit`, `throughput_level`, or `meta_synced_at`, and its `connected` status is Bird's own assertion. Their absence is not a fault to chase.
-- **`--waba` and `--scope=system` never overlap.** A platform-managed number belongs to no WhatsApp Business Account, so pairing the two filters always returns an empty page.
-- **Connecting a number does not finish it.** `create` only returns `preparing`. The number reaches `awaiting_signup` and carries `finish_setup_url`, and a person must open that link and complete WhatsApp's embedded signup in a browser. No command finishes it for them; polling past `awaiting_signup` without someone opening the link waits forever.
-- **A `202` is acceptance, not application.** `mark-read`, `reaction set` and `reaction remove` all answer once Bird has taken the request, not once WhatsApp has acted. Reactions carry no delivery or read receipt, so `reaction list-events` is the only place a refusal says why; a read receipt reports nothing at all, so there is nothing to poll and no webhook.
-- **Reactions go on messages the contact sent.** Reacting to your own outbound message is not supported and is refused, as is a message that is itself a reaction or one past WhatsApp's 30-day window — the latter two as not-found (exit `3`), because Bird keeps the id a reaction needs for 15 days and has nothing left to match.
-- **A flag cannot clear a profile field.** `--address`, `--description`, and `--email` are settable by flag, but clearing one requires an explicit `null` in a JSON body via `--body-file`. `--address null` sets the address to the literal four-character string "null", and the server accepts it without complaint.
-- **`websites` has no flag.** String arrays are body-file only by design, so it is set through `--body-file` alone.
-- **One keyword means one thing, and the refusal is a `409`.** A keyword another operation already holds cannot be registered — `stop` can never opt someone in — whether the word came from Bird's catalogue or from another of the workspace's own rules. The conflict is checked against the stored rows rather than the serving process's snapshot, so a rule written seconds ago still blocks.
-- **A `system` rule is read-only, and says so as a `422` rather than a `404`.** `get` returns one of Bird's rules, so `update` or `delete` on that id refuses as not-editable; "not found" would be a lie about an id that resolves.
-- **An unassigned country code is refused, not stored.** `--country XX` is a `422` naming the field. The code is checked against ISO 3166-1, because a rule narrowed to a country no sender can be in would match nothing and report nothing.
-- **Clearing `--reply` takes a body, not a flag.** Omitting the flag leaves the stored reply alone; switching the auto-reply off while still recording the opt-out needs the explicit `null` that only `--body-file -` can carry, which is the same route every nullable field takes.
-- **A keyword sent to a Bird-managed shared number is not classified at all.** Those numbers have no single owning workspace, so no rule of yours applies to them and nothing records that a reply arrived beyond a counter. Group messages are skipped for a different reason: whose consent a group STOP states is undecided.
-
-These actions inherit the output (`--format`), exit-code, and credential-resolution conventions from the `bird-cli` entry; the credential step itself is [authenticate](authenticate.md).
+Each procedure states its result and traps. A successful send or receipt request establishes acceptance, not delivery or application by WhatsApp.

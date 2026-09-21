@@ -15,7 +15,7 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 
 ## The path
 
-**Step 0 — Authenticate for account operations.** For a WhatsApp preview, go directly to [Preview](references/whatsapp.md#preview). For account operations, confirm credentials first: [authenticate](references/authenticate.md). It is a no-op when `bird auth status` already reports `valid: true`. No account yet? Create one through [onboarding](references/onboarding.md); it ends by storing the same credential a login would.
+**Step 0 — Authenticate for account operations.** For a WhatsApp preview, go directly to [Preview](references/whatsapp.md#preview); for public documentation questions, use [docs](references/docs.md). For account operations, confirm credentials first: [authenticate](references/authenticate.md). It is a no-op when `bird auth status` already reports `valid: true`. No account yet? Create one through [onboarding](references/onboarding.md); it ends by storing the same credential a login would.
 
 **Step 1 — Run the operation the user asked for:**
 
@@ -25,7 +25,7 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 - Draft the carrier verification a US toll-free number needs before it can send, read what the carrier asks for, or see why one was declined (`bird sms tfn verifications`) → [tfn-verifications](references/tfn-verifications.md)
 - Claim an alphanumeric SMS sender, find out what a country requires of it, or register it for a country (`bird sms senders`) → [sms-senders](references/sms-senders.md)
 - Preview a WhatsApp message (`bird whatsapp preview`) → [Preview](references/whatsapp.md#preview) (local — skips Step 0)
-- Send or inspect WhatsApp messages, follow a message's events, acknowledge a received message as read with an optional typing indicator, place or take back an emoji reaction and read a message's reaction history, connect or manage the numbers and business accounts the workspace sends from, check whether WhatsApp will accept a number before buying it, configure what a reply of STOP or START does, or read WhatsApp traffic statistics (`bird whatsapp`) → [whatsapp](references/whatsapp.md)
+- Send or inspect WhatsApp messages, receipts, reactions, senders, keyword rules or statistics (`bird whatsapp`) → [WhatsApp operations](references/whatsapp.md)
 - Browse WhatsApp templates, their versions, and each version's per-language content (`bird whatsapp templates`) → [whatsapp-templates](references/whatsapp-templates.md)
 - Inspect voice calls, find out why one was refused, configure a SIP trunk or an inbound number, enable or disable calling to a country, or place a test call (`bird voice`) → [voice](references/voice.md)
 - Provision Realtime apps and rotate the keys their clients connect with (`bird realtime`) → [realtime](references/realtime.md)
