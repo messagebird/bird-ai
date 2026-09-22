@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.54.0
+
+- The `bird-cli` skill's email templates reference now says a template with `language_source_required` is sent as a broadcast by selecting one of its languages with `--language`, instead of calling it unusable for broadcasts.
+
 ## 0.53.0
 
 - **Breaking:** Voice guidance now uses `bird voice legs list` and `bird voice legs get`, with `--call-id` to find the connections belonging to one call.
