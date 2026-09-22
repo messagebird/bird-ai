@@ -13,6 +13,7 @@ Authenticate through [account access](authenticate.md), then read the matching p
 - [Send, list, inspect and follow message events](whatsapp-messages.md), including received media.
 - [Acknowledge a received message or manage reactions](whatsapp-receipts-and-reactions.md).
 - [Inspect, precheck, connect or manage numbers and business accounts](whatsapp-numbers-and-accounts.md).
+- [See, add or end address suppressions](whatsapp-suppressions.md).
 - [Manage STOP/START keyword rules](whatsapp-keyword-rules.md).
 - [Read traffic statistics](whatsapp-stats.md).
 - [Browse or author templates](whatsapp-templates.md).

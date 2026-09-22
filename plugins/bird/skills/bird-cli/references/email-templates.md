@@ -67,6 +67,6 @@ Every mutation takes flags or a `--body-file` JSON body (`--example` prints the 
 - **Submit is all or nothing.** Every language needs a subject and a body and the default language must be among them. One incomplete language rejects the whole submit, and the response names every problem across every language, so fix them in one pass. A submit that would change nothing is also refused.
 - **`bird_` templates are Bird's, not yours.** Built-ins can be listed, read, previewed, and sent, but never edited or deleted; `duplicate` is how you make one yours. Creating a template whose slug starts with `bird_` or `emt_` is rejected.
 - **The template's category rides along.** A send that omits `--category` takes the template's own classification, which decides suppression policy. Set `--category` on the send only to override it.
-- **A language-strict template can't be broadcast.** Turning on `--language-source-required` makes every send name a language, and a broadcast has no field to name one, so the template becomes unusable there.
+- **A language-strict template needs a language on every broadcast.** Turning on `--language-source-required` makes every send name a language, and a broadcast names one with `--language` on `bird email broadcasts create` or `update`. Sending or scheduling one that has no language selected is refused.
 
 These actions inherit the output (`--format`), exit-code, and credential-resolution conventions from the `bird-cli` entry; the credential step itself is [authenticate](authenticate.md).

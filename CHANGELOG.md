@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.53.0
+
+- **Breaking:** Voice guidance now uses `bird voice legs list` and `bird voice legs get`, with `--call-id` to find the connections belonging to one call.
+- Create and administer WhatsApp groups: create a group on a business number, read its invite link and participants, rename it, and delete it. Creating, changing and deleting are asynchronous, so the response is the request accepted and re-reading the group is how you see WhatsApp settle it.
+- Rotate a group's invite link to stop every link handed out before it from working.
+- Decide up to 50 join requests in one call. The response splits the requests it decided from the ones it could not, each failure carrying WhatsApp's own reason, so read it rather than the status alone.
+- Pin and unpin the messages kept at the top of a group's chat, up to 3 at a time for 1 to 30 days each.
+- Deleting a group, removing a participant and unpinning a message answer with the group as Bird holds it, rather than nothing. It matters most on the first two: WhatsApp confirms those on a webhook, so what comes back is the request accepted, and its `last_operation` is what you re-read until it settles.
+- Remove a participant from a group. This cannot be undone: WhatsApp blocks that person from rejoining by invite link, rotating the link does not lift the block, and no operation adds anyone to a group.
+- The `bird-cli` skill now covers the `whatsapp suppressions` commands, so an agent managing who a workspace will not message reads the account scope, the prefix filter and the refusals from the skill rather than from `--help`.
+
 ## 0.52.0
 
 - The `bird-cli` skill now covers the `whatsapp keyword-rules` commands, so an agent configuring what a reply of STOP or START does reads the inheritance rule and the refusals from the skill rather than from `--help`.
