@@ -190,11 +190,36 @@ droid mcp add bird https://mcp.bird.com --type http
 
 Then run `/mcp` inside droid and complete the browser sign-in from the server manager.
 
+## OpenCode
+
+Paste this prompt into OpenCode:
+
+```text
+Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
+1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
+2. Sign me in: run `bird auth login` and open the browser link for me.
+3. Install Bird's OpenCode plugin so you know the workflows: run `opencode plugin github:messagebird/bird-ai --global`, then tell me to restart OpenCode and run `opencode mcp auth bird`.
+4. Confirm who I am: run `bird whoami`, which prints the email of the account you're acting as.
+5. Send me a test email so I see it land in my own inbox: use my address from `bird whoami` as the recipient, send from onboarding@messagebird.dev, then confirm delivery with `bird email get`. Subject: "Your Bird account is ready". Body: "You're set up and ready to send. This email is the proof. Cheers, The Bird team".
+Then let's discuss next steps, given what Bird can do.
+```
+
+Or install the plugin by hand:
+
+```bash
+opencode plugin github:messagebird/bird-ai --global
+opencode mcp auth bird
+```
+
+The plugin adds Bird's skills and the hosted MCP server to your OpenCode config. By default OpenCode adds every MCP tool to the model's context, so the plugin connects to `https://mcp.bird.com/dynamic`, which offers two tools: `search` finds the Bird tool for a task and `execute` runs it. With OpenCode's experimental code mode on (`OPENCODE_EXPERIMENTAL_CODE_MODE=1`, or `OPENCODE_EXPERIMENTAL=1`), OpenCode keeps MCP tools behind its own search, so the plugin connects to the full catalog at `https://mcp.bird.com` instead.
+
+By default the plugin makes OpenCode ask before each call that can change your workspace: before `bird_execute` on `/dynamic`, and before every Bird tool in code mode. Your own `opencode.json` takes precedence: a `bird_*` rule you set, a single `permission` value for every tool, or a `bird` server you configured replaces the plugin's.
+
 ## What's in the `bird` plugin
 
 - **`bird-cli`**: operate the Bird API from the terminal. One reference per CLI command group, covering sending and inspecting messages on every channel Bird runs, the setup each channel needs before it can send, one-time-passcode verification, recipient lookup, contacts and audiences, messaging preferences, Realtime provisioning, webhooks, API keys, support tickets, and documentation search.
 - **`email-audit`**: grade a domain's live DMARC, SPF, DKIM, BIMI, and MX records and read the findings back as a prioritized fix list. DNS-only, so it needs no sign-in.
-- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code and on any Agent Plugins host; a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
+- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code, OpenCode and any Agent Plugins host; a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
 
 ## License
 

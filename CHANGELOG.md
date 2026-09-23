@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.55.0
+
+- Install the Bird plugin in OpenCode with opencode plugin github:messagebird/bird-ai. It adds the skills and the hosted MCP server, and asks before each call that can change a workspace.
+
 ## 0.54.0
 
 - The `bird-cli` skill's email templates reference now says a template with `language_source_required` is sent as a broadcast by selecting one of its languages with `--language`, instead of calling it unusable for broadcasts.
