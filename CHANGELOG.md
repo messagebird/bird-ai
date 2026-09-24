@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.56.0
+
+- Add `email stats query` for filtered email metrics, grouped summaries, and time series.
+
 ## 0.55.0
 
 - Install the Bird plugin in OpenCode with opencode plugin github:messagebird/bird-ai. It adds the skills and the hosted MCP server, and asks before each call that can change a workspace.
