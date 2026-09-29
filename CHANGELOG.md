@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.60.0
+
+- **Breaking:** Apple Messages for Business conversations now use nested `recipient`, `routing` and `last_message` objects and expose `unread_count` as their only message counter. Update response readers and replace the boolean `read` flag with a date-time cutoff to acknowledge received inbound messages through their `created_at`. Timestamp ties are included together; later arrivals remain unread. Absent ordinary response fields use explicit nulls. Both Apple and WhatsApp conversations support `inbox_status` to resolve and reopen inbox work while preserving the conversation and its sending rules.
+- Apple conversation lists now support `assigned_to=me` and repeated `label` filters (all must match). The Go SDK label option is now a slice. Both channels share assignment, labels validation, and workspace read behavior; WhatsApp provider receipts no longer clear inbox unread counts.
+
 ## 0.59.0
 
 - Add `bird voice calls list` and `bird voice calls get` to read the call log, and `bird voice legs trace` to read what a sequence did on one leg; the MCP server gains `voice_calls_list` and `voice_calls_get`.
