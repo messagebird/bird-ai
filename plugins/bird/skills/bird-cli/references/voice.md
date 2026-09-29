@@ -2,7 +2,7 @@
 
 Operate Bird Voice — SIP trunking — from the terminal. `bird voice legs list`/`get` is the per-leg log and `bird voice stats` the aggregates over it; `bird voice trunks`, `bird voice numbers`, and `bird voice destinations` read AND change what admits a call and where an inbound one goes. `bird voice caller-ids` reads the numbers the workspace may present.
 
-Calls themselves are placed by SIP clients — a PBX, the dashboard phone, or `bird voice tools test-call`, which drives a local `baresip` through a trunk (_Placing a test call_ below). No command here places a production call.
+`bird voice calls create` prepares a real outbound call with a published sequence for a person to confirm in the browser. SIP clients can also place calls through a trunk, including a PBX, the dashboard phone, and `bird voice tools test-call` (_Placing a test call_ below).
 
 Branch on what they asked for:
 
@@ -11,6 +11,17 @@ Branch on what they asked for:
 - **Why a call was refused** → _Diagnosing a refused call_ below; start there rather than reading one command at a time.
 - **Changing what is admitted, or where an inbound call goes** → _Changing the configuration_ below.
 - **Proving a trunk carries calls** → _Placing a test call_ below.
+- **Calling a recipient with a published sequence** → _Creating an outbound call_ below.
+
+## Creating an outbound call
+
+Use `bird voice calls create --body-file call.json --idempotency-key <stable-key>`. The body contains `from`, `to`, and `sequence: {id, entry_node_id, trigger_data}`; `--example` prints the shape. `from` must be a permitted caller number and `to` an E.164 recipient. Create and publish the sequence in the dashboard first. `trigger_data` is an explicit JSON object matching the entry schema, including `{}` when no data is needed. `--from`, `--to`, `--sequence-id`, `--entry-node-id`, `--trigger-data`, and `--ringing-timeout-seconds` override body values. `--dry-run` previews the request without preparing or placing a call.
+
+Both `voice_management:write` and `voice:write` are required. Authenticate with OAuth and present the returned browser review link to the user. A person reviews and runs the billable call there. The command waits for completion and returns exit `5` if confirmation ends without a recorded execution result. After interruption, reuse the same input and key with `--confirmation-id <opc_…>` to read the confirmation. For MCP, `voice_calls_create` takes the equivalent nested fields and required `idempotency_key`; resume with the original tool arguments, including the same key, and the returned request state. The state identifies the confirmation but does not replace its arguments. With dynamic MCP, repeat `execute` with the same tool and arguments and put the confirmation ID in `bird/confirmation-id` request metadata.
+
+Persist one key per intended call before invoking the tool. Repeated invocations must reuse that key and identical input. A new key can create another charged call. The API replays an accepted request for three hours using the same key and exact request bytes; changed input with the same key conflicts. After an unknown or expired outcome, inspect the existing run and leg before proposing another call.
+
+**Done when** the telephone outcome is verified: `202 Accepted` reserves `id`, `initial_leg_id`, and `sequence.run_id` but does not prove dialing or connection. Check the sequence's Runs tab in the dashboard, then `bird voice legs get <initial_leg_id>` once the leg registers. A final leg records its status, duration, billable duration, and cost. A failure before registration can leave no readable leg.
 
 ## Calls
 
@@ -81,7 +92,7 @@ Every one of these takes `--dry-run` to print the resolved request unsent, and `
 The SIP password comes from the trunk's own admission, in this order:
 
 - `BIRD_VOICE_TEST_CALL_API_KEY`, when set, is used as the secret on any trunk that challenges. It must be a `bk_` key the trunk allows.
-- Otherwise, on a trunk with `session_credentials_enabled`, the command mints a session credential for the call. **Minting needs `voice:write`**, so a read-only voice grant fails at this step — the one place in this group where the `voice` scope needs write rather than `voice_management`.
+- Otherwise, on a trunk with `session_credentials_enabled`, the command mints a session credential for the call. **Minting needs `voice:write`**, so a read-only voice grant fails at this step.
 - Otherwise, an API key secret from `BIRD_API_KEY` when that is how the CLI is authenticated.
 - A trunk with neither session credentials nor allowed keys is admitted by source address alone, and the command sends no password.
 
@@ -91,10 +102,10 @@ Verifying a caller ID is still a dashboard step the CLI cannot take. Allowing a 
 
 ## Traps
 
-- **`test-call` is the only command that places a call,** and it is a real billed one.
+- **Creating a call and running `test-call` can incur calling charges.** `calls create` requires browser confirmation; `test-call` dials through the local SIP client.
 - **The default list contains completed legs.** Include `ringing` and `in_progress` in `--status` to include live legs.
 - **`bird voice legs list` is per-leg, `bird voice stats` is aggregate.** Reaching for `list` to compute a rate is the common mistake; the summary already has it.
 - **Registering a caller ID is still dashboard-only,** because it places a real verification call; so is configuring a trunk's gateways. There is no `bird voice caller-ids create` or `bird voice trunks gateways` command, and reaching for one is the common miss now that the other writes exist.
-- **Two different scopes, and this is the trap.** The call log, the stats and `session-credentials create` are on `voice`; **everything under `trunks`, `numbers`, `caller-ids` and `destinations` is on `voice_management`**, so a `voice:read` grant reads the log and fails on the trunk. A plain `bird auth login` requests a read-only baseline carrying neither, so pass what the commands need: `--scope voice:read`, `--scope voice_management:read`, or `--scope voice_management:write` for the writes above.
+- **Two different scopes, and this is the trap.** The call log, the stats and `session-credentials create` are on `voice`; **everything under `trunks`, `numbers`, `caller-ids` and `destinations` is on `voice_management`**, so a `voice:read` grant reads the log and fails on the trunk. `calls create` needs both `voice_management:write` and `voice:write`. A plain `bird auth login` requests a read-only baseline carrying neither, so pass the required scopes explicitly.
 
 These actions inherit the output (`--format`), exit-code, and credential-resolution conventions from the `bird-cli` entry; the credential step itself is [authenticate](authenticate.md).

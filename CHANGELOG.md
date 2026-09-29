@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.57.0
+
+- The `bird-cli` skill now guides Apple Messages setup and replies with `bird amb`, including approval evidence, protected opt-outs, and invitation consent.
+- The `bird-cli` skill now covers `bird email templates check` for checking email templates in CI.
+- The `bird-cli` skill now covers outbound calls with `bird voice calls create`, including browser confirmation and retries that reuse the same idempotency key and identical input.
+- `bird amb send` help and guidance now require a configured business and an open conversation, regardless of business approval status.
+- The `bird-cli` skill now guides broadcast preparation, including template permissions, recipient visibility, send allowance, and documentation links.
+
 ## 0.56.0
 
 - Add `email stats query` for filtered email metrics, grouped summaries, and time series.

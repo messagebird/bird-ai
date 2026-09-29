@@ -21,6 +21,8 @@ Snippets are previews, not answers. The flow is two steps, like a web search: se
 1. Search, and pick the one or two results that actually match (use the `snippet`, or `--contents highlights`, and `token_estimate` to choose).
 2. Fetch the chosen result's `markdown_url` to read the whole page, and answer from that.
 
+Some API reference slugs returned by search trigger E01026 when read by slug. Fetch that result's `markdown_url` directly; it serves the full page even when the slug lookup fails.
+
 Do not try to read every result in full — fetch only the page(s) you picked. There is deliberately no mode that returns full text for the whole result list; that would flood your context.
 
 ## Delegate the read to a subagent when you can

@@ -21,9 +21,11 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 
 - Send or inspect email messages (`bird email`, including `send-batch`) → [email](references/email.md)
 - Author reusable email templates, submit a draft, or roll one back (`bird email templates`) → [email-templates](references/email-templates.md)
+- Prepare, send, or inspect a marketing broadcast (`bird email broadcasts`) → [email-broadcasts](references/email-broadcasts.md)
 - Send or inspect SMS messages, or browse SMS templates (`bird sms`) → [sms](references/sms.md)
 - Draft the carrier verification a US toll-free number needs before it can send, read what the carrier asks for, or see why one was declined (`bird sms tfn verifications`) → [tfn-verifications](references/tfn-verifications.md)
 - Claim an alphanumeric SMS sender, find out what a country requires of it, or register it for a country (`bird sms senders`) → [sms-senders](references/sms-senders.md)
+- Reply to Apple Messages conversations or manage businesses and statistics (`bird amb`) → [Apple Messages](references/amb.md)
 - Preview a WhatsApp message (`bird whatsapp preview`) → [Preview](references/whatsapp.md#preview) (local — skips Step 0)
 - Send or inspect WhatsApp messages, receipts, reactions, senders, suppressions, keyword rules or statistics (`bird whatsapp`) → [WhatsApp operations](references/whatsapp.md)
 - Browse WhatsApp templates, their versions, and each version's per-language content (`bird whatsapp templates`) → [whatsapp-templates](references/whatsapp-templates.md)
@@ -57,6 +59,7 @@ Pick the operation that matches the request. Complete Step 0 only for operations
 These hold across operations, so the nodes rely on them instead of repeating them:
 
 - **Output is JSON by default** (`--format json`). Single-record commands (`get`, `status`, `show`) also take `--format text` for a human-readable card. List commands ignore `--format text` and always emit JSON, so a script can pipe them through `jq` without a per-command branch.
-- **Exit codes carry the failure category** so a caller can branch without parsing prose: `2` invalid usage or input, `3` not found, `4` auth or permission denied, `1` anything else. Errors print to stderr; data to stdout.
+- **Exit codes carry the failure category** so a caller can branch without parsing prose: `2` invalid usage or input, `3` not found, `4` auth or permission denied, `5` conflict, `6` transient (rate limit or server error, retry after `retry_after`), `7` a check ran and found a problem (`check_failed`), `1` anything else. Errors print to stderr; data to stdout.
 - **Transient failures are retried for you.** A rate limit, a 5xx, or a network blip is retried twice with backoff before the command fails, so an error marked `retryable` has already been through that — re-running it immediately rarely helps. `--max-retries 0` turns it off when you drive your own retry loop.
+- **Retry progress goes to stderr.** The CLI reports the retry reason and remaining wait there; JSON result data stays on stdout.
 - **The login sets the region.** The token from `bird auth login` is bound to one workspace and its region, which picks the API host; override with `--base-url`/`BIRD_API_URL`. Details and the state check live in [authenticate](references/authenticate.md).
