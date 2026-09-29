@@ -1,8 +1,8 @@
 # Webhooks
 
-Manage the outbound endpoints Bird delivers events to. Five actions on one resource: `create`, `list`, `get`, `test`, `delete`.
+Manage the outbound endpoints Bird delivers events to: `create`, `list`, `get`, `update`, `test`, `attempts`, `replay`, `rotate-secret`, `delete`.
 
-These are _outbound_ endpoints — URLs Bird POSTs events to — and there's no `update`: to change an endpoint's URL, event set, or label you `delete` it and `create` a new one, which issues a fresh signing secret the receiver has to adopt.
+These are _outbound_ endpoints — URLs Bird POSTs events to. `update` changes an endpoint's URL, event set, label, or paused status in place and keeps its secret; `rotate-secret` issues a new one. Read either command's `--help` before using it.
 
 ## Pick the action
 
@@ -11,6 +11,7 @@ Branch on what the user asked for:
 - **Register a new endpoint** → _Create_ below.
 - **See what's registered, or inspect one** → _List_ and _Get_ below.
 - **Confirm an endpoint actually receives deliveries** → _Test_ below.
+- **See what failed, or redeliver it** → _Attempts_ and _Replay_ below.
 - **Remove an endpoint** → _Delete_ below.
 
 ## Create
@@ -41,7 +42,7 @@ The command returns the endpoint (HTTP 201) with an `id` and a `secret`. Confirm
 
 ## Get
 
-`bird webhooks get <webhook-id>` shows one endpoint by its `wh_…` id — URL, status, subscribed events, description, and creation time. Default output is JSON; `--format text` prints a human card. The `secret` is not among these fields; it only ever appears at create. A missing id returns not-found (exit `3`).
+`bird webhooks get <webhook-id>` shows one endpoint by its `whk_…` id — URL, status, subscribed events, description, and creation time. Default output is JSON; `--format text` prints a human card. The `secret` is not among these fields; it only ever appears at create. A missing id returns not-found (exit `3`).
 
 **Done when** the endpoint is returned.
 
@@ -53,6 +54,30 @@ Because it hits the real URL, aim it at the endpoint you mean and preview with `
 
 **Done when** the response shows the endpoint's result; a 2xx `response_status_code` means it accepted the delivery.
 
+## Attempts
+
+`bird webhooks attempts <webhook-id>` lists the endpoint's recent delivery attempts, newest first, with each one's status, response code, and latency. Each entry is one HTTP request, so a retried event appears once per try. Narrow the window with `--after` / `--before` (RFC 3339 timestamps) and cap it with `--limit` (default 50, at most 100). `--before` is strict, so passing the oldest `attempted_at` you received skips any other attempts in that same millisecond; to page further back, pass a `--before` one millisecond later and drop the ids you already have. Test deliveries are not recorded here.
+
+**Done when** you have the attempts for the window you asked about.
+
+## Replay
+
+`bird webhooks replay <webhook-id>` queues redelivery of the endpoint's **failed** attempts in a window. `--since` and `--until` (RFC 3339) bound it on attempt time, not event time; omitted, the window is the last 24 hours. An event is skipped only when one of its attempts **inside the window** was delivered; a success outside it — a later retry, or an earlier replay — doesn't count, so that event is delivered again. Redeliveries reuse the event's `webhook-id`, so the receiver must deduplicate on it. `--dry-run` prints the body without sending.
+
+What it cannot do shapes when to use it:
+
+- **Only failed attempts come back.** An event that arrived while the endpoint was paused was never attempted, so nothing replays it.
+- **A paused endpoint redelivers nothing.** Re-enable it with `bird webhooks update <webhook-id> --status active` first.
+- **History reaches back three days.** An earlier `--since` widens the window without recovering anything older.
+- **Never re-run a replay whose `--until` has passed.** The first replay's redeliveries were attempted after that bound, so a second pass sees none of them and sends every one again.
+- **One replay covers at most the oldest 10,000 events in the window.** For a larger outage, split it up front into consecutive windows narrow enough to stay under the cap. An event whose failed attempts span two windows can still arrive twice, which receiver deduplication absorbs.
+- **Each redelivery is one attempt**, not the retry schedule a live delivery follows. Fix the receiver before replaying, or a still-broken endpoint just fails again.
+- **20 replays per organization per UTC day.** Beyond that the API returns `429` (`WebhookReplayQuotaExceeded`), so cover recovery in one window rather than replaying per event.
+
+The command returns `{ "accepted": true, "id": ... }` — the replay is queued, not finished, and no count is returned.
+
+**Done when** the replay is accepted and a later `attempts` shows the window's failed events redelivered successfully.
+
 ## Delete
 
 `bird webhooks delete <webhook-id>` removes an endpoint and stops every future delivery to it — it can't be undone. It requires `--yes` and never prompts, so a bare `delete` exits `2` rather than acting; re-run with `--yes` once you've confirmed the id with the user. There's no way to recreate it with the same secret — a replacement endpoint gets a new one, so plan to update the receiver. Use `--idempotency-key <key>` when a delete might be retried.
@@ -61,8 +86,10 @@ Because it hits the real URL, aim it at the endpoint you mean and preview with `
 
 ## Traps
 
-- **There is no update.** Changing a URL, event set, or description means delete-and-recreate, and the new endpoint carries a new secret — so a "quick edit" silently rotates the signing key out from under the receiver.
+- **Recreating an endpoint rotates its secret.** Use `update` to change a URL, event set, or description; a delete-and-create hands the receiver a new signing key.
 - **The secret appears once.** It's in the create response only — not in `get`, not in `list`. Capture it then, or the only recovery is a new endpoint with a new secret.
+- **`replay` is accepted, not done.** `accepted: true` means queued; confirm with `attempts`.
+- **Re-running a replay whose `--until` has passed duplicates deliveries.** Only successes inside the window suppress an event.
 - **`test` is a real outbound request.** It POSTs to the endpoint's actual URL, so a production receiver acts on it. Use `--dry-run` to preview and check the id before firing.
 - **Unknown event types fail at the server, not locally.** A typo in `--events` isn't caught until the API rejects it as a `422` (exit `2`); run `bird webhooks create --example` to see accepted names rather than guessing.
 - **`delete` won't act without `--yes`.** Omitting it exits `2` with no change — by design, so a loose retry or glob can't quietly destroy an endpoint.

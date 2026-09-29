@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.57.1
+
+- The webhooks guidance now covers updating an endpoint, rotating its secret, listing delivery attempts, and replaying failed deliveries.
+
 ## 0.57.0
 
 - The `bird-cli` skill now guides Apple Messages setup and replies with `bird amb`, including approval evidence, protected opt-outs, and invitation consent.
