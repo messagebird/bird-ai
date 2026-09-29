@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.58.0
+
+- **Breaking:** voice caller-ID resources now use `verified_numbers`, `/v1/voice/verified-numbers`, and `vvn_` IDs; update SDK accessors to `VerifiedNumbers` in Go, `verifiedNumbers` in TypeScript and PHP, or `verified_numbers` in Python, CLI commands to `bird voice verified-numbers`, and MCP tools to `voice_verified_numbers_*`.
+
 ## 0.57.1
 
 - The webhooks guidance now covers updating an endpoint, rotating its secret, listing delivery attempts, and replaying failed deliveries.

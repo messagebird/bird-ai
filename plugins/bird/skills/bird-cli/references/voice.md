@@ -1,6 +1,6 @@
 # Voice
 
-Operate Bird Voice — SIP trunking — from the terminal. `bird voice legs list`/`get` is the per-leg log and `bird voice stats` the aggregates over it; `bird voice trunks`, `bird voice numbers`, and `bird voice destinations` read AND change what admits a call and where an inbound one goes. `bird voice caller-ids` reads the numbers the workspace may present.
+Operate Bird Voice — SIP trunking — from the terminal. `bird voice calls list`/`get` is the call log, `bird voice legs list`/`get` the per-leg log under it, and `bird voice stats` the aggregates over it; `bird voice trunks`, `bird voice numbers`, and `bird voice destinations` read AND change what admits a call and where an inbound one goes. `bird voice verified-numbers` reads the numbers the workspace may present and completes dashboard-started verification challenges.
 
 `bird voice calls create` prepares a real outbound call with a published sequence for a person to confirm in the browser. SIP clients can also place calls through a trunk, including a PBX, the dashboard phone, and `bird voice tools test-call` (_Placing a test call_ below).
 
@@ -39,6 +39,10 @@ Note `--from`/`--to` are party numbers here, but _dates_ on `bird voice stats` �
 
 `bird voice legs get <vcl_…>` returns one leg. `--format text` prints a human card. The same id answers throughout the call's life, so this is what you poll to watch a call settle: while it is ringing or connected, `duration_ms`, `billable_ms`, `ended_at`, and `cost` are all null, and they fill in once it ends.
 
+`bird voice calls list` groups legs into calls, newest first: each call carries `direction`, `started_at`/`ended_at`, `live`, `has_recording`/`has_transcript`, and the `parties` that took part. Its filters are `--search` (a fragment of a call ID or number), `--has-recording` and `--has-transcript`; there is no date filter, and a narrow search over a long history can time out, so for a time window list legs with `--started-after`/`--started-before` and take their `call_id`. `bird voice calls get <vcs_…>` returns one call. A call carries no cost or duration of its own — read its legs with `bird voice legs list --call-id <vcs_…>`. A call placed with `bird voice calls create` is not readable until its initial leg registers.
+
+`bird voice legs trace <vcl_…>` returns what a sequence did on one leg: the nodes and commands it recorded, in order, with outcomes, errors, recordings and webhook requests, plus the frozen definition that ran. History can be truncated or incomplete (`truncated` says when limits dropped events), so a missing span does not prove a step never ran. It needs `voice_management:read` on top of `voice:read`, and it can reach 2 MiB, so redirect it to a file and query it with `jq` rather than reading it whole.
+
 **Done when** the record you wanted is in hand — for a settled call, one carrying a final `status` and a non-null `duration_ms`.
 
 ## Stats
@@ -64,11 +68,11 @@ When a call did not go through, work outward from the record, because the record
 
 1. **Read the call.** `bird voice legs get <vcl_…>` — `rejection_reason` names the specific gate that turned the call away, and `sip_response_code` deliberately does not distinguish causes, so do not read it as one. (For the same reason, `bird voice stats by-response-code` will not tell you _why_ Bird refused a batch of calls — it reports SIP outcomes, and the refusals share one code. Go to `rejection_reason` on the records.) A call Bird turned away before any record existed will not be in the log at all, which itself points at credentials or the source address.
 2. **Check the trunk.** `bird voice trunks get <spt_…>` (find the id with `bird voice trunks list`). Read `outbound_enabled` first: **a trunk with it false refuses every outbound call before any credential is considered**, and a new trunk carries no direction until one is turned on. Then admission: a trunk admits traffic through its address allow list (`ip_acls`), its allowed API keys (`allowed_api_key_ids`), or session credentials (`session_credentials_enabled`); **a trunk with all three empty or off admits nothing**, which is deliberate. `routing_configured: false` means no carrier route is live for the workspace yet — operator-managed, not something the customer can fix.
-3. **Check the caller ID.** `bird voice caller-ids list` — only a `verified` caller ID may be presented on an outbound call. `pending` means verification has not completed; `failed` is terminal (the caller ID has to be deleted and re-created to retry).
+3. **Check the caller ID.** `bird voice verified-numbers list` — only a `verified` caller ID may be presented on an outbound call. `pending` means verification has not completed; `failed` is terminal (the caller ID has to be deleted and re-created to retry).
 4. **Check the destination.** `bird voice destinations list` — a call to a country the workspace has not `enabled` is refused even when everything else is in order. A country whose `status` is not `available` is one Bird does not currently carry calls to at all, which no workspace setting overrides.
 5. **Check the number, for an inbound call.** `bird voice numbers list` and match the call's `to` — `inbound_configuration.route` is what the number does with a call, and `reject` is where every number starts, so a number nobody has pointed anywhere refuses rather than reading as unset. Use `list`, not `get <vnu_…>`: a call record carries the dialled E.164 and no number id, and each list entry already holds both the route and the `id` the update takes.
 
-The trunk, the destination and the number are fixable from here — see below. The caller ID is not, in any state: there is no `bird voice caller-ids` write. Neither is `routing_configured`, which is operator-managed.
+The trunk, the destination and the number are fixable from here — see below. Complete a pending caller-ID challenge with `bird voice verified-numbers verify <verified-number-id> --code <code>`; registration and deletion remain dashboard steps. `routing_configured` remains operator-managed.
 
 ## Changing the configuration
 
@@ -96,7 +100,7 @@ The SIP password comes from the trunk's own admission, in this order:
 - Otherwise, an API key secret from `BIRD_API_KEY` when that is how the CLI is authenticated.
 - A trunk with neither session credentials nor allowed keys is admitted by source address alone, and the command sends no password.
 
-Verifying a caller ID is still a dashboard step the CLI cannot take. Allowing a key and turning session credentials on are not, since the writes above landed: `--session-credentials-enabled` is a flag, and `allowed_api_key_ids` goes through `--body-file`.
+Start caller-ID registration in the dashboard, then submit its code with `bird voice verified-numbers verify <verified-number-id> --code <code>`. Configure allowed keys and session credentials through the CLI: `--session-credentials-enabled` is a flag, and `allowed_api_key_ids` goes through `--body-file`.
 
 **Done when** the outcome is read off the record, not off the exit code: `baresip` exits 0 whether or not the call connected, so finish with `bird voice legs list --limit 1`. `--dry-run` prints the account file and the `baresip` command without dialing, which is also how to hand the line to some other SIP client.
 
@@ -105,7 +109,7 @@ Verifying a caller ID is still a dashboard step the CLI cannot take. Allowing a 
 - **Creating a call and running `test-call` can incur calling charges.** `calls create` requires browser confirmation; `test-call` dials through the local SIP client.
 - **The default list contains completed legs.** Include `ringing` and `in_progress` in `--status` to include live legs.
 - **`bird voice legs list` is per-leg, `bird voice stats` is aggregate.** Reaching for `list` to compute a rate is the common mistake; the summary already has it.
-- **Registering a caller ID is still dashboard-only,** because it places a real verification call; so is configuring a trunk's gateways. There is no `bird voice caller-ids create` or `bird voice trunks gateways` command, and reaching for one is the common miss now that the other writes exist.
-- **Two different scopes, and this is the trap.** The call log, the stats and `session-credentials create` are on `voice`; **everything under `trunks`, `numbers`, `caller-ids` and `destinations` is on `voice_management`**, so a `voice:read` grant reads the log and fails on the trunk. `calls create` needs both `voice_management:write` and `voice:write`. A plain `bird auth login` requests a read-only baseline carrying neither, so pass the required scopes explicitly.
+- **Registering a caller ID is still dashboard-only,** because it places a real verification call; so is configuring a trunk's gateways. There is no `bird voice verified-numbers create` or `bird voice trunks gateways` command, and reaching for one is the common miss now that the other writes exist.
+- **Two different scopes, and this is the trap.** The call log, the stats and `session-credentials create` are on `voice`; **everything under `trunks`, `numbers`, `verified-numbers` and `destinations` is on `voice_management`**, so a `voice:read` grant reads the log and fails on the trunk. `calls create` needs both `voice_management:write` and `voice:write`. A plain `bird auth login` requests a read-only baseline carrying neither, so pass the required scopes explicitly.
 
 These actions inherit the output (`--format`), exit-code, and credential-resolution conventions from the `bird-cli` entry; the credential step itself is [authenticate](authenticate.md).
