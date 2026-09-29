@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.59.0
+
+- Add `bird voice calls list` and `bird voice calls get` to read the call log, and `bird voice legs trace` to read what a sequence did on one leg; the MCP server gains `voice_calls_list` and `voice_calls_get`.
+- An optional boolean filter set to `false`, such as `--has-recording=false` or `has_recording: false`, is now sent as a filter instead of being dropped.
+
 ## 0.58.0
 
 - **Breaking:** voice caller-ID resources now use `verified_numbers`, `/v1/voice/verified-numbers`, and `vvn_` IDs; update SDK accessors to `VerifiedNumbers` in Go, `verifiedNumbers` in TypeScript and PHP, or `verified_numbers` in Python, CLI commands to `bird voice verified-numbers`, and MCP tools to `voice_verified_numbers_*`.
