@@ -92,7 +92,7 @@ To set the skills up by hand, add the `messagebird/bird-ai` marketplace under **
 }
 ```
 
-Then sign in: open **Cursor Settings → Tools & Integrations**, and under **MCP Tools** click **Needs login** next to `bird`. Approve Bird's consent screen in the browser and return to Cursor. The tools fail until you do.
+Then sign in: open **Customize** in the Cursor sidebar, select **MCPs**, and follow the sign-in prompt for `bird`. Approve Bird's consent screen in the browser and return to Cursor. The tools fail until you do.
 
 ## Codex
 

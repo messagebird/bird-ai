@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.61.1
+
+- The Cursor setup in `README.md` now signs in to the Bird MCP server from **Customize** > **MCPs**, where Cursor lists MCP servers.
+- Contact batch entries now accept invalid field values so each contact can return its own validation result while valid contacts are saved.
+
 ## 0.61.0
 
 - Voice verified numbers can now be registered, renamed and deleted: the SDKs gain `verifiedNumbers.create`, `update` and `delete` (`VerifiedNumbers` in Go, `verified_numbers` in Python), the CLI gains `bird voice verified-numbers create`, `update` and `delete`, and the MCP server gains `voice_verified_numbers_create`, `_update` and `_delete`. Registering a number places a verification call to it.
