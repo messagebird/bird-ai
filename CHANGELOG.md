@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.61.0
+
+- Voice verified numbers can now be registered, renamed and deleted: the SDKs gain `verifiedNumbers.create`, `update` and `delete` (`VerifiedNumbers` in Go, `verified_numbers` in Python), the CLI gains `bird voice verified-numbers create`, `update` and `delete`, and the MCP server gains `voice_verified_numbers_create`, `_update` and `_delete`. Registering a number places a verification call to it.
+
 ## 0.60.0
 
 - **Breaking:** Apple Messages for Business conversations now use nested `recipient`, `routing` and `last_message` objects and expose `unread_count` as their only message counter. Update response readers and replace the boolean `read` flag with a date-time cutoff to acknowledge received inbound messages through their `created_at`. Timestamp ties are included together; later arrivals remain unread. Absent ordinary response fields use explicit nulls. Both Apple and WhatsApp conversations support `inbox_status` to resolve and reopen inbox work while preserving the conversation and its sending rules.
