@@ -30,6 +30,7 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 - Send or inspect WhatsApp messages, receipts, reactions, senders, suppressions, keyword rules or statistics (`bird whatsapp`) → [WhatsApp operations](references/whatsapp.md)
 - Browse WhatsApp templates, their versions, and each version's per-language content (`bird whatsapp templates`) → [whatsapp-templates](references/whatsapp-templates.md)
 - Create and administer WhatsApp groups, hand out or rotate an invite link, decide join requests, pin messages, or remove a participant (`bird whatsapp groups`) → [whatsapp-groups](references/whatsapp-groups.md)
+- Set up the WhatsApp Business Agent on a number — onboard it, give it FAQs, websites, files and skills, test it, then turn it on (`bird whatsapp agents`) → [whatsapp-agents](references/whatsapp-agents.md)
 - Inspect voice calls, find out why one was refused, configure a SIP trunk or an inbound number, register or verify an outbound caller ID, enable or disable calling to a country, or place a test call (`bird voice`) → [voice](references/voice.md)
 - Provision Realtime apps and rotate the keys their clients connect with (`bird realtime`) → [realtime](references/realtime.md)
 - Verify a recipient with a one-time passcode — send a code, then check what they submit (`bird verify verifications`) → [verify](references/verify.md)

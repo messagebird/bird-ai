@@ -215,11 +215,25 @@ The plugin adds Bird's skills and the hosted MCP server to your OpenCode config.
 
 By default the plugin makes OpenCode ask before each call that can change your workspace: before `bird_execute` on `/dynamic`, and before every Bird tool in code mode. Your own `opencode.json` takes precedence: a `bird_*` rule you set, a single `permission` value for every tool, or a `bird` server you configured replaces the plugin's.
 
+## Google Antigravity
+
+Build a local plugin directory from the public mirror, then install it with Antigravity CLI:
+
+```bash
+git clone https://github.com/messagebird/bird-ai
+bash bird-ai/antigravity.sh /tmp/bird-antigravity
+agy plugin install /tmp/bird-antigravity
+```
+
+Use a new output directory for each package. The bundle includes Bird's shared skills and hosted MCP server. Open Antigravity's MCP settings and authenticate `bird` through its browser consent flow before calling tools.
+
+For Antigravity 2.0 or IDE, place the packaged folder under `.agents/plugins/` in your project or `~/.gemini/config/plugins/` for global use. The bundle's `VERSION` records the Bird AI release; Antigravity's v1 manifest has no version field. Repackage and reinstall to pick up a new mirror release. These are [local installation instructions](https://antigravity.google/docs/plugins/); inclusion in Google's curated marketplace requires its separate review.
+
 ## What's in the `bird` plugin
 
 - **`bird-cli`**: operate the Bird API from the terminal. One reference per CLI command group, covering sending and inspecting messages on every channel Bird runs, the setup each channel needs before it can send, one-time-passcode verification, recipient lookup, contacts and audiences, messaging preferences, Realtime provisioning, webhooks, API keys, support tickets, and documentation search.
 - **`email-audit`**: grade a domain's live DMARC, SPF, DKIM, BIMI, and MX records and read the findings back as a prioritized fix list. DNS-only, so it needs no sign-in.
-- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code, OpenCode and any Agent Plugins host; a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
+- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code, OpenCode, Antigravity and any Agent Plugins host; a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
 
 ## License
 

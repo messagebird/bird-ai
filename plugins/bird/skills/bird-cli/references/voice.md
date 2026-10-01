@@ -2,7 +2,7 @@
 
 Operate Bird Voice — SIP trunking — from the terminal. `bird voice calls list`/`get` is the call log, `bird voice legs list`/`get` the per-leg log under it, and `bird voice stats` the aggregates over it; `bird voice trunks`, `bird voice numbers`, and `bird voice destinations` read AND change what admits a call and where an inbound one goes. `bird voice verified-numbers` registers, verifies, renames and deletes the numbers the workspace may present.
 
-`bird voice calls create` prepares a real outbound call with a published sequence for a person to confirm in the browser. SIP clients can also place calls through a trunk, including a PBX, the dashboard phone, and `bird voice tools test-call` (_Placing a test call_ below).
+`bird voice calls create` prepares a real outbound call with a published sequence, or an inline sequence definition, for a person to confirm in the browser. SIP clients can also place calls through a trunk, including a PBX, the dashboard phone, and `bird voice tools test-call` (_Placing a test call_ below).
 
 Branch on what they asked for:
 
@@ -11,17 +11,17 @@ Branch on what they asked for:
 - **Why a call was refused** → _Diagnosing a refused call_ below; start there rather than reading one command at a time.
 - **Changing what is admitted, or where an inbound call goes** → _Changing the configuration_ below.
 - **Proving a trunk carries calls** → _Placing a test call_ below.
-- **Calling a recipient with a published sequence** → _Creating an outbound call_ below.
+- **Calling a recipient with a published or inline sequence** → _Creating an outbound call_ below.
 
 ## Creating an outbound call
 
-Use `bird voice calls create --body-file call.json --idempotency-key <stable-key>`. The body contains `from`, `to`, and `sequence: {id, entry_node_id, trigger_data}`; `--example` prints the shape. `from` must be a permitted caller number and `to` an E.164 recipient. Create and publish the sequence in the dashboard first. `trigger_data` is an explicit JSON object matching the entry schema, including `{}` when no data is needed. `--from`, `--to`, `--sequence-id`, `--entry-node-id`, `--trigger-data`, and `--ringing-timeout-seconds` override body values. `--dry-run` previews the request without preparing or placing a call.
+Use `bird voice calls create --body-file call.json --idempotency-key <stable-key>`. The body contains `from`, `to`, and `sequence: {id, entry_node_id, trigger_data}`; `--example` prints the shape. `from` must be a permitted caller number and `to` an E.164 recipient. Create and publish the sequence in the dashboard first, or send its definition as `sequence.definition` in place of `sequence.id` to run it once without saving; exactly one of the two is accepted, and a definition must pass the same checks as publishing (a failure is a `422` pointing under `/sequence/definition`). `trigger_data` is an explicit JSON object matching the entry schema, including `{}` when no data is needed. `--from`, `--to`, `--sequence-id`, `--entry-node-id`, `--trigger-data`, and `--ringing-timeout-seconds` override body values. `--dry-run` previews the request without preparing or placing a call.
 
 Both `voice_management:write` and `voice:write` are required. Authenticate with OAuth and present the returned browser review link to the user. A person reviews and runs the billable call there. The command waits for completion and returns exit `5` if confirmation ends without a recorded execution result. After interruption, reuse the same input and key with `--confirmation-id <opc_…>` to read the confirmation. For MCP, `voice_calls_create` takes the equivalent nested fields and required `idempotency_key`; resume with the original tool arguments, including the same key, and the returned request state. The state identifies the confirmation but does not replace its arguments. With dynamic MCP, repeat `execute` with the same tool and arguments and put the confirmation ID in `bird/confirmation-id` request metadata.
 
 Persist one key per intended call before invoking the tool. Repeated invocations must reuse that key and identical input. A new key can create another charged call. The API replays an accepted request for three hours using the same key and exact request bytes; changed input with the same key conflicts. After an unknown or expired outcome, inspect the existing run and leg before proposing another call.
 
-**Done when** the telephone outcome is verified: `202 Accepted` reserves `id`, `initial_leg_id`, and `sequence.run_id` but does not prove dialing or connection. Check the sequence's Runs tab in the dashboard, then `bird voice legs get <initial_leg_id>` once the leg registers. A final leg records its status, duration, billable duration, and cost. A failure before registration can leave no readable leg.
+**Done when** the telephone outcome is verified: `202 Accepted` reserves `id`, `initial_leg_id`, and `sequence.run_id` but does not prove dialing or connection. Check the sequence's Runs tab in the dashboard (an inline call belongs to no sequence), then `bird voice legs get <initial_leg_id>` once the leg registers. A final leg records its status, duration, billable duration, and cost. A failure before registration can leave no readable leg.
 
 ## Calls
 

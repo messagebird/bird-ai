@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "bird": {
+      "serverUrl": "https://mcp.bird.com"
+    }
+  }
+}

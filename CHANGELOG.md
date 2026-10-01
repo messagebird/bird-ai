@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.62.0
+
+- Creating a voice call accepts `sequence.definition` in place of `sequence.id`, running a sequence definition once without saving it, in the SDKs, `bird voice calls create` and the `voice_calls_create` MCP tool. The accepted call's `sequence.id` is `null` for such a call, so code reading it must handle a missing ID.
+- Python also exposes the referenced open-map node model while retaining map annotations on definition fields.
+
 ## 0.61.1
 
 - The Cursor setup in `README.md` now signs in to the Bird MCP server from **Customize** > **MCPs**, where Cursor lists MCP servers.
