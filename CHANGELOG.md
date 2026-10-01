@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.63.0
+
+- Install Bird's skills and hosted MCP server in Google Antigravity.
+- The `bird-cli` skill now covers setting up a WhatsApp Business Agent with `bird whatsapp agents`: onboarding, knowledge, testing, and turning it on.
+
 ## 0.62.0
 
 - Creating a voice call accepts `sequence.definition` in place of `sequence.id`, running a sequence definition once without saving it, in the SDKs, `bird voice calls create` and the `voice_calls_create` MCP tool. The accepted call's `sequence.id` is `null` for such a call, so code reading it must handle a missing ID.
