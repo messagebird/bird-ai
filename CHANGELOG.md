@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.65.0
+
+- Send the messages you receive to an AI agent, starting with Claude Managed Agents and Grok Bot: `webhooks create` takes a connector `destination` (`destination.connector` with its `connector_id`, `config` and write-only `credentials`; in the CLI `--connector` and `--field`, in MCP `connector_id`, `config` and `credentials`) and builds the endpoint's URL for it, so `url` is now optional; in Go, `WebhooksCreateParams` gains `Destination` and an empty `URL` is left out, and in Python `webhooks.create` takes `destination`. `bird webhooks create --help` and the MCP tool list each connector with its fields and setup steps. `webhooks update` rotates connector credentials one key at a time, `webhooks list` filters by `url`, and delivery attempts report a `failure_reason`. A `webhooks.setup` procedure guides an agent from a receiver to a verified delivery.
+
 ## 0.64.0
 
 - `antigravity.sh` now installs the plugin into Antigravity's global plugin directory, or the current project's with `--project`, replaces an earlier Bird install, and runs piped from `curl` without a clone.
