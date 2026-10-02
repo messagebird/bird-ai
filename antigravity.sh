@@ -49,5 +49,5 @@ rm -rf -- "$target"
 mv -- "$package" "$target"
 
 echo "Installed the Bird plugin $(cat "$target/VERSION") in $target."
-echo "Before calling Bird tools, open Antigravity settings, select Customizations, and authenticate bird."
+echo "Before calling Bird tools, open Customizations in Antigravity's sidebar and authenticate bird."
 echo "If bird is not listed there, restart Antigravity."
