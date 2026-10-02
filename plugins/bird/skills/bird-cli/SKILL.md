@@ -44,7 +44,7 @@ curl -fsSL https://cli.bird.com/install.sh | sh
 - Style the hosted page a marketing recipient lands on when they unsubscribe (`bird email unsubscribe-page`) → [unsubscribe-page](references/unsubscribe-page.md)
 - Manage dedicated IPs (`bird email dedicated-ips`) and IP pools (`bird email ip-pools`) (sending reputation) → [ip-pools](references/ip-pools.md)
 - Receive email at inbound forward addresses (`bird email inbound-addresses`), or read the mail received there (`bird email inbound-messages`) → [inbound](references/inbound.md)
-- Manage outbound webhook endpoints → [webhooks](references/webhooks.md)
+- Manage outbound webhook endpoints, or send events to Zapier, Make, n8n or your own endpoint and prove one arrives → [webhooks](references/webhooks.md)
 - Issue or rotate a workspace API key (`bird api-keys create`, `bird api-keys rotate`) → [api-keys](references/api-keys.md) (needs a login carrying `api_keys:write`; an API key cannot run it)
 - Find out why acquiring a number or registering a sender was refused for a reason about the organization rather than the country, and settle the requirement behind it (`bird trust`) → [trust](references/trust.md)
 - Find the business a 10DLC brand is registered for, so `brands create` can name it (`bird compliance identities list`) → [compliance-identities](references/compliance-identities.md)

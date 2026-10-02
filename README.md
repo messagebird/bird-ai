@@ -217,17 +217,29 @@ By default the plugin makes OpenCode ask before each call that can change your w
 
 ## Google Antigravity
 
-Build a local plugin directory from the public mirror, then install it with Antigravity CLI:
+Paste this prompt into Antigravity:
 
-```bash
-git clone https://github.com/messagebird/bird-ai
-bash bird-ai/antigravity.sh /tmp/bird-antigravity
-agy plugin install /tmp/bird-antigravity
+```text
+Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
+1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
+2. Sign me in: run `bird auth login` and open the browser link for me.
+3. Install Bird's Antigravity plugin so you know the workflows: run `curl -fsSL https://raw.githubusercontent.com/messagebird/bird-ai/main/antigravity.sh | bash`, then tell me to open Settings, select Customizations, and authenticate `bird`.
+4. Confirm who I am: run `bird whoami`, which prints the email of the account you're acting as.
+5. Send me a test email so I see it land in my own inbox: use my address from `bird whoami` as the recipient, send from onboarding@messagebird.dev, then confirm delivery with `bird email get`. Subject: "Your Bird account is ready". Body: "You're set up and ready to send. This email is the proof. Cheers, The Bird team".
+Then let's discuss next steps, given what Bird can do.
 ```
 
-Use a new output directory for each package. The bundle includes Bird's shared skills and hosted MCP server. Open Antigravity's MCP settings and authenticate `bird` through its browser consent flow before calling tools.
+Or install the plugin by hand:
 
-For Antigravity 2.0 or IDE, place the packaged folder under `.agents/plugins/` in your project or `~/.gemini/config/plugins/` for global use. The bundle's `VERSION` records the Bird AI release; Antigravity's v1 manifest has no version field. Repackage and reinstall to pick up a new mirror release. These are [local installation instructions](https://antigravity.google/docs/plugins/); inclusion in Google's curated marketplace requires its separate review.
+```bash
+curl -fsSL https://raw.githubusercontent.com/messagebird/bird-ai/main/antigravity.sh | bash
+```
+
+The script downloads the plugin from this repository's `main` branch and installs it in `~/.gemini/config/plugins/bird`, where Antigravity 2.0, the IDE, and Antigravity CLI load it in every workspace. To install it in one project, run it from the project root with `bash -s -- --project`, which writes `.agents/plugins/bird`. Run the same command again to update. From a clone of this repository, run `bash antigravity.sh` with the same options.
+
+**MCP server:** the plugin registers Bird's hosted server at `https://mcp.bird.com`. You still sign in once, because the server is OAuth-gated: open Settings (`Cmd+,` on macOS, `Ctrl+,` elsewhere), select the **Customizations** tab, and select **Authenticate** next to `bird`. If `bird` is not listed, restart Antigravity. Approve Bird's consent screen in the browser, copy the authorization code it shows, paste it into Antigravity, and select **Submit**. Until then every tool call fails.
+
+The package's `VERSION` file records the Bird AI release, because Antigravity's plugin manifest accepts only a name and description. These are [local installation instructions](https://antigravity.google/docs/plugins/); inclusion in Google's curated marketplace requires its separate review.
 
 ## What's in the `bird` plugin
 

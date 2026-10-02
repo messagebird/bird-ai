@@ -16,11 +16,11 @@ Branch on what the user asked for:
 
 ## Create
 
-`bird webhooks create <url>` posts a `WebhookEndpointCreate`. The endpoint URL (an HTTPS URL Bird can reach) is the positional argument; `--events` (the event types to subscribe to, comma-separated or repeated) is required and `--description` is an optional label. You can supply the body three ways, and they combine:
+`bird webhooks create <url>` posts a `WebhookEndpointCreate`. The URL, as the argument or `--url`, is an HTTPS URL Bird can reach; leave it out with `--connector`, because Bird builds a connector endpoint's URL. `--events` (the event types to subscribe to, comma-separated or repeated) is required and `--description` is an optional label. You can supply the body three ways, and they combine:
 
-- **The url argument plus flags** — `<url>`, `--events`, `--description`.
+- **Flags** — `--url`, `--events`, `--description`, `--connector`, `--field`.
 - **A JSON body via `--body-file <path|->`** — the whole request as one object: `bird webhooks create --body-file endpoint.json`; `-` reads stdin.
-- **Both** — the url argument or a flag overrides the matching field in the body.
+- **Both** — a flag overrides the matching field in the body. `--connector` and `--field name=value` set the connector and its nonsecret fields; its secret fields take `--secret-env name=ENV_VAR`, `--secret-stdin name` or the body's `destination.connector.credentials`, never a value on the command line, and `--dry-run` prints them redacted. A connector endpoint takes no URL, `--events` defaults to every event the connector accepts, and a missing required field fails before anything is sent. `--help` lists every connector with its fields and setup steps.
 
 Read the shape before building it: `bird webhooks create --example` prints a complete, valid body and needs no credentials, so it's the right thing to read rather than guessing field names. To see exactly what would be sent without registering anything, add `--dry-run`.
 
@@ -34,9 +34,22 @@ A successful create returns the endpoint with a `secret` — the key your receiv
 
 The command returns the endpoint (HTTP 201) with an `id` and a `secret`. Confirm it's stored with _Get_, and confirm it actually receives deliveries with _Test_.
 
+## Set up end to end
+
+To send events to a receiver the user owns (a Zapier, Make or n8n catch hook, their own endpoint, or a destination type such as an agent platform), follow this flow:
+
+- The user owns the receiving side, so you cannot create it for them. For a plain endpoint, ask for its HTTPS URL, such as a Zapier "Catch Hook", a Make custom webhook or an n8n Webhook node's production URL. For a connector, read its setup steps and fields in `webhooks create --help` or the tool's `connector_id` description: walk the user through the steps, collect the values they produce, then create the webhook and send a test event. Ask which events to send.
+- `bird webhooks list`: For a plain endpoint, filter by the receiver's `url` to look for one this setup made before. Several endpoints can share a URL, so a match is this setup's only if its description and events say so; ask the user when they don't. Reuse that match, without a connector destination, changing it with `webhooks.update`. For a connector, create a new endpoint: Bird builds its URL from the fields, two endpoints of one connector can reach different accounts, and an update cannot change the connector or its nonsecret fields. The filter finds matches, it does not stop duplicates.
+  - Whether you reuse an endpoint or create one, send a test event before telling the user it works. (`bird webhooks create`, `bird webhooks update`, `bird webhooks test`)
+- `bird webhooks create`: For a connector, give its id, nonsecret fields and secret fields, and omit `url`: Bird builds it. On the CLI, pass `--connector` and a `--field name=value` for each nonsecret field and `--secret-env name=ENV_VAR` or `--secret-stdin name` for each secret one, never a secret value as a flag; the MCP tool takes `connector_id`, `config` and `credentials`. The response shows the signing secret once; hand it to the user to store, and never repeat credentials back.
+  - Send a test event before telling the user it works. (`bird webhooks test`)
+- `bird webhooks test`: Sends one synthetic event and reports whether the receiver accepted it, its HTTP status and the time it took. The call succeeds either way, so read the result's `status`: only when the receiver accepted the event is the setup done. When it failed, report its HTTP status and response body, or for an unreachable receiver its `error`, to the user, fix the cause as below, and test again before saying it works.
+  - Once the test was accepted, ask the user to confirm the event shows up on their side.
+  - Real deliveries and their failure reasons are in `webhooks.attempts`. Fix a plain endpoint's URL or events with `webhooks.update`. A connector endpoint's URL comes from its fields and cannot be set, so fix its credentials or events with `webhooks.update`, or, for a wrong nonsecret field, delete it and create a new one. (`bird webhooks attempts`, `bird webhooks update`, `bird webhooks delete`)
+
 ## List
 
-`bird webhooks list` returns the registered endpoints as a cursor envelope: `{ "data": [...], "next_cursor": ..., ... }`. Page with `--limit` (default 25, must be at least 1) and pass a response's `next_cursor` value back as `--starting-after`; a null `next_cursor` means you've reached the end. Like the other list commands it emits JSON only, so pull fields with `jq` — e.g. `bird webhooks list | jq -r '.data[].id'`.
+`bird webhooks list` returns the registered endpoints as a cursor envelope; `--url <url>` narrows it to the endpoint delivering to exactly that URL, which is how a repeated setup finds the endpoint it made before: `{ "data": [...], "next_cursor": ..., ... }`. Page with `--limit` (default 25, must be at least 1) and pass a response's `next_cursor` value back as `--starting-after`; a null `next_cursor` means you've reached the end. Like the other list commands it emits JSON only, so pull fields with `jq` — e.g. `bird webhooks list | jq -r '.data[].id'`.
 
 **Done when** you have the page (or have walked the cursors to the end for a full sweep).
 

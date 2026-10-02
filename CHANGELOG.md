@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.64.0
+
+- `antigravity.sh` now installs the plugin into Antigravity's global plugin directory, or the current project's with `--project`, replaces an earlier Bird install, and runs piped from `curl` without a clone.
+
 ## 0.63.0
 
 - Install Bird's skills and hosted MCP server in Google Antigravity.
