@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.66.0
+
+- Limit webhook deliveries to one mailbox with `filter.mailbox_id`, including retries and replay. Scoped endpoints can subscribe only to `email_mailbox.*` events. Create, inspect, replace or clear the scope through the webhook operations.
+
 ## 0.65.1
 
 - `antigravity.sh` and the README now send you to Customizations in Antigravity's sidebar to authenticate the Bird MCP server.
