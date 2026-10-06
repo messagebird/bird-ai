@@ -31,7 +31,7 @@ Changes reach WhatsApp before the command returns and apply from the next conver
 2. Add a tester to the allowlist, then `settings update <number-id> --ai-audience allowlist --enabled`.
 3. Only after the user confirms, widen with `--ai-audience everyone`.
 
-`bird whatsapp agents notifications create <number-id> --to <contact> --name <kind> --description <sentence> --payload <json-text>` tells the agent something happened for one contact, so it can write to them. Confirm the contact and the event with the user first: what the agent sends cannot be recalled. It is processed in the background; `notifications get` shows what came of it.
+`bird whatsapp agents notifications create --from <business-e164> --to <contact> --name <kind> --description <sentence> --payload <json-text>` tells the agent on the `--from` number something happened for one contact, so it can write to them. `notifications list --from <business-e164>` reads one number's notifications. Confirm the contact and the event with the user first: what the agent sends cannot be recalled. It is processed in the background; `notifications get` shows what came of it.
 
 ## Traps
 

@@ -51,7 +51,7 @@ The command returns a message object (HTTP 202) with an `id` and `status: accept
 
 ## List
 
-`bird email list` returns a page of sent messages, newest first. Filter with `--status` (`accepted`, `processed`, `deferred`, `delivered`, `partial_failure`, `bounced`, `complained`, `rejected`), `--to`, `--from`, and `--limit`.
+`bird email list` returns a page of sent messages, newest first. Filter with `--status` (`accepted`, `processed`, `deferred`, `delivered`, `partial_failure`, `bounced`, `complained`, `rejected`), `--to`, `--from`, `--broadcast-id`, and `--limit`. Use `--broadcast-id eb_01krdgeqcxet5s7t44vh8rt9mg` to filter messages by broadcast ID; combine it with the other filters to narrow the results.
 
 The response is an envelope: `{ "data": [...], "next_cursor": ..., "prev_cursor": ..., "refresh_cursor": ... }`. For the next page, pass the `next_cursor` value back as `--starting-after`; a null `next_cursor` means you've reached the end. `list` only emits JSON (it ignores `--format text`), so pull fields with `jq` — e.g. `bird email list --status bounced | jq -r '.data[].id'`.
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.67.0
+
+- Add eSIM catalog, ordering, installation, and management commands and agent guidance.
+- Add `broadcast_id` filtering to the email message list.
+- The Bird CLI skill explains the workspace default inbound route and `bird voice settings update`.
+- The `bird-cli` skill now sends WhatsApp agent notifications with `--from <business number>` instead of a number id, matching the CLI.
+
 ## 0.66.1
 
 - The bird-cli skill installs the CLI with Homebrew where available, and otherwise downloads the installer before running it.
