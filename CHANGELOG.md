@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.68.3
+
+- The `bird-cli` skill explains how to read an error: its readable `message`, its stable `code`, and the `doc_url` page that says what went wrong and what to do.
+- Move the OpenCode adapter outside the Claude plugin folder and use package-manager installation instructions in the plugin README.
+
 ## 0.68.2
 
 - Use package-manager prerequisites instead of remote installers in plugin skills, add privacy policy metadata, and ship Claude's MCP config.

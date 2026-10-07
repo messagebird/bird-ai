@@ -19,7 +19,7 @@ const fullAsk = {
 const dynamicAsk = {
   "bird_execute": "ask"
 };
-const skills = fileURLToPath(new URL("./skills", import.meta.url));
+const skills = fileURLToPath(new URL("./plugins/bird/skills", import.meta.url));
 
 // Read the way OpenCode reads it: the code-mode variable wins when set, else
 // the umbrella experimental one; only "true" or "1" enable it.
