@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.68.1
+
+- The `bird-cli` skill explains how to remove a contact property with Archive and restore it with Unarchive. Contacts keep their values, and published templates keep sending.
+
 ## 0.68.0
 
 - Add Inbox Insights seed configuration, registration and history with existing `inbox_insights` permissions and organization preview access. Registration consumes shared allowance and returns addresses for a separately authorized send; uncertain outcomes require support before starting another test.

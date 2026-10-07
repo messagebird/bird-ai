@@ -2,9 +2,9 @@
 
 Three related resources behind the workspace's contact data. A **contact** is a person (identified by email); an **audience** is a named group of contacts; a **contact property** is a custom field that describes contacts. Three command groups:
 
-- `bird contacts` — the people: `list`, `get`, `create`, `update`, `delete`, `batch`.
-- `bird audiences` — named groups and their membership: `list`, `get`, `create`, `update`, `delete`, plus `list-contacts`, `add-contacts`, `remove-contacts`, `remove-contact`.
-- `bird contact-properties` — the custom fields: `list`, `get`, `create`, `update`, `archive`, `unarchive`.
+- `bird contacts` manages contacts: `list`, `get`, `create`, `update`, `delete`, `batch`.
+- `bird audiences` manages groups and their membership: `list`, `get`, `create`, `update`, `delete`, plus `list-contacts`, `add-contacts`, `remove-contacts`, `remove-contact`.
+- `bird contact-properties` manages custom fields: `list`, `get`, `create`, `update`, `archive`, `unarchive`.
 
 ## Contacts
 
@@ -23,12 +23,12 @@ Three related resources behind the workspace's contact data. A **contact** is a 
 Properties are the schema for contact custom fields, so define a property before setting it on a contact.
 
 - `bird contact-properties create <key>` defines a field; `bird contact-properties update <property-id>` edits it.
-- `bird contact-properties archive <property-id>` retires a field without deleting its data; `bird contact-properties unarchive <property-id>` restores it. There is no hard delete — archive is the removal path.
+- `bird contact-properties archive <property-id> --yes` removes a property from pickers and prevents its use in new template versions. Published templates keep sending. Contacts keep their values, and the API and imports still accept updates of the correct type. `bird contact-properties unarchive <property-id>` restores the property with its values.
 
 ## Traps
 
-- **A contact property must exist before a contact can carry that field.** Setting an unknown field on `contacts create`/`update` is a usage error, not a silent add — define it with `contact-properties create` first.
-- **Properties archive, they don't delete.** Use `archive`/`unarchive`; there is no `delete`, so a field's historical values are preserved.
+- **A contact property must exist before a contact can carry that field.** Setting an unknown field on `contacts create`/`update` is a usage error, not a silent add. Define it with `contact-properties create` first.
+- **Remove a property with archive and restore it with unarchive.** There is no hard delete. Archiving returns a 409 conflict while a published automation, including a paused one, uses the property in a trigger or contact write, or while an active run writes it. Remove it from those automations or archive them, let active runs finish or cancel them, then retry with `--yes`. The key stays reserved and counts toward the 200-property limit.
 - **`add-contacts`/`remove-contacts` take a set; `remove-contact` takes one.** Use the plural forms with a `--body-file` for bulk membership changes and the singular for a single id.
 
 These actions inherit the output (`--format`), exit-code, and credential-resolution conventions from the `bird-cli` entry; the credential step itself is [authenticate](authenticate.md).
