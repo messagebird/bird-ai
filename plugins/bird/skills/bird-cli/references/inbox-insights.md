@@ -3,6 +3,9 @@
 0. Complete [Insights access](inbox-insights-access.md) for the intended workspace.
 1. Choose the operation requested below. Read operations leave monitoring unchanged; monitoring operations can enroll a domain with the provider.
 
+- [Read seed-test configuration](inbox-insights-seed-configuration.md)
+- [Register a seed test](inbox-insights-seed-create.md)
+- [Read seed-test history and results](inbox-insights-seed-list.md)
 - [List verified domains](inbox-insights-domains.md)
 - [Read placement](inbox-insights-placement.md)
 - [Read authentication](inbox-insights-authentication.md)

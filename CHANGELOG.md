@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.68.0
+
+- Add Inbox Insights seed configuration, registration and history with existing `inbox_insights` permissions and organization preview access. Registration consumes shared allowance and returns addresses for a separately authorized send; uncertain outcomes require support before starting another test.
+
 ## 0.67.0
 
 - Add eSIM catalog, ordering, installation, and management commands and agent guidance.
