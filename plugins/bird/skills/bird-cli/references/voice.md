@@ -90,7 +90,7 @@ Every one of these takes `--dry-run` to print the resolved request unsent, and `
 
 ## Placing a test call
 
-`bird voice tools test-call <e164>` places one real call through a trunk, to prove the trunk works. It needs `baresip` on PATH (`brew install baresip`, `apt install baresip`), and it uses the machine's own microphone and speakers, so it is only worth running where a human can hear the result.
+`bird voice tools test-call <e164>` places one real call through a trunk, to prove the trunk works. It requires `baresip`. If `command -v baresip` finds nothing, install it with `brew install baresip`, or follow the [baresip installation guide](https://github.com/baresip/baresip/wiki/Install%3A-Stable-Release) for other platforms. The test uses the machine's own microphone and speakers, so it is only worth running where a human can hear the result.
 
 `--trunk` and `--caller-id` default to the workspace's first trunk and first verified caller ID, and both are printed when they are inferred. The call is capped by `--duration` (default 30s, max 2m).
 

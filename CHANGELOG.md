@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.68.2
+
+- Use package-manager prerequisites instead of remote installers in plugin skills, add privacy policy metadata, and ship Claude's MCP config.
+
 ## 0.68.1
 
 - The `bird-cli` skill explains how to remove a contact property with Archive and restore it with Unarchive. Contacts keep their values, and published templates keep sending.
