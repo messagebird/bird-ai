@@ -115,12 +115,7 @@ codex plugin marketplace add messagebird/bird-ai
 codex plugin add bird@bird-ai
 ```
 
-**MCP server:** add the hosted server once in `~/.codex/config.toml`:
-
-```toml
-[mcp_servers.bird]
-url = "https://mcp.bird.com"
-```
+**MCP server:** the plugin registers `https://mcp.bird.com` automatically.
 
 Then sign in, which opens your browser for Bird's consent screen:
 
@@ -245,7 +240,7 @@ The package's `VERSION` file records the Bird AI release, because Antigravity's 
 
 - **`bird-cli`**: operate the Bird API from the terminal. One reference per CLI command group, covering sending and inspecting messages on every channel Bird runs, the setup each channel needs before it can send, one-time-passcode verification, recipient lookup, contacts and audiences, messaging preferences, Realtime provisioning, webhooks, API keys, support tickets, and documentation search.
 - **`email-audit`**: grade a domain's live DMARC, SPF, DKIM, BIMI, and MX records and read the findings back as a prioritized fix list. DNS-only, so it needs no sign-in.
-- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code, OpenCode, Antigravity and any Agent Plugins host; a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
+- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code, Codex, OpenCode, Antigravity and any Agent Plugins host; a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
 
 ## License
 

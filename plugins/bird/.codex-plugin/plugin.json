@@ -1,6 +1,6 @@
 {
   "name": "bird",
-  "version": "0.68.3",
+  "version": "0.68.4",
   "description": "Drive Bird from your coding agent: operate the Bird API from the terminal with the `bird` CLI, send across email, SMS, and WhatsApp, and audit a domain's email authentication.",
   "author": {
     "name": "Bird",
@@ -23,24 +23,28 @@
     "webhooks"
   ],
   "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Bird",
-    "shortDescription": "Drive Bird from your coding agent.",
-    "longDescription": "Operate the Bird API from the terminal with the `bird` CLI: send across email, SMS, and WhatsApp, run one-time-passcode verification, manage sending domains and webhook endpoints, and check CLI auth. Skills install natively via Codex.",
+    "shortDescription": "Operate Bird from your agent",
+    "longDescription": "Bird is the communications infrastructure AI agents operate. Every agent eventually has to reach a human — verify a sign-up, confirm an order, chase an invoice, answer an inbox, place a call. Connect Bird and Codex does all of it for real: email, SMS, and WhatsApp on Bird's own sending infrastructure and carrier connections, calls on Bird SIP trunks, live events to every open browser and app over Bird Realtime — with a delivery timestamp or the exact failure reason instead of a guess.\n\nAnd Codex doesn't just send through Bird — it can own the endpoints. It claims its agent a durable email address in one call and answers what arrives there. It buys a phone number, gets it verified for texting, and registers the 10DLC campaign behind it. It sets up a SIP trunk and proves the caller ID with a real verification call. Addresses, numbers, trunks, and the compliance behind them — acquired in conversation.\n\nWhatever your account can do, Codex can do here. The tools are generated from Bird's live API — the same surface Bird's own dashboard runs on — so the list Codex shows is always the current one and grows as Bird does. Some of it works before you even connect: grade any domain's live email authentication, analyze headers and DMARC reports, or search Bird's docs, no account needed.\n\nYou sign in with Bird when you connect, so there is no API key to paste and no secret sitting in your config.toml. Codex gets only the permissions you already hold, and you can revoke them from your Bird profile.\n\nA good first ask: \"Send me a test email and tell me the moment it's delivered.\" Building an agent? \"Claim yourself an email address and reply to whatever arrives.\"",
     "developerName": "Bird",
-    "category": "Coding",
+    "category": "Developer Tools",
     "capabilities": [
       "Read",
       "Write",
       "Interactive"
     ],
-    "websiteURL": "https://bird.com",
+    "websiteURL": "https://www.bird.com",
+    "supportURL": "https://bird.com/docs",
+    "termsOfServiceURL": "https://bird.com/en-gb/legal/website-terms-of-use",
     "defaultPrompt": [
       "Send an email with the bird CLI",
       "List sent emails and check if one bounced",
       "Set up an outbound webhook"
     ],
-    "screenshots": [],
+    "composerIcon": "./assets/logo.svg",
+    "logo": "./assets/logo.svg",
     "privacyPolicyURL": "https://bird.com/legal/privacy"
   }
 }

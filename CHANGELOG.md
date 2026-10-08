@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.68.4
+
+- Codex plugin packages include Bird's OAuth MCP connection, icon and listing metadata compatible with ZIP submission.
+
 ## 0.68.3
 
 - The `bird-cli` skill explains how to read an error: its readable `message`, its stable `code`, and the `doc_url` page that says what went wrong and what to do.
