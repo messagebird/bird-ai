@@ -7,7 +7,12 @@
 ## Before sending
 
 1. `bird email broadcasts get <broadcast-id>` identifies the audience, category, sender, template, and state you are about to use.
-2. `bird email broadcasts counts <broadcast-id>` estimates `total`, `addressable`, and `sendable` contacts. `bird email broadcasts send-quota <broadcast-id>` compares the sendable count with the organization's daily and monthly email allowance. Both are live estimates that can change before the send.
+2. `bird email broadcasts counts <broadcast-id>` estimates `total`, `addressable`, and `sendable` contacts. `bird email broadcasts send-quota <broadcast-id>` compares the sendable count with the organization's daily and monthly email limits. Both are live estimates that can change before the broadcast sends.
+
+   Before scheduling, run `bird email broadcasts send-quota <broadcast-id> --send-at <scheduled_at>` with the time you plan to pass to `bird email broadcasts send --scheduled-at`. The check uses current limits and does not subtract broadcasts that are scheduled but have not sent yet. Broadcasts scheduled for the same period may together exceed the limit even if each check shows enough quota. `allowed` and `limited_by` describe the email send allowance at that time. If an allowance resets by then, the check uses its full allowance. It does not reflect plan changes or temporary limit changes that take effect before that time. This check reserves nothing. The allowance is checked again when the broadcast sends, using what remains after other sends.
+
+   When present, `resets_at` is the earliest time the reported allowance resets. An audience larger than the full `limit` cannot send in any window with that limit. Without `--send-at`, the result is for a send now, even if the broadcast is already scheduled. `limit_reason` explains what sets the monthly email limit if you can read the organization's billing. If `broadcasts.remaining` is 0, you cannot send or schedule a draft.
+
 3. Check the sender with `bird email domains list` and preview the template with `bird email templates preview <template-ref>`. An empty unsubscribe link in a preview is not live; a caller-supplied `bird.unsubscribe_url` renders as provided. Marketing sends add unsubscribe content at send time.
 4. Confirm the broadcast, audience, and sender with the user before `bird email broadcasts send <broadcast-id>` or `bird email broadcasts create --send`. A send cannot be recalled after delivery begins.
 

@@ -3,7 +3,7 @@
 Three related resources behind the workspace's contact data. A **contact** is a person (identified by email); an **audience** is a named group of contacts; a **contact property** is a custom field that describes contacts. Three command groups:
 
 - `bird contacts` manages contacts: `list`, `get`, `create`, `update`, `delete`, `batch`.
-- `bird audiences` manages groups and their membership: `list`, `get`, `create`, `update`, `delete`, plus `list-contacts`, `add-contacts`, `remove-contacts`, `remove-contact`.
+- `bird audiences` manages groups and their membership: `list`, `get`, `create`, `update`, `delete`, plus `membership`, `membership-history`, `list-contacts`, `add-contacts`, `remove-contacts`, `remove-contact`.
 - `bird contact-properties` manages custom fields: `list`, `get`, `create`, `update`, `archive`, `unarchive`.
 
 ## Contacts
@@ -17,6 +17,9 @@ Three related resources behind the workspace's contact data. A **contact** is a 
 
 - `bird audiences create <name>` creates a group; `bird audiences update <audience-id>` renames or reconfigures it; `bird audiences delete <audience-id> --yes` removes it.
 - `bird audiences list-contacts <audience-id>` pages the members. Move contacts in and out with `bird audiences add-contacts <audience-id>` and `bird audiences remove-contacts <audience-id>` (both take the contact set from flags or a `--body-file`), or drop one with `bird audiences remove-contact <audience-id> <contact-id>`.
+
+- `bird audiences membership <audience-id>` reads the exact current count and its evaluation time. An unavailable count omits `membership`; a successful empty audience returns zero.
+- `bird audiences membership-history <audience-id> --from 2026-10-01 --to 2026-10-07` reads the first successful observation for each inclusive UTC date. A missing observation has null `total` and `observed_at`; reading history does not trigger capture.
 
 ## Contact properties
 

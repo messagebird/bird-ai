@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.69.0
+
+- Read exact audience membership counts and daily observations, including evaluation times and explicit gaps for missing observations.
+- The `bird-cli` skill checks the email send quota before scheduling by running `bird email broadcasts send-quota <broadcast-id> --send-at <scheduled_at>`. Before sending, it also reads `resets_at`, `limit_reason`, and `broadcasts` when the response includes them.
+- The `bird-cli` skill uses `--send-at` to check a broadcast's email send allowance at the selected time before scheduling.
+- Competitive Insights and Inbox Insights guidance now uses workspace permissions without requiring organization preview enrollment, including seed-test registration.
+
 ## 0.68.4
 
 - Codex plugin packages include Bird's OAuth MCP connection, icon and listing metadata compatible with ZIP submission.

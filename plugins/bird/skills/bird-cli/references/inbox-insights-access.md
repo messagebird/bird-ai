@@ -1,6 +1,6 @@
 # Insights access
 
-Check that the installed CLI release includes Insights and that its grant selects the intended workspace. Commands are registered in normal builds. Scoped API keys need organization preview access; seed operations also require preview admission for OAuth and service-account tokens. Organization master keys retain their existing seed-test access.
+Check that the installed CLI release includes Insights and that its grant selects the intended workspace. Commands are registered in normal builds. Inbox Insights uses workspace permissions without organization preview enrollment, including seed configuration, history and registration.
 
 If the required scope is absent, run [authenticate](authenticate.md) with `bird auth login --scope inbox_insights:read` for reports or `--scope inbox_insights:write` for monitoring changes or seed registration. These scopes are outside the normal read-only baseline.
 
