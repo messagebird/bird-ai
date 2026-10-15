@@ -6,6 +6,7 @@ Use `bird amb` to reply to customer-initiated conversations, inspect messages an
 
 - The sender must be a configured, connected business in the authenticated workspace. Use its apple_business_id as from, not its Bird record ID.
 - The customer must have opened a conversation with that business. Use the conversation's recipient.opaque_user_id as to. The conversation must be open and the recipient unsuppressed.
+- Supply exactly one of content (native text, rich_link, or interactive) or template (a stored template reference). Template sends derive their category from the template, so omit category alongside template.
 - Review the exact business, recipient and content before sending. Reuse the same idempotency key when retrying the same request.
 - `bird amb send`: Queues the reply and returns its message ID.
 

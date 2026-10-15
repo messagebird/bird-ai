@@ -14,6 +14,8 @@ Each number carries the state WhatsApp reports for it (`status`, `quality_rating
 
 `bird whatsapp numbers profile get <wan-id>` reads the business profile WhatsApp shows for a connected number. `bird whatsapp numbers profile update <wan-id>` changes it, and only for a number the workspace connected itself once it reaches `connected` — a platform-managed number (`--scope system` in the list) has one profile shared by every workspace sending through it, so it is refused. One flag per field: `--about`, `--address`, `--description`, `--email`, `--vertical`, `--profile-picture-url`, `--username`, `--username-transfer-action`. `--username-transfer-action force_transfer` takes a username off another of the workspace's numbers, and the response names only the number you called it on, so confirm with the user before forcing one. **Done when** the response echoes the field back with your new value.
 
+`bird whatsapp numbers coexistence-sync get <wan-id>` reads the chat history and contacts import of a number that is also on the WhatsApp Business app (`is_on_business_app: true` on the number): whether the business shared its history (`chat_history_shared`, `null` until WhatsApp reports the choice), `message_sync_progress` as a percentage, and the `messages_imported` and `contacts_imported` counts. `audience_id` names the audience the imported contacts join; contacts already in the workspace are not added to it, and it is `null` until the first contact is imported and after the audience is deleted, when `contacts_imported` reads `0` with it, so check it before reading the audience. A number without `is_on_business_app: true`, including one where the field is still absent, is not found.
+
 ## Connecting a number
 
 1. Find the number to connect: `bird numbers list`. It must be a dedicated number (`nda_` prefix) that can receive text messages; this is a different id space from `bird whatsapp numbers list`, whose `wan_` ids name connections that already exist.
@@ -25,7 +27,7 @@ Each number carries the state WhatsApp reports for it (`status`, `quality_rating
 
 `bird whatsapp business-accounts list` returns the WhatsApp Business Accounts the workspace has connected, as a cursor envelope. Each account carries the state WhatsApp last reported for it: its own status, how far WhatsApp's review of it has got, and whether Meta verified the business behind it.
 
-`bird whatsapp business-accounts get <business-account-ref>` returns one account, addressed by either the `waa_` id the list reports or the numeric id WhatsApp reports in `waba`. `--format text` prints a card. An account the list does not show is not-found here either, in both forms.
+`bird whatsapp business-accounts get <business-account-ref>` returns one account, addressed by either the `waa_` id the list reports or the numeric id WhatsApp reports in `waba`. `--format text` prints a card. An account the list does not show is not found here either, in both forms.
 
 ## Traps
 

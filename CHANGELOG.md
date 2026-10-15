@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.70.0
+
+- Add MCP tools to read Apple Messages templates, their versions and languages (`amb_templates_list`, `amb_templates_get`, `amb_templates_versions_list`, `amb_templates_versions_get`, `amb_templates_versions_languages_list`, `amb_templates_versions_languages_get`), and a `template` input to `amb_send` to send from a stored template.
+- `amb send` (CLI) and `amb_send` (MCP) reject `content` together with a `template`, and reject `category` together with a `template` since a template send derives its own category; omitting both `content` and a `template` reports a missing `content`/`template` field.
+- Add `bird assets` commands and matching MCP tools to upload media, manage assets and folders, and inspect permitted references; file upload is available through local MCP.
+- The bird-cli skill now notes that AMB send takes content or template, not both, and that template sends omit category.
+- The `bird-cli` skill now covers triaging the WhatsApp inbox with `bird whatsapp conversations`: listing conversations, reading a thread, and assigning, labelling or resolving one.
+- The `bird-cli` skill now covers `bird whatsapp numbers coexistence-sync get`, which reads how much of a WhatsApp Business app number's chat history and contacts have been imported.
+
 ## 0.69.0
 
 - Read exact audience membership counts and daily observations, including evaluation times and explicit gaps for missing observations.

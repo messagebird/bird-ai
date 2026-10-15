@@ -16,6 +16,7 @@ Authenticate through [account access](authenticate.md), then read the matching p
 - [See, add or end address suppressions](whatsapp-suppressions.md).
 - [Manage STOP/START keyword rules](whatsapp-keyword-rules.md).
 - [Read traffic statistics](whatsapp-stats.md).
+- [Triage conversations: list, read, assign, label or resolve them](whatsapp-conversations.md).
 - [Browse or author templates](whatsapp-templates.md).
 
 Each procedure states its result and traps. A successful send or receipt request establishes acceptance, not delivery or application by WhatsApp.
