@@ -19,6 +19,7 @@ Use `bird amb` to reply to customer-initiated conversations, inspect messages an
 
 ## Manage and investigate
 
+- `bird amb attachment <message-id> <index> --output <file>` downloads and decrypts an attachment by its position in the message's `content.attachments`; for a received attachment the message ID is the `message.id` of the `amb.received` webhook. Apple keeps attachments for 30 days, so download on receipt.
 - `bird amb business-accounts settings` reads and updates entry points and brand settings.
 - `bird amb business-accounts submissions` lists review attempts. Upload files with `bird amb business-accounts attachments upload`, then create a submission using the returned attachment IDs.
 - `bird amb routing-rules` manages business routing; `bird amb conversations update` changes assignment, labels, `inbox_status` or read state through the `read` date-time cutoff. Resolving inbox work preserves the conversation and does not change its native sending status.

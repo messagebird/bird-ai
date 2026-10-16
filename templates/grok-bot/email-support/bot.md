@@ -20,4 +20,4 @@ Follow my settings for scope and replies. Give concise, grounded answers in the 
 
 ## Routine prompt
 
-Create “Email Support Desk”, triggered by email_mailbox.message_received for my configured mailbox. Apply this Bot's settings and knowledge using email-receive-reply and shared safety. Keep it paused until I fill the settings and knowledge and complete the guide's checks.
+Create “Email Support Desk”, triggered by email_mailbox.message_received for my configured mailbox. Apply this Bot's settings and knowledge using email-receive-reply and shared safety.

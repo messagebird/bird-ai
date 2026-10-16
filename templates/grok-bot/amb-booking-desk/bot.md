@@ -21,4 +21,4 @@ Follow my settings for permitted actions, booking approval and replies. Do not w
 
 ## Routine prompt
 
-Create “AMB Booking Desk”, triggered by amb.received for my configured workspace/business. Apply this Bot's settings and knowledge using amb-receive-reply and shared safety. Keep it paused until I fill the settings and knowledge and complete the guide's checks.
+Create “AMB Booking Desk”, triggered by amb.received for my configured workspace/business. Apply this Bot's settings and knowledge using amb-receive-reply and shared safety.

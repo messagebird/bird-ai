@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.72.0
+
+- Add Email Support Desk and AMB Booking Desk starters with reusable receive-and-reply skills and shared message safety.
+- The bird-cli skill reference documents `bird amb attachment` for downloading Apple Messages for Business attachments.
+
 ## 0.71.1
 
 - The bird-cli skill fixes a connector webhook's credentials and nonsecret fields with `webhooks.update` under `destination.connector`, instead of deleting the webhook and creating a new one.
