@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.71.0
+
+- Add broadcast `validate`, `preview` and `test` methods and template parameter discovery. Broadcast previews return the resolved `preheader`.
+- Add public broadcast template parameters with per-language overrides, template parameter discovery, validation, preview, and organization-member test-send methods.
+
 ## 0.70.0
 
 - Add MCP tools to read Apple Messages templates, their versions and languages (`amb_templates_list`, `amb_templates_get`, `amb_templates_versions_list`, `amb_templates_versions_get`, `amb_templates_versions_languages_list`, `amb_templates_versions_languages_get`), and a `template` input to `amb_send` to send from a stored template.

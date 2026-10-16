@@ -11,7 +11,7 @@ Sending a template is not here — it is a payload mode of [email](email.md) `se
 
 ## Permissions
 
-Reads need `email_management:read`; every mutation needs `email_management:write`. A plain login requests read permissions, so check [authentication](authenticate.md) and step up before writing.
+Reads need `email_management:read`, and `bird email templates parameters` also needs `email_marketing:read`; every mutation needs `email_management:write`. A plain login requests read permissions, so check [authentication](authenticate.md) and step up before writing.
 
 ## The authoring loop
 
@@ -33,6 +33,7 @@ bird email send --from hello@yourdomain.com --to a@b.com --template welcome-emai
 ## Read
 
 - `bird email templates list` returns a cursor envelope spanning both the workspace's own templates and Bird's built-in catalogue: the workspace's own templates lead (newest first), with the built-in catalogue trailing once they're exhausted. Narrow with `--scope workspace|system`, `--category`, `--source`, `--theme` (built-ins only), and `--q`, which matches slug, name, **and** description.
+- `bird email templates parameters <slug|emt_…> --language <tag>` discovers the parameters and Bird variables used by the template's published content in that language, without reading contact values. Omit `--language` to use the published default. This operation has no customer version selector; template author sample values remain separate from broadcast inputs. Follow [the broadcast parameter workflow](email-broadcasts.md#published-inputs-preview-and-member-test) for complete-map replacement, static value rules, validation, selected-contact preview, and a matching member test fingerprint. Individual email parameters keep their own format.
 - `bird email templates get <slug|emt_…>` returns one template's metadata and the state of each language it holds. It carries **no content** — that is deliberate, so opening a template costs the same at one language or twenty-five.
 - `bird email templates versions list <emt_…>` returns the draft plus every submitted version, newest first.
 - `bird email templates versions get <emt_…> <emv_…>` returns one version's frozen content and the `variables` it expects.
@@ -51,7 +52,7 @@ Mutations take flags or a `--body-file` JSON body (`--example` prints the shape,
 - `bird email templates create <slug>` creates the template and its empty draft. `--category` and `--source` are required and fixed at creation. The draft's initial per-language content is a language-keyed map that no flag can express, so seed it with `--body-file` or, more simply, create empty and use `versions languages set`.
 - `bird email templates update <slug|emt_…> --revision <n>` changes metadata only (`--name`, `--description`, `--default-language`, `--on-missing-language`, `--language-source-required`). Content is never edited here.
 - `bird email templates duplicate <slug|emt_…>` forks a workspace template or a built-in into a new unpublished template; `--slug` names the copy, otherwise one is derived.
-- `bird email templates preview <slug|emt_…> --parameters '{...}'` renders the draft (or `--version <emv_…>`) and returns the subject and bodies for inspection. An empty unsubscribe link is a preview placeholder: sending inserts a URL for each recipient. Nothing is sent.
+- `bird email templates preview <slug|emt_…> --parameters '{...}'` renders the draft (or `--version <emv_…>`) and returns the subject and bodies for inspection. An empty unsubscribe link is a preview placeholder: sending inserts a URL for each recipient. Nothing is sent. This author preview does not validate a saved broadcast or provide its test fingerprint; use [broadcast preview and test](email-broadcasts.md#published-inputs-preview-and-member-test) for that workflow.
 - `bird email templates versions languages set <emt_…> <emv_…> <lang> --subject … --html …` writes one language in full; `… languages update …` changes only the flags you pass; `… languages delete … --yes` removes a language.
 - `bird email templates versions submit <emt_…> <emv_…>` freezes the draft and makes it live. `--validate-only` runs every check without freezing anything; `--expected-revision <n>` refuses the submit if the draft moved since you read it.
 - `bird email templates versions rollback <emt_…> <emv_…> --revision <n> --yes` makes an earlier version live again and resets the draft to its content. No new version is created.
