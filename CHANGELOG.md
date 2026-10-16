@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.71.1
+
+- The bird-cli skill fixes a connector webhook's credentials and nonsecret fields with `webhooks.update` under `destination.connector`, instead of deleting the webhook and creating a new one.
+
 ## 0.71.0
 
 - Add broadcast `validate`, `preview` and `test` methods and template parameter discovery. Broadcast previews return the resolved `preheader`.
