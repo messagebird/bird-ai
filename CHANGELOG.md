@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.72.1
+
+- Let Grok Bot templates start routines with draft replies and no booking writes until configured.
+
 ## 0.72.0
 
 - Add Email Support Desk and AMB Booking Desk starters with reusable receive-and-reply skills and shared message safety.

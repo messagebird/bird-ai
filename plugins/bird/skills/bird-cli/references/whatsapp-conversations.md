@@ -9,7 +9,7 @@ One thread between a connected number and a single contact, or a group that numb
 ## Triage the inbox
 
 - `bird whatsapp conversations counts` gives the open buckets: assigned to you, unassigned, and held by the Meta Business Agent.
-- `bird whatsapp conversations list` returns the most recently active first. Filter with `--inbox-status open|resolved`, `--business-phone-number <e164>`, `--control bird|meta_business_agent`, `--assigned-to <user-id>|me|unassigned`, `--service-window-status open|closed` or `--label <name>` (repeatable).
+- `bird whatsapp conversations list` returns the most recently active first. Filter with `--inbox-status open|resolved`, `--business-phone-number <e164>`, `--control bird|meta_business_agent`, `--assigned-to <user-id>|me|unassigned`, `--service-window-status open|closed` or `--label <name>` (repeatable). Find a contact with `--q <text>` (1–100 characters, not only spaces, no control characters such as tabs or line breaks): it matches any part of the phone number, BSUID, username, display name, group name (as it was when the conversation started, and only with `whatsapp_management` read) or a label, and a phone number matches with or without its `+`, spaces, dashes, dots or parentheses.
 - `bird whatsapp conversations get <conversation-id>` shows who answers it, when its 24-hour service window closes, unread count, labels and last message.
 - `bird whatsapp conversations list-events <conversation-id>` is its history: control moves, assignments and agent notifications. `--type` narrows to one kind.
 
