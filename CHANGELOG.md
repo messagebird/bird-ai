@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.74.0
+
+- Add `access_restrictions` to the available scopes when creating or rotating workspace API keys.
+- API key guidance now points CLI users to `bird api-keys create --help` to discover scope areas.
+
 ## 0.73.0
 
 - `bird whatsapp conversations list --q <text>` and the `whatsapp_conversations_list` MCP tool's `q` find conversations by any part of the contact's phone number, BSUID, username or display name, the group's name when the conversation started (with `whatsapp_management` read), or a label. A phone number matches with or without its `+`, spaces, dashes, dots or parentheses.
