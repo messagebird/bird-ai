@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.75.0
+
+- The bird-cli skill routes a lost review link to `bird operation-confirmations list` and reading one proposal to `bird operation-confirmations get`, and says that repeating a confirmable command without a key returns the proposal it already made.
+- The `bird-cli` skill's API key reference now lists `compliance` among the scopes a key can hold, and says that `compliance:write` lets a key file registrations unattended and incur setup fees.
+- The `bird-cli` skill now covers downloading a blank registration form, uploading the document that answers it, and checking what an upload holds.
+
 ## 0.74.0
 
 - Add `access_restrictions` to the available scopes when creating or rotating workspace API keys.

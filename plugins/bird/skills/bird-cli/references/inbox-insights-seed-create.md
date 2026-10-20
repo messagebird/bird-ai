@@ -8,6 +8,6 @@ Run `bird email inbox-insights seed-tests create --example` for the body and use
 
 The command returns a browser review URL and confirmation ID on stderr, then waits. Give the URL to the user: the signed-in person registers the test from that page with their own permissions. After interruption, repeat the unchanged command with `--confirmation-id <id>` to read the same proposal; `--yes` cannot bypass review. Pending, expired or cancelled proposals do not prove that registration never ran.
 
-Choose an explicit `--idempotency-key` for each intended registration and reuse it with the unchanged body after a lost response. Automatic transport retries reuse their key, but a new command without an explicit key creates a fresh intent. On `409 E27008`, contact support with the domain and request ID before starting another test. Missing [history](inbox-insights-seed-list.md) does not prove registration failed.
+Choose an explicit `--idempotency-key` for each intended registration and reuse it with the unchanged body after a lost response. Rerunning the same command without a key returns the registration proposal it already made; once that one has run, been cancelled or expired, a new registration needs a new key. On `409 E27008`, contact support with the domain and request ID before starting another test. Missing [history](inbox-insights-seed-list.md) does not prove registration failed.
 
 Done when the returned addresses and expiry are reported, or the uncertain outcome is reported without starting a second registration.

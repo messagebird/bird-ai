@@ -47,8 +47,14 @@ This skill requires the `bird` CLI. If `command -v bird` finds nothing, install 
 - Issue or rotate a workspace API key (`bird api-keys create`, `bird api-keys rotate`) → [api-keys](references/api-keys.md) (needs a login carrying `api_keys:write`; an API key cannot run it)
 - Find out why acquiring a number or registering a sender was refused for a reason about the organization rather than the country, and settle the requirement behind it (`bird trust`) → [trust](references/trust.md)
 - Find the business a 10DLC brand is registered for, so `brands create` can name it (`bird compliance identities list`) → [compliance-identities](references/compliance-identities.md)
+- Download a registration's blank form (`bird compliance document-templates get`) → [download a form](references/compliance-form-download.md)
+- Upload evidence for a registration (`bird compliance attachments upload`) → [upload a document](references/compliance-document-upload.md)
+- Inspect an uploaded document (`bird compliance attachments get`) → [inspect a document](references/compliance-document-inspect.md)
+- Delete an unused upload (`bird compliance attachments delete`) → [delete a document](references/compliance-document-delete.md)
 - Register a 10DLC brand for US A2P traffic, or file a submission against one (`bird sms 10dlc brands create`, `bird sms 10dlc brands submissions create`) → sibling operations; node not yet authored, `--help` on each carries the field list
 - Open a support ticket, reply to it, or wait for a support agent reply → [support](references/support.md)
+- Find a review link you lost, or check which requests are still waiting for browser confirmation before proposing one again (`bird operation-confirmations list`) → [operation confirmations](references/operation-confirmations.md) (needs an OAuth login; an API key cannot run it)
+- Read one proposal by id, its status and its recorded result (`bird operation-confirmations get`) → [read a proposal](references/operation-confirmations-get.md) (needs an OAuth login; an API key cannot run it)
 - Answer a how-to or reference question about Bird from the documentation → [docs](references/docs.md) (public — skips Step 0)
 - Inspect resolved CLI configuration → `bird config show` (sibling operation; node not yet authored)
 
