@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.76.1
+
+- Document `--scheduled-at` and `--cancel-on-reply` on mailbox compose and thread reply, plus `bird email mailboxes scheduled-messages list|get|cancel` for inspecting and canceling schedules.
+
 ## 0.76.0
 
 - Add `workspace quotas list` and `organization workspaces quotas list`, `update` and `delete`, with corresponding `workspace_quotas_list` and `organization_workspaces_quotas_*` MCP tools, to read resource and value quotas for a workspace and set or clear its own limits.

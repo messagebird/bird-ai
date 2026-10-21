@@ -70,3 +70,7 @@ The response is an envelope: `{ "data": [...], "next_cursor": ..., "prev_cursor"
 - **List output is JSON only.** `--format text` is silently ignored on `list`, so don't try to parse a human table — read `.data[]` with `jq`.
 
 These actions inherit the output (`--format`), exit-code, and credential-resolution conventions from the `bird-cli` entry; the credential step itself is [authenticate](authenticate.md).
+
+## Scheduled mailbox sends
+
+Mailbox compose and thread reply accept `--scheduled-at` (RFC 3339, 30 seconds to 30 days ahead) and optional `--cancel-on-reply`. They return a reserved message and thread ID plus `scheduled_message_id`; the message enters the conversation only when dispatched. Inspect pending sends with `bird email mailboxes scheduled-messages list <mailbox-id>` or `bird email mailboxes scheduled-messages get <mailbox-id> <scheduled-message-id>`, and cancel before dispatch with `bird email mailboxes scheduled-messages cancel <mailbox-id> <scheduled-message-id> --yes`. Canceling does not refund the scheduled-email allowance. With `--cancel-on-reply`, inbound mail cancels the schedule unless dispatch already won; otherwise frozen recipients, parent and content are sent as written. Scheduled sends do not support attachments.
