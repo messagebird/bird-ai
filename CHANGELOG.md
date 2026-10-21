@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.76.0
+
+- Add `workspace quotas list` and `organization workspaces quotas list`, `update` and `delete`, with corresponding `workspace_quotas_list` and `organization_workspaces_quotas_*` MCP tools, to read resource and value quotas for a workspace and set or clear its own limits.
+
 ## 0.75.0
 
 - The bird-cli skill routes a lost review link to `bird operation-confirmations list` and reading one proposal to `bird operation-confirmations get`, and says that repeating a confirmable command without a key returns the proposal it already made.

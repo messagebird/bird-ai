@@ -56,6 +56,9 @@ This skill requires the `bird` CLI. If `command -v bird` finds nothing, install 
 - Find a review link you lost, or check which requests are still waiting for browser confirmation before proposing one again (`bird operation-confirmations list`) → [operation confirmations](references/operation-confirmations.md) (needs an OAuth login; an API key cannot run it)
 - Read one proposal by id, its status and its recorded result (`bird operation-confirmations get`) → [read a proposal](references/operation-confirmations-get.md) (needs an OAuth login; an API key cannot run it)
 - Answer a how-to or reference question about Bird from the documentation → [docs](references/docs.md) (public — skips Step 0)
+- Read workspace resource limits (`bird workspace quotas list`, `bird organization workspaces quotas list`) → [read resource quotas](references/resource-quotas.md)
+- Set or change an organization-managed workspace ceiling (`bird organization workspaces quotas update`) → [set a resource ceiling](references/resource-quotas-update.md)
+- Remove an organization-managed workspace ceiling (`bird organization workspaces quotas delete`) → [clear a resource ceiling](references/resource-quotas-clear.md)
 - Inspect resolved CLI configuration → `bird config show` (sibling operation; node not yet authored)
 
 Pick the operation that matches the request. Complete Step 0 only for operations that require an account.
