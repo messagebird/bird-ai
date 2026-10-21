@@ -18,6 +18,8 @@ Each number carries the state WhatsApp reports for it (`status`, `quality_rating
 
 ## Connecting a number
 
+These steps connect a number the workspace holds with Bird. A number held with another provider connects in the dashboard (**Set up a number**, then **I have my own number**): see [WhatsApp numbers](https://bird.com/docs/guides/whatsapp/numbers/overview). A number in the WhatsApp Business app connects with coexistence: see [WhatsApp coexistence](https://bird.com/docs/guides/whatsapp/coexistence). Coexistence keeps the WhatsApp Business app working alongside Bird on the same number; standard setup connects a number without keeping any WhatsApp app active. Send the user the matching guide.
+
 1. Find the number to connect: `bird numbers list`. It must be a dedicated number (`nda_` prefix) that can receive text messages; this is a different id space from `bird whatsapp numbers list`, whose `wan_` ids name connections that already exist.
 2. `bird whatsapp numbers create <nda-id>`, optionally with `--name` (a temporary label) and `--data-localization-region` (where message content is stored at rest; cannot be changed later). This returns the connection `preparing`, not connected.
 3. Poll `bird whatsapp numbers get <wan-id>` until `status` leaves `preparing`. `awaiting_signup` is the one that carries `finish_setup_url` and means go to step 4. `failed` is terminal: stop polling and read `error`, which says whether it was Bird or WhatsApp that refused and why.
@@ -31,6 +33,7 @@ Each number carries the state WhatsApp reports for it (`status`, `quality_rating
 
 ## Traps
 
+- **A personal WhatsApp number has two paths, and the user chooses.** To keep using it in an app, it moves to the WhatsApp Business app and connects with coexistence: see [WhatsApp coexistence](https://bird.com/docs/guides/whatsapp/coexistence). To use it with Bird alone, its WhatsApp account is deleted first and it connects with standard setup; it then no longer works in WhatsApp. Ask which the user wants before suggesting either.
 - **A platform-managed number reports no WhatsApp state.** A number with `scope: system` carries no `quality_rating`, `messaging_limit`, `throughput_level`, or `meta_synced_at`, and its `connected` status is Bird's own assertion. Their absence is not a fault to chase.
 - **`--waba` and `--scope=system` never overlap.** A platform-managed number belongs to no WhatsApp Business Account, so pairing the two filters always returns an empty page.
 - **Connecting a number does not finish it.** `create` only returns `preparing`. The number reaches `awaiting_signup` and carries `finish_setup_url`, and a person must open that link and complete WhatsApp's embedded signup in a browser. No command finishes it for them; polling past `awaiting_signup` without someone opening the link waits forever.

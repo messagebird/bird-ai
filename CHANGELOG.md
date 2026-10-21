@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.76.2
+
+- Name WhatsApp Business in the plugin description. `whatsapp numbers create`, the WhatsApp connect procedure, and the `bird-cli` skill now link the setup guides for a number held with another provider and for a WhatsApp Business app number, define coexistence, and explain a personal WhatsApp number's two paths: the Business app with coexistence, or deleting its WhatsApp account for standard setup. `support-tickets create` and its procedure point agents at docs search and `https://bird.com/docs/llms.txt` before a ticket.
+- The bird-cli skill routes requests to send feedback about Bird to `bird feedback send`.
+
 ## 0.76.1
 
 - Document `--scheduled-at` and `--cancel-on-reply` on mailbox compose and thread reply, plus `bird email mailboxes scheduled-messages list|get|cancel` for inspecting and canceling schedules.

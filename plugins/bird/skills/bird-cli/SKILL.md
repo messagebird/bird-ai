@@ -24,6 +24,7 @@ This skill requires the `bird` CLI. If `command -v bird` finds nothing, install 
 - Reply to Apple Messages conversations or manage businesses and statistics (`bird amb`) → [Apple Messages](references/amb.md)
 - Preview a WhatsApp message (`bird whatsapp preview`) → [Preview](references/whatsapp.md#preview) (local — skips Step 0)
 - Send or inspect WhatsApp messages, receipts, reactions, senders, suppressions, keyword rules or statistics (`bird whatsapp`) → [WhatsApp operations](references/whatsapp.md)
+- Connect a number the workspace holds to WhatsApp (`bird whatsapp numbers create`), or find the dashboard guide for one held with another provider, one in the WhatsApp Business app, or one on personal WhatsApp → [Connecting a number](references/whatsapp-numbers-and-accounts.md#connecting-a-number)
 - Browse WhatsApp templates, their versions, and each version's per-language content (`bird whatsapp templates`) → [whatsapp-templates](references/whatsapp-templates.md)
 - Create and administer WhatsApp groups, hand out or rotate an invite link, decide join requests, pin messages, or remove a participant (`bird whatsapp groups`) → [whatsapp-groups](references/whatsapp-groups.md)
 - Triage the WhatsApp inbox — list conversations, read a thread, assign, label, resolve or mark one read (`bird whatsapp conversations`) → [whatsapp-conversations](references/whatsapp-conversations.md)
@@ -53,6 +54,7 @@ This skill requires the `bird` CLI. If `command -v bird` finds nothing, install 
 - Delete an unused upload (`bird compliance attachments delete`) → [delete a document](references/compliance-document-delete.md)
 - Register a 10DLC brand for US A2P traffic, or file a submission against one (`bird sms 10dlc brands create`, `bird sms 10dlc brands submissions create`) → sibling operations; node not yet authored, `--help` on each carries the field list
 - Open a support ticket, reply to it, or wait for a support agent reply → [support](references/support.md)
+- Send the person's suggestions or rough edges to the Bird team (`bird feedback send`); when something is broken and blocking, open a support ticket instead (`bird support-tickets create`) → [feedback](references/feedback.md) (needs an OAuth login; an API key cannot run it)
 - Find a review link you lost, or check which requests are still waiting for browser confirmation before proposing one again (`bird operation-confirmations list`) → [operation confirmations](references/operation-confirmations.md) (needs an OAuth login; an API key cannot run it)
 - Read one proposal by id, its status and its recorded result (`bird operation-confirmations get`) → [read a proposal](references/operation-confirmations-get.md) (needs an OAuth login; an API key cannot run it)
 - Answer a how-to or reference question about Bird from the documentation → [docs](references/docs.md) (public — skips Step 0)

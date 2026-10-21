@@ -6,12 +6,12 @@
   },
   "metadata": {
     "description": "Bird's agent marketplace: skills plus the hosted MCP server, for Claude Code, Codex, Cursor, Copilot, and Droid.",
-    "version": "0.76.1"
+    "version": "0.76.2"
   },
   "plugins": [
     {
       "name": "bird",
-      "description": "Drive Bird from your coding agent: operate the Bird API from the terminal with the `bird` CLI, send across email, SMS, and WhatsApp, and audit a domain's email authentication.",
+      "description": "Drive Bird from your coding agent: operate the Bird API from the terminal with the `bird` CLI, send across email, SMS, and WhatsApp Business, and audit a domain's email authentication.",
       "author": {
         "name": "Bird",
         "url": "https://github.com/messagebird"

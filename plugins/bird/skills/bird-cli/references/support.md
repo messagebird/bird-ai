@@ -6,10 +6,13 @@ The key fact for an agent: **a reply arrives asynchronously, not in the response
 
 ## Procedure
 
+- For a documentation question, run `bird docs search` first, or start from the [docs index](https://bird.com/docs/llms.txt). It answers immediately; a ticket is needed only when the docs do not.
 - `bird support-tickets create`: Returns the new ticket with its first message.
   - The reply arrives asynchronously and may be automated or from a person; either can answer your question. Read the ticket back to see it (a message with `sender_type: agent` that was not there before), judge whether it resolves your request, and reply with more detail if it does not. (`bird support-tickets get`, `bird support-tickets reply`)
 
 ## Open a ticket
+
+For a how-to or reference question, follow [docs search](docs.md) first: it answers immediately, and a ticket is needed only when the docs do not.
 
 `bird support-tickets create --message "..."` opens a ticket with its first message and returns the created ticket.
 

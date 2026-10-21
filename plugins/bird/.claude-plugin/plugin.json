@@ -1,7 +1,7 @@
 {
   "name": "bird",
-  "version": "0.76.1",
-  "description": "Drive Bird from your coding agent: operate the Bird API from the terminal with the `bird` CLI, send across email, SMS, and WhatsApp, and audit a domain's email authentication.",
+  "version": "0.76.2",
+  "description": "Drive Bird from your coding agent: operate the Bird API from the terminal with the `bird` CLI, send across email, SMS, and WhatsApp Business, and audit a domain's email authentication.",
   "author": {
     "name": "Bird",
     "url": "https://github.com/messagebird"
