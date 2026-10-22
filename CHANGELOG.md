@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.77.0
+
+- **Breaking:** a WhatsApp carousel whose cards carry different buttons is now refused with the error name `WhatsAppInteractiveCardsButtonsMismatch`; the code stays `E15059`, so code that matched the old name should match the code instead.
+- A pre-verified WhatsApp number awaiting signup can now show `verified_until`, when WhatsApp is expected to release the number if signup is not finished by then. It is absent for a number pre-verified before this was recorded.
+- Listing WhatsApp numbers gains an `include_total` flag for a total count, covering both your connected numbers and platform-managed ones.
+- The bird-cli skill now covers credential profiles: keeping several workspaces signed in, choosing one per command, switching the default, and confirming a profile before logging it out.
+- A write refused with `E16000 TrustGateUnmet` now names the first requirement to start: its `next` carries a `trust gates verification create` step with that requirement's `slug`, and a `trust actions requirements` step for the refused action. `sms senders create` and its procedure now say up front that claiming a sender needs the organization's identity verification, and read the `add_sender_id` requirements before the claim.
+- The WhatsApp message media docs now say the media expires with its message, 30 days after it arrives, and the download returns `404` from then on. A `410` means only the file expired while the message is still readable.
+
 ## 0.76.2
 
 - Name WhatsApp Business in the plugin description. `whatsapp numbers create`, the WhatsApp connect procedure, and the `bird-cli` skill now link the setup guides for a number held with another provider and for a WhatsApp Business app number, define coexistence, and explain a personal WhatsApp number's two paths: the Business app with coexistence, or deleting its WhatsApp account for standard setup. `support-tickets create` and its procedure point agents at docs search and `https://bird.com/docs/llms.txt` before a ticket.

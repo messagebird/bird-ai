@@ -12,7 +12,7 @@ Two ways up. `--yolo` requests the full delegable catalogue and lets the consent
 
 Some `org:` scopes are owner-only and some are not. `org:billing`, `org:members`, `org:settings` and `org:workspaces` are also granted to `billing_admin`; `org:access_restrictions`, `org:audit`, `org:ip_pools`, `org:sso` and `org:trust` are reachable only through the owner bypass or a staff grant, so a non-owner cannot obtain those at any scope setting. `bird auth status` lists the scopes a token actually carries, which is the reliable check after any login.
 
-To act on a different workspace, run `bird auth login` again and pick it at consent — a credential is bound to one workspace.
+A credential is bound to one workspace. To act on another while keeping this one, sign it in as its own profile with `bird auth login --profile <name>` and pass `--profile <name>` on the commands for it ([profiles](profiles.md)).
 
 ## Done when
 

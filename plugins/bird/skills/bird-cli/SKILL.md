@@ -61,6 +61,7 @@ This skill requires the `bird` CLI. If `command -v bird` finds nothing, install 
 - Read workspace resource limits (`bird workspace quotas list`, `bird organization workspaces quotas list`) → [read resource quotas](references/resource-quotas.md)
 - Set or change an organization-managed workspace ceiling (`bird organization workspaces quotas update`) → [set a resource ceiling](references/resource-quotas-update.md)
 - Remove an organization-managed workspace ceiling (`bird organization workspaces quotas delete`) → [clear a resource ceiling](references/resource-quotas-clear.md)
+- Keep several workspaces signed in, pick one per command, or switch the default (`bird auth login --profile`, `bird profile list`, `bird profile set`) → [profiles](references/profiles.md)
 - Inspect resolved CLI configuration → `bird config show` (sibling operation; node not yet authored)
 
 Pick the operation that matches the request. Complete Step 0 only for operations that require an account.

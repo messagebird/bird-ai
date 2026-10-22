@@ -35,7 +35,7 @@ Run `bird whatsapp send --body-file message.json --dry-run` to check the schema 
 
 ## Media on received messages
 
-`bird whatsapp media <message-id> <media-id>` downloads the image, video, audio clip, sticker or document on a received message. The media id is the `id` on the content object `bird whatsapp get` returns, not the message id. Bytes go to `--output`, or to stdout when it is unset, so redirect or `--output` them rather than letting binary hit a terminal. `--url` prints the short-lived (15 minute) download URL instead, for handing to another tool; that URL authorizes itself, so do not send it an `Authorization` header. `--url` and `--output` cannot be combined — pick one. Media is kept 30 days after the message arrives; after that the message still lists the media's `mime_type` and `caption`, and this exits with a gone error.
+`bird whatsapp media <message-id> <media-id>` downloads the image, video, audio clip, sticker or document on a received message. The media id is the `id` on the content object `bird whatsapp get` returns, not the message id. Bytes go to `--output`, or to stdout when it is unset, so redirect or `--output` them rather than letting binary hit a terminal. `--url` prints the short-lived (15 minute) download URL instead, for handing to another tool; that URL authorizes itself, so do not send it an `Authorization` header. `--url` and `--output` cannot be combined — pick one. Media expires with its message, 30 days after it arrives, and this exits with not-found (exit `3`) from then on. A gone error means only the file expired: the message still lists the media's `mime_type` and `caption`.
 
 ## Traps
 

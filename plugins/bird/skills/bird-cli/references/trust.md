@@ -1,8 +1,6 @@
 # Trust
 
-Some organization-level checks gate what a workspace may do: acquiring a dedicated number, or registering an SMS sender. They are about the organization proving something about itself, not about a country's rules, and they are enforced whatever surface the write comes from. `bird trust` reads them and settles the ones that can be settled from here.
-
-The refusal these produce is `E16000 TrustGateUnmet`, and it names only that a gate is unmet — never which one. So the read is not optional colour: it is the only thing that turns the refusal into a list of steps.
+Some organization-level checks gate what a workspace may do: acquiring a dedicated number, or claiming or registering an SMS sender. They are about the organization proving something about itself, not about a country's rules, and they are enforced whatever surface the write comes from. `bird trust` reads them and settles the ones that can be settled from here.
 
 Then branch on what you have:
 
@@ -40,7 +38,6 @@ Then read the gate back with `bird trust gates get <slug>` to see the requiremen
 
 ## Traps
 
-- **The refusal names nothing.** `E16000 TrustGateUnmet` says a gate is unmet and its remediation says to complete the outstanding verification — neither says which. Call `bird trust actions requirements` for the answer; do not try to infer it from the refused write.
 - **An agent cannot finish a hosted check.** A `hosted_url` is a handoff to a human, by design. The useful end state for an agent on that kind of requirement is the link delivered, not the gate met.
 - **The code is one a person read to you.** `check` submits a code the customer received out of band. There is nothing to compose, and nothing on this surface shows it to you.
 - **Two code failures carry no remediation.** `E16005 TrustVerificationCodeExpired` and `E16006 TrustVerificationAttemptsExhausted` are message-only. Both mean the same recovery: start again with `bird trust gates verification create`, because the old code is dead either way. `E16004 TrustVerificationCodeInvalid` is the retryable one, on the same verification.
