@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.77.1
+
+- The bird-cli skill now sends feedback and support requests with the `bird platform` commands.
+
 ## 0.77.0
 
 - **Breaking:** a WhatsApp carousel whose cards carry different buttons is now refused with the error name `WhatsAppInteractiveCardsButtonsMismatch`; the code stays `E15059`, so code that matched the old name should match the code instead.
