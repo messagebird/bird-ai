@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.77.2
+
+- The plugin lists Bird B.V. at bird.com as its author and shows as "Bird".
+- The `bird-cli` skill now covers setting a WhatsApp template's maximum price.
+- The `bird-cli` skill now covers `bird amb attachments upload`, `get` and `download`, and reusing an attachment by `attachment_id` on a send.
+- The `bird-cli` skill now covers `bird email ip-pools workspaces` and the `--workspace-id` flag on `bird email ip-pools create`.
+
 ## 0.77.1
 
 - The bird-cli skill now sends feedback and support requests with the `bird platform` commands.

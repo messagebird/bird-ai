@@ -62,6 +62,10 @@ bird whatsapp templates versions languages set order_update <version-id> en --bo
 
 To seed the first draft in the create itself, pass the whole body with `--body-file`: its `languages` object maps a language tag to that language's `components`.
 
+## Maximum price
+
+A marketing language can carry `optimization_spec`, its maximum price, in the same `--body-file` as its components. It is the one field `set` does not replace: leave it out to keep the price, or send `null` for WhatsApp's standard rate. `bird whatsapp business-accounts reach-estimate <business-account-id> --countries BR` suggests a `bid_amount`; a country without a maximum price fails with E15090. `bird whatsapp send --bid-multiplier 0.8` scales the price for one message; the resolved language must carry a maximum price and still be marketing. A maximum-price send needs the business account onboarded to Marketing Messages, or it fails with WhatsApp error 131061.
+
 ## Submit and poll
 
 Check before you freeze. `bird whatsapp templates versions submit <template-ref> <version-id> --validate-only` runs every check across every language and reports each problem in one pass, freezing nothing and sending nothing to WhatsApp. Read `valid` and `errors`; each error carries the language, the field, and the error code a real submit would fail with.
