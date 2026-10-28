@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.78.0
+
+- The `bird-cli` skill gains guides for `bird sms messaging-profiles` and `bird webhooks callbacks`, so an agent can create and change messaging profiles, rotate the SMS callback signing secret, read callback attempts and replay the failed ones.
+- The bird-cli skill reads a connector's fields and setup from https://bird.com/docs/ai/webhook-connectors instead of `webhooks create --help`.
+- The bird-cli skill documents `bird voice tools test-call --srtp`, which places an SDES-SRTP encrypted test call over TLS to check a trunk that encrypts audio.
+- SIP trunks gain a `media` object whose `encryption` sets whether audio between your equipment and Bird is encrypted with SDES-SRTP over TLS: `off` turns off Bird's encryption and relays an SRTP offer unchanged (calls from a web browser are encrypted with DTLS-SRTP whatever the setting), `preferred` encrypts calls whose equipment and gateway support it, and `required` refuses unencrypted calls. Set it when you create or update a trunk. New trunks start `preferred`, and trunks created before this release keep `off` until you change it.
+- The `bird-cli` skill's webhooks reference now pages delivery attempts with `--starting-after` and `next_cursor` instead of a shifted `--before`.
+- `whatsapp numbers precheck` help now says the check is for a number you plan to buy from Bird and have not bought yet. A number you already hold and a coexistence number are out of scope.
+
 ## 0.77.2
 
 - The plugin lists Bird B.V. at bird.com as its author and shows as "Bird".

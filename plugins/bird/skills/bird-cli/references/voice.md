@@ -105,6 +105,8 @@ Check `bird voice verified-numbers list` first: a `verified` entry with `outboun
 
 **Done when** the outcome is read off the record, not off the exit code: `baresip` exits 0 whether or not the call connected, so finish with `bird voice legs list --limit 1`. `--dry-run` prints the account file and the `baresip` command without dialing, which is also how to hand the line to some other SIP client.
 
+`--srtp` offers SDES-SRTP encrypted media. It needs `--protocol tls`, which the CLI enforces because the key travels in the signalling, and a trunk whose media encryption is `preferred` or `required`. An `off` trunk relays the offer unchanged, as it always has, so the call is not encrypted by Bird.
+
 ## Traps
 
 - **Creating a call and running `test-call` can incur calling charges.** `calls create` requires browser confirmation; `test-call` dials through the local SIP client.
