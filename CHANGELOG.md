@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.79.1
+
+- The `bird-cli` skill now sends Apple Messages with `text`, `rich_link` or `interactive` and finds attachments in `text.attachments`, instead of the deprecated `content`.
+- The Apple Messages receive-and-reply skill template now replies with `text`, instead of the `content` that `amb_send` no longer accepts.
+- Add instructions for forwarding mail from a mailbox `address` to its `forwarding_address` with `bird email mailboxes forwarding-address create`.
+
 ## 0.79.0
 
 - Add `workspace rate-limits list` and `organization workspaces rate-limits list`, `update` and `delete`, with corresponding `workspace_rate_limits_list` and `organization_workspaces_rate_limits_*` MCP tools, to inspect, set and clear workspace limits. These only matter for organizations with several workspaces.

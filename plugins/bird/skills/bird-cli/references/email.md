@@ -74,3 +74,7 @@ These actions inherit the output (`--format`), exit-code, and credential-resolut
 ## Scheduled mailbox sends
 
 Mailbox compose and thread reply accept `--scheduled-at` (RFC 3339, 30 seconds to 30 days ahead) and optional `--cancel-on-reply`. They return a reserved message and thread ID plus `scheduled_message_id`; the message enters the conversation only when dispatched. Inspect pending sends with `bird email mailboxes scheduled-messages list <mailbox-id>` or `bird email mailboxes scheduled-messages get <mailbox-id> <scheduled-message-id>`, and cancel before dispatch with `bird email mailboxes scheduled-messages cancel <mailbox-id> <scheduled-message-id> --yes`. Canceling does not refund the scheduled-email allowance. With `--cancel-on-reply`, inbound mail cancels the schedule unless dispatch already won; otherwise frozen recipients, parent and content are sent as written. Scheduled sends do not support attachments.
+
+## Mailbox forwarding
+
+`bird email mailboxes forwarding-address create <mailbox-id>` prepares a stable forwarding address for an existing own-domain mailbox. It takes no body, requires mailbox management write permission, and returns the mailbox. Repeating it returns the same address. At the existing provider, forward mail for the returned `address` to the returned `forwarding_address`. Send a fresh test message to `address`, then check that the received message's `delivered_to` matches `forwarding_address`. Creating the address changes neither DNS nor provider settings and does not verify delivery.
