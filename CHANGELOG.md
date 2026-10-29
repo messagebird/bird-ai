@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.79.0
+
+- Add `workspace rate-limits list` and `organization workspaces rate-limits list`, `update` and `delete`, with corresponding `workspace_rate_limits_list` and `organization_workspaces_rate_limits_*` MCP tools, to inspect, set and clear workspace limits. These only matter for organizations with several workspaces.
+
 ## 0.78.0
 
 - The `bird-cli` skill gains guides for `bird sms messaging-profiles` and `bird webhooks callbacks`, so an agent can create and change messaging profiles, rotate the SMS callback signing secret, read callback attempts and replay the failed ones.

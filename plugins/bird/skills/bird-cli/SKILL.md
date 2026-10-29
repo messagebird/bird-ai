@@ -48,6 +48,7 @@ This skill requires the `bird` CLI. If `command -v bird` finds nothing, install 
 - Manage outbound webhook endpoints, deliver to a platform such as a Claude agent through a connector, or send events to Zapier, Make, n8n or your own endpoint and prove one arrives → [webhooks](references/webhooks.md)
 - Rotate the signing secret of SMS callback URLs, see whether callbacks reached the receiver, or replay the failed ones (`bird webhooks callbacks`) → [webhooks-callbacks](references/webhooks-callbacks.md)
 - Issue or rotate a workspace API key (`bird api-keys create`, `bird api-keys rotate`) → [api-keys](references/api-keys.md) (needs a login carrying `api_keys:write`; an API key cannot run it)
+- With several workspaces, or a workspace limit left after a deletion: diagnose workspace request rates → [read limits](references/workspace-rate-limits.md); set a workspace limit → [set a workspace limit](references/workspace-rate-limit-set.md); remove it → [clear a workspace limit](references/workspace-rate-limit-clear.md)
 - Find out why acquiring a number or registering a sender was refused for a reason about the organization rather than the country, and settle the requirement behind it (`bird trust`) → [trust](references/trust.md)
 - Find the business a 10DLC brand is registered for, so `brands create` can name it (`bird compliance identities list`) → [compliance-identities](references/compliance-identities.md)
 - Download a registration's blank form (`bird compliance document-templates get`) → [download a form](references/compliance-form-download.md)
