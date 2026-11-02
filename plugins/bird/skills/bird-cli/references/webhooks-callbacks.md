@@ -4,7 +4,7 @@ Sign, inspect and recover the deliveries of SMS callback URLs, the per-message o
 
 Branch on what they asked for:
 
-- **Get a secret to verify callback signatures** → _Rotate the signing secret_ below.
+- **Get a secret to verify callback or voice sequence webhook signatures** → _Rotate the signing secret_ below. Attempts and replay cover SMS callbacks only; a voice sequence webhook is a live call decision with no retry.
 - **See whether callbacks reached the receiver** → _Attempts_ below.
 - **Redeliver callbacks that failed** → _Replay_ below.
 
@@ -12,7 +12,7 @@ Branch on what they asked for:
 
 Rotation is destructive: once the 24-hour overlap ends the old secret stops signing, and the new one is shown only once. Confirm with the user before running it, then pass `--yes`; the command refuses without it and never prompts.
 
-`bird webhooks callbacks rotate-signing-secret --yes` mints a new secret for the workspace and prints it once; it cannot be read again, so store it before doing anything else. One secret signs every callback URL in the workspace. For 24 hours both the old and the new secret sign each callback, then the old one stops. A workspace holds at most 5 valid secrets, so rotating again inside the overlap can be refused with `WebhookTooManySecrets`. Callbacks are signed before anyone has rotated, but with a secret nobody can read, so rotate before relying on verification.
+`bird webhooks callbacks rotate-signing-secret --yes` mints a new secret for the workspace and prints it once; it cannot be read again, so store it before doing anything else. One secret signs every callback URL in the workspace and every voice sequence webhook request, so rotating also changes what sequence webhook receivers verify. For 24 hours both the old and the new secret sign each callback, then the old one stops. A workspace holds at most 5 valid secrets, so rotating again inside the overlap can be refused with `WebhookTooManySecrets`. Callbacks are signed before anyone has rotated, but with a secret nobody can read, so rotate before relying on verification.
 
 ## Attempts
 

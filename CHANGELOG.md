@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.79.2
+
+- The `bird-cli` skill and the `whatsapp_templates_versions_languages_set` tool now cover a WhatsApp template language's `message_send_ttl_seconds`.
+- `bird voice ring-groups` creates, reads, renames and deletes ring groups and adds and removes their members, and `bird voice numbers update` and `bird voice settings update` take `--route ring_group --ring-group-id`. The MCP server offers the same as `voice_ring_groups_*` tools and a `ring_group` route. Ring groups require preview access to inbound browser calling until it is generally available. Without it, the ring-group commands and any update that sets the `ring_group` route return `404`; other routes are unaffected.
+
 ## 0.79.1
 
 - The `bird-cli` skill now sends Apple Messages with `text`, `rich_link` or `interactive` and finds attachments in `text.attachments`, instead of the deprecated `content`.
