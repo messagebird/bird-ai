@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.81.0
+
+- **Breaking:** published-template sends reject `null` for a required caller parameter. Supply its value in `template.parameters`; an empty string remains valid for a text parameter.
+- The AI plugin and bundled MCP skill explain that a template using contact attributes requires a matching contact for each To address. Cc and Bcc receive copies personalized for each To and need no contacts. A missing To contact returns `422` before any message in the batch is accepted; Liquid defaults do not remove this requirement.
+- The CLI and `bird-cli` skill explain how to send caller values in `template.parameters`. Callers do not need to list contacts before sending, but a template that reads contact attributes requires a matching contact for every To address. A missing To contact returns `422` and rejects the whole batch. Cc and Bcc receive each To recipient's personalized copy without needing contacts; scheduled sends reuse the values saved at acceptance.
+
 ## 0.80.0
 
 - Add `--client-cert`, `--client-key` and `--mtls` (or the BIRD_CLIENT_CERT, BIRD_CLIENT_KEY and BIRD_MTLS environment variables) to present a client certificate to the region's mTLS endpoint. `bird auth login` stores them in the profile, `bird mcp` and bird-mcp use them, and `bird auth status` shows the certificate's fingerprint and expiry.

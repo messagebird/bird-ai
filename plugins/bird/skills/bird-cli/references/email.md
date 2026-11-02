@@ -6,10 +6,12 @@ Send email messages through Bird and inspect what was already sent. Actions on o
 
 **Sending a stored template.** `--template <slug|emt_…>` sends a template's live version in place of `--subject`/`--html`/`--text`, with `--parameters '{"first_name":"Ada"}'` supplying its variables. The two content modes are exclusive, and on a template send the values belong to the template, so passing `--parameters` alongside inline content is a different thing entirely. A send that omits `--category` takes the template's own classification. Authoring the templates you send here is [email-templates](email-templates.md).
 
+**Contact personalization:** A template send that reads `bird.contact.*` matches each To address to a workspace contact. A missing To contact returns `422` with `E04099` before single, batch or scheduled acceptance, even with a Liquid default or condition. Cc and Bcc receive a copy of each To recipient's personalized email and need no matching contact. For example, two To recipients and one Cc recipient produce four deliveries, including two copies for Cc. Create or update the To contact first, or use caller parameters. Existing contacts may have empty names; choose greeting defaults in Liquid.
+
 ## Procedure
 
 - The `from` must be a sender the workspace can use: a verified sending domain, or the shared onboarding domain on a new workspace.
-- `bird email send`: Returns `accepted` (HTTP 202), delivered asynchronously; not confirmation of delivery.
+- `bird email send`: Returns `accepted` (HTTP 202), delivered asynchronously. Supply caller parameters under template.parameters. Templates that read contact values resolve each To address to a workspace contact and return 422 if one is missing. Cc and Bcc receive a copy personalized for each To recipient. Values are saved at acceptance. Sending and automatic contact resolution need emails:write; contact discovery is not a prerequisite.
   - Confirm delivery or inspect bounces by reading the message back. (`bird email get`)
 
 Then branch on what they asked for:
@@ -47,7 +49,7 @@ The command returns a message object (HTTP 202) with an `id` and `status: accept
 
 ## Send batch
 
-`bird email send-batch` posts many distinct messages in one request — each with its own recipients and body — rather than one message to many recipients. Build the batch as a JSON array via `--body-file <path|->` (`bird email send-batch --example` prints the shape). The response is a batch object; each entry is `accepted` independently, so read the batch back to confirm per-message delivery. The sender rules from _Send_ apply to every message in the batch. Preview a batch with `--dry-run` before sending, and pass `--idempotency-key <key>` when it might be retried. `send-batch` has no per-message field flags, so an item names its time as a `scheduled_at` field in its JSON object, on the same bounds `--scheduled-at` enforces on _Send_; one batch can mix scheduled and immediate items, and `bird email cancel` cancels a scheduled one before it fires.
+`bird email send-batch` posts many distinct messages in one request — each with its own recipients and body — rather than one message to many recipients. Build the batch as a JSON array via `--body-file <path|->` (`bird email send-batch --example` prints the shape). The response is a batch object. Accepted messages are delivered independently, so read the batch back to confirm per-message delivery. The sender rules from _Send_ apply to every message in the batch. Preview a batch with `--dry-run` before sending, and pass `--idempotency-key <key>` when it might be retried. `send-batch` has no per-message field flags, so an item names its time as a `scheduled_at` field in its JSON object, on the same bounds `--scheduled-at` enforces on _Send_; one batch can mix scheduled and immediate items, and `bird email cancel` cancels a scheduled one before it fires.
 
 ## List
 
