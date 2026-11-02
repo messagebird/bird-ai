@@ -14,6 +14,8 @@ Some `org:` scopes are owner-only and some are not. `org:billing`, `org:members`
 
 A credential is bound to one workspace. To act on another while keeping this one, sign it in as its own profile with `bird auth login --profile <name>` and pass `--profile <name>` on the commands for it ([profiles](profiles.md)).
 
+A workspace with mTLS `enforced` refuses API key calls on the standard endpoint with `E02090`. Set `BIRD_CLIENT_CERT` and `BIRD_CLIENT_KEY` to the client certificate and key files, and pass `--mtls` (or set `BIRD_MTLS=1`) to use the region's mTLS endpoint. `bird auth login --client-cert <file> --client-key <file> --mtls` stores them in the profile, so later commands and `bird mcp` need no flags. `bird auth status` shows the certificate's fingerprint and expiry. A new login does not fix an mTLS refusal.
+
 ## Done when
 
 `bird auth status` reports `valid: true`.

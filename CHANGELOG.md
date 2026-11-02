@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.80.0
+
+- Add `--client-cert`, `--client-key` and `--mtls` (or the BIRD_CLIENT_CERT, BIRD_CLIENT_KEY and BIRD_MTLS environment variables) to present a client certificate to the region's mTLS endpoint. `bird auth login` stores them in the profile, `bird mcp` and bird-mcp use them, and `bird auth status` shows the certificate's fingerprint and expiry.
+- An mTLS refusal no longer suggests `bird auth login` and no longer refreshes the OAuth token.
+- An older `bird` or bird-mcp that refreshes a profile with stored mTLS settings removes them. Log in again with this version if that happens.
+- `bird voice ring-groups`, the `voice_ring_groups_*` MCP tools and the `ring_group` route on `bird voice numbers update` and `bird voice settings update` no longer require preview access to inbound browser calling, so they no longer return `404` for an organization outside the preview.
+
 ## 0.79.2
 
 - The `bird-cli` skill and the `whatsapp_templates_versions_languages_set` tool now cover a WhatsApp template language's `message_send_ttl_seconds`.
