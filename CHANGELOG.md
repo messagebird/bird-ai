@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.85.1
+
+- `bird assets uploads create` and `assets_uploads_create` guidance now explains recovery when network policy blocks a transfer: allow outbound HTTPS PUT to the exact hostname in `upload.url`, then retry the original create request with the same workspace and OAuth connection or API key after access is restored.
+
 ## 0.85.0
 
 - Add `whatsapp_manager_url` to the WhatsApp template language read (`bird whatsapp templates versions languages get`, the `whatsapp_templates_versions_languages_get` MCP tool), a link that opens the language in Meta's WhatsApp Manager for people with access to the business portfolio. It is null until WhatsApp holds the language, which can take a minute after submitting, null again once WhatsApp has deleted it, and always null for a built-in template's language.
