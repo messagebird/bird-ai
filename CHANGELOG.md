@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.83.0
+
+- After a Bird tool fails, Claude Code offers to send feedback to the Bird team, once per tool per session and only with your approval.
+- Add `bird whatsapp numbers repair` and the `whatsapp_numbers_repair` MCP tool. They restart the connection of a number that failed to connect, without disconnecting it first. Repair works for a few failure reasons, so call it only when the failed number's `next` names it.
+- The `bird-cli` skill's WhatsApp reference now shows `bird whatsapp send --example --path <path>` and `--request-schema --path <path>`, matching the CLI.
+- The plugin's author and its marketplace's owner are now "Bird" in Claude Code, Codex and Cursor.
+- Claude Code lists the plugin as "Bird (bird.com)".
+- The plugin README states which credentials the plugin and the `bird` CLI use.
+- The plugin README gives the one-step Claude Code install, `/plugin install bird --marketplace messagebird/bird-ai`.
+
 ## 0.82.0
 
 - Add the `bird workspace mtls` and `bird webhooks client-certificate` commands and their MCP tools to set up mTLS on API requests and on webhook deliveries. The two `update` commands and `bird workspace mtls certificate-authorities create` go to browser confirmation and need an OAuth login. `create-signing-request` replaces a waiting signing request, and `upload` replaces the certificate in use. Both need `--yes`. A hosted MCP server does not offer `bird workspace mtls certificate-authorities delete`.

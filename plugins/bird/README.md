@@ -12,6 +12,20 @@ The plugin also declares Bird's hosted MCP server at `https://mcp.bird.com`, a r
 
 Registering the server is not the same as authenticating it. The server is OAuth-gated, so sign in once per client: in Claude Code run `/mcp`, select `bird`, and choose **Authenticate**, then approve Bird's consent screen in the browser. Until you do, the tools are listed and every call fails. Per-client steps are in the [marketplace README](../../README.md).
 
+## Credentials
+
+The plugin reads no credential itself, and it sends nothing on its own. The MCP server signs in with OAuth in your browser. The `bird-cli` skill runs your own `bird` CLI, which authenticates with the login you created with `bird auth login`, or with `BIRD_API_KEY` when you set it, and calls the Bird API with it. Feedback reaches the Bird team only when you approve sending it.
+
+## Feedback hook
+
+In Claude Code, when a Bird MCP tool or Bird skill fails, a hook asks the agent to draft short feedback for the Bird team about what failed. The agent shows you the draft and sends it with the `platform_feedback` MCP tool or the `bird` CLI only if you approve. It asks at most once per tool per session and never contacts the network itself.
+
 ## Install
+
+In Claude Code 2.1.275 or later:
+
+```
+/plugin install bird --marketplace messagebird/bird-ai
+```
 
 This plugin follows [Agent Plugins](https://agent-plugins.org/specification): a client that implements the specification installs it from `github.com/messagebird/bird-ai` as it is, skills and MCP server together. See the [marketplace README](../../README.md) for per-tool install steps.

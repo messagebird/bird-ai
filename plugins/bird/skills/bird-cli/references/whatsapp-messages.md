@@ -4,7 +4,7 @@ Account operations require [authentication](authenticate.md). Send only within t
 
 ## Send
 
-Start with `bird whatsapp send --example <kind>` for a ready-to-edit payload: `text`, `image`, `video`, `audio`, `document`, `sticker`, `location`, `contact-cards`, `template`, `interactive-button`, `interactive-list`, `interactive-cta-url`, `interactive-carousel`, `interactive-location-request-message`, or `interactive-request-contact-info`. Bare `--example` keeps the default template example.
+Start with `bird whatsapp send --example --path <path>` for a ready-to-edit payload: `text`, `image`, `video`, `audio`, `document`, `sticker`, `location`, `contact_cards`, `template`, `interactive/button`, `interactive/list`, `interactive/cta_url`, `interactive/carousel`, `interactive/location_request_message`, or `interactive/request_contact_info`. Bare `--example` keeps the default template example. `--request-schema --path interactive/list` prints that input's full schema.
 
 Interactive kinds have different shapes: reply buttons use `interactive.buttons`, lists use `interactive.list`, link buttons use `interactive.cta_url`, and carousels use `interactive.cards`. Copy the matching schema-derived example; do not extrapolate from the button kind. A list row uses `text`, not `title`; `title` names its section.
 

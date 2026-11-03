@@ -1,10 +1,10 @@
 {
   "name": "bird",
-  "displayName": "Bird",
-  "version": "0.82.0",
+  "displayName": "Bird (bird.com)",
+  "version": "0.83.0",
   "description": "Drive Bird from your coding agent: operate the Bird API from the terminal with the `bird` CLI, send across email, SMS, and WhatsApp Business, and audit a domain's email authentication.",
   "author": {
-    "name": "Bird B.V.",
+    "name": "Bird",
     "url": "https://bird.com"
   },
   "homepage": "https://bird.com",
