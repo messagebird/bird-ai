@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.82.0
+
+- Add the `bird workspace mtls` and `bird webhooks client-certificate` commands and their MCP tools to set up mTLS on API requests and on webhook deliveries. The two `update` commands and `bird workspace mtls certificate-authorities create` go to browser confirmation and need an OAuth login. `create-signing-request` replaces a waiting signing request, and `upload` replaces the certificate in use. Both need `--yes`. A hosted MCP server does not offer `bird workspace mtls certificate-authorities delete`.
+- `bird webhooks test` text output shows `client_certificate`.
+- Add hosted MCP tools and a procedure for media-library uploads. An agent can transfer original files directly from its code environment using temporary upload instructions, then complete publication without putting file bytes in tool arguments. Automatic transfer requires client file access and HTTPS connectivity; a connector or chat attachment alone does not establish those capabilities.
+
 ## 0.81.0
 
 - **Breaking:** published-template sends reject `null` for a required caller parameter. Supply its value in `template.parameters`; an empty string remains valid for a text parameter.
