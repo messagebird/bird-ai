@@ -12,7 +12,7 @@ Each settings change (`bird workspace mtls update`, `bird webhooks client-certif
 2. `bird workspace mtls certificate-authorities create --certificate-file issuing-ca.pem`. Prefer the issuing CA: a root CA also trusts the certificates of every CA under it.
 3. `bird workspace mtls update --state evaluating`, unless the state is already `evaluating` or `enforced`. Both endpoints accept requests in this mode.
 4. Move each client to the mTLS endpoint with a certificate from that CA. For the CLI itself, see [authenticate](authenticate.md).
-5. `bird workspace mtls update --state enforced` only when each client succeeds on the mTLS endpoint. The standard endpoint then refuses API key calls for the workspace with `E02090`.
+5. `bird workspace mtls update --state enforced` only when each client succeeds on the mTLS endpoint. The standard endpoint then refuses API key and OAuth calls for the workspace with `E02090`, and the hosted MCP server cannot reach it.
 
 `--expected-san <san>` requires a subject alternative name in each certificate, and `--expected-san null` removes the requirement. Changes can take up to 15 minutes to apply. A delete of the last CA in `evaluating` or `enforced` returns `409`.
 

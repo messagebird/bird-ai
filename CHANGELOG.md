@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.84.0
+
+- **Breaking:** a workspace in mTLS `enforced` mode now refuses OAuth requests without a client certificate, from existing CLI logins and the hosted MCP server too. Log in again with `bird auth login --client-cert <file> --client-key <file> --mtls`, and run `bird mcp` locally instead of the hosted server.
+- `bird request-logs get` and the `request_logs_get` tool show `mtls` and `mtls_client_fingerprint` when the mTLS mode of the workspace applies to the request.
+
 ## 0.83.0
 
 - After a Bird tool fails, Claude Code offers to send feedback to the Bird team, once per tool per session and only with your approval.
