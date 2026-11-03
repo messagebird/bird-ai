@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.85.0
+
+- Add `whatsapp_manager_url` to the WhatsApp template language read (`bird whatsapp templates versions languages get`, the `whatsapp_templates_versions_languages_get` MCP tool), a link that opens the language in Meta's WhatsApp Manager for people with access to the business portfolio. It is null until WhatsApp holds the language, which can take a minute after submitting, null again once WhatsApp has deleted it, and always null for a built-in template's language.
+
 ## 0.84.0
 
 - **Breaking:** a workspace in mTLS `enforced` mode now refuses OAuth requests without a client certificate, from existing CLI logins and the hosted MCP server too. Log in again with `bird auth login --client-cert <file> --client-key <file> --mtls`, and run `bird mcp` locally instead of the hosted server.
