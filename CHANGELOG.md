@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.85.4
+
+- The `bird-cli` skill's webhook setup now explains that saving a connector endpoint does not contact its platform, that `bird webhooks test` (MCP: `webhooks_test`) checks the fields there, and that a failed test names the wrong field in `field` when the platform's answer identifies it.
+- The `bird-cli` skill now tells the user where `bird webhooks create` and `bird webhooks rotate-secret` wrote the signing secret, instead of reading it from the response, and never repeats it back.
+- The `bird-cli` skill now connects an agent connector with `bird webhooks connect`, passing secrets from a file or stdin instead of asking for them in the chat.
+
 ## 0.85.3
 
 - The `bird-cli` skill now passes connector secrets with `--credential name=FILE`, or `name=-` on stdin.
