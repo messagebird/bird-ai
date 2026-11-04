@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.85.3
+
+- The `bird-cli` skill now passes connector secrets with `--credential name=FILE`, or `name=-` on stdin.
+- The Test a webhook API, `bird webhooks test`, and the `webhooks_test` MCP tool send synthetic events with `test: true`. Only endpoints with a configured filter include `data`, containing the filter’s equality values rather than a full event payload.
+
 ## 0.85.2
 
 - When an agent signs the bird CLI in through the bird-cli skill, from the Bird plugin or the Bird MCP server, the skill now documents only the OAuth sign-in, bird auth login, and no longer names the BIRD_API_KEY or BIRD_VOICE_TEST_CALL_API_KEY environment variables. The CLI still reads both, so a setup that uses them keeps working. When bird auth status reports source env, the skill asks the user to remove the key from the environment. It also links to the CLI installation page instead of naming a Homebrew command.
