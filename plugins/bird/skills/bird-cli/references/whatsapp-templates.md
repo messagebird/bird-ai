@@ -74,7 +74,9 @@ Check before you freeze. `bird whatsapp templates versions submit <template-ref>
 
 Then submit for real by dropping `--validate-only`. That freezes the draft as an immutable version and answers `202`. Only the languages whose content differs from their approved copy go to WhatsApp as `pending`; one that already matches carries its `approved` verdict forward and is never sent, so a submit whose languages are all unchanged comes back settled with nothing to poll for. Use a different `--idempotency-key` for the check and the submit, because reusing one key with a different body is rejected. No replacement draft opens afterwards, so the next round of edits starts at `versions create` again.
 
-Approval arrives later, and per language:
+Meta reviews each submitted language. Bird does not review templates. Meta's review takes minutes to days. Bird records each verdict automatically. There is nothing for a person to do while a language is `pending`. No command refreshes or hurries it. A pending language's `whatsapp_manager_url` opens it in WhatsApp Manager for people with access to the business portfolio. The link can take a minute after submitting to appear.
+
+Approval arrives per language:
 
 - `bird whatsapp templates get <template-ref>` reports `pending_version_id`, which stays set while any language is unresolved and is absent when the submit settled on the spot. That is what to poll. Its `status` is the aggregate: `active` means at least one language is sendable, not all of them.
 - `bird whatsapp templates versions languages list <template-ref> <version-id>` reports each language's own verdict. `approved` sends; `rejected`, `submit_failed`, and `paused` need an edit on a fresh draft, because WhatsApp accepts an edit to a paused language and a resubmit is what clears it; `disabled`, `limit_exceeded`, and `in_appeal` refuse an edit outright, so they only need re-reading until WhatsApp moves them.

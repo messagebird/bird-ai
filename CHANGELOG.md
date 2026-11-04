@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.85.5
+
+- `bird whatsapp templates get` and `whatsapp_templates_get` guidance now says that Meta reviews each submitted language. Bird records each verdict automatically, so a `pending` language needs only waiting until `pending_version_id` clears.
+
 ## 0.85.4
 
 - The `bird-cli` skill's webhook setup now explains that saving a connector endpoint does not contact its platform, that `bird webhooks test` (MCP: `webhooks_test`) checks the fields there, and that a failed test names the wrong field in `field` when the platform's answer identifies it.
