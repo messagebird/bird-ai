@@ -4,7 +4,7 @@ Drive the Bird platform from your coding agent.
 
 ## Skills
 
-- **`bird-cli`** — operate the Bird API from the terminal with the `bird` CLI: send and inspect email, manage sending domains and webhook endpoints, check CLI auth, and create a new Bird account from scratch (browserless [self-serve signup](https://bird.com/docs/ai/self-serve-signup)). Install the CLI with `brew install messagebird/tap/bird`, or use the [binary installation instructions](https://bird.com/docs/cli#install) for other platforms.
+- **`bird-cli`** — operate the Bird API from the terminal with the `bird` CLI: send and inspect email, manage sending domains and webhook endpoints, check CLI auth, and create a new Bird account from scratch (browserless [self-serve signup](https://bird.com/docs/ai/self-serve-signup)). Install the CLI by following the [installation instructions](https://bird.com/docs/cli#install).
 
 ## MCP server
 
@@ -14,7 +14,7 @@ Registering the server is not the same as authenticating it. The server is OAuth
 
 ## Credentials
 
-The plugin reads no credential itself, and it sends nothing on its own. The MCP server signs in with OAuth in your browser. The `bird-cli` skill runs your own `bird` CLI, which authenticates with the login you created with `bird auth login`, or with `BIRD_API_KEY` when you set it, and calls the Bird API with it. Feedback reaches the Bird team only when you approve sending it.
+The plugin reads no credential itself, and it sends nothing on its own. The MCP server signs in with OAuth in your browser. The `bird-cli` skill runs your own `bird` CLI and documents only its OAuth login, `bird auth login`, which the CLI then uses to call the Bird API. Feedback reaches the Bird team only when you approve sending it.
 
 ## Feedback hook
 

@@ -2,7 +2,7 @@
 
 `bird api-keys create` issues a workspace API key and returns its token once, and `bird api-keys rotate` replaces one. Those are the two api-keys commands the CLI has: listing and revoking a key are dashboard-only, so a key minted here can be inspected, or retired without a replacement, only from the web app.
 
-**The credential that runs this command cannot be an API key.** A `bk_` key cannot carry `api_keys`, so `BIRD_API_KEY` fails here however broad the key is. It needs a login: `bird auth login --scope api_keys:write`. A plain `bird auth login` is not enough either — the scopeless login takes a read-only floor that does not include `api_keys`, so the command shows as disabled in `--help` and fails with exit `4`. `bird api-keys create --help` prints the exact re-authentication line when the current grant is short.
+**The credential that runs this command cannot be an API key.** A `bk_` key cannot carry `api_keys`, so it fails here however broad the key is. If `bird auth status` reports `source: env`, an API key in the environment is overriding the login; ask the user to remove it from the environment first. It needs a login: `bird auth login --scope api_keys:write`. A plain `bird auth login` is not enough either — the scopeless login takes a read-only floor that does not include `api_keys`, so the command shows as disabled in `--help` and fails with exit `4`. `bird api-keys create --help` prints the exact re-authentication line when the current grant is short.
 
 ## Create
 
@@ -37,7 +37,7 @@ The replacement inherits the source key's name, source IP restrictions and permi
 
 ## Traps
 
-- **An API key cannot mint an API key.** `BIRD_API_KEY` fails no matter its scopes; this command needs an interactive login carrying `api_keys:write`.
+- **An API key cannot mint an API key.** This command needs an interactive login carrying `api_keys:write`.
 - **A plain `bird auth login` does not carry `api_keys:write`.** The scopeless login is a read-only floor, so the step-up is explicit.
 - **Omitting `expires_at` mints a key with no expiry**, and nothing can add one later. That key survives revocation of the grant that created it.
 - **`scopes` is the complete set, not an addition**, and it cannot be widened later from the CLI at all. The same holds for `--scope` over a `--body-file`: the flags replace the file's array rather than appending to it.

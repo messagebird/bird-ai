@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.85.2
+
+- When an agent signs the bird CLI in through the bird-cli skill, from the Bird plugin or the Bird MCP server, the skill now documents only the OAuth sign-in, bird auth login, and no longer names the BIRD_API_KEY or BIRD_VOICE_TEST_CALL_API_KEY environment variables. The CLI still reads both, so a setup that uses them keeps working. When bird auth status reports source env, the skill asks the user to remove the key from the environment. It also links to the CLI installation page instead of naming a Homebrew command.
+
 ## 0.85.1
 
 - `bird assets uploads create` and `assets_uploads_create` guidance now explains recovery when network policy blocks a transfer: allow outbound HTTPS PUT to the exact hostname in `upload.url`, then retry the original create request with the same workspace and OAuth connection or API key after access is restored.

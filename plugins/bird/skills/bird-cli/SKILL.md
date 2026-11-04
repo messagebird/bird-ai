@@ -7,7 +7,7 @@ description: Use when operating Bird through the bird CLI to preview or send mes
 
 `bird` is a single binary for the Bird API and local tools such as WhatsApp message previews. Account operations need credentials; local previews do not.
 
-This skill requires the `bird` CLI. If `command -v bird` finds nothing, install it with `brew install messagebird/tap/bird`, or follow the [CLI installation instructions](https://bird.com/docs/cli#install) for other platforms.
+This skill requires the `bird` CLI. If `command -v bird` finds nothing, install it by following the [CLI installation instructions](https://bird.com/docs/cli#install).
 
 ## The path
 

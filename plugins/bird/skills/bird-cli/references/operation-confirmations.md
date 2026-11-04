@@ -7,7 +7,7 @@ Some commands, such as sending a batch, registering a 10DLC campaign or buying a
 `bird operation-confirmations list` returns the proposals this sign-in made in the current workspace that are still waiting for review, newest first. Each has its `id`, `operation`, `review_url` and `expires_at`.
 
 - Before proposing a request again, check here. If it is listed, give the person its `review_url`; a second proposal is a second request for them to find.
-- It needs an OAuth sign-in (`bird auth login`). An API key makes no proposals, so it has none to list and the command refuses it. `BIRD_API_KEY` takes precedence over a login, so unset it first.
+- It needs an OAuth sign-in (`bird auth login`). An API key makes no proposals, so it has none to list and the command refuses it. If `bird auth status` reports `source: env`, an API key in the environment is overriding the login; ask the user to remove it from the environment first.
 - A proposal whose operation you can no longer perform is left out, so an empty list does not prove nothing is waiting.
 - A proposal leaves the list once it has run, been cancelled or expired. None of those leaves a result to read here, and a missing result does not prove the request never ran.
 

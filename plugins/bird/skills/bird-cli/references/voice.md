@@ -92,15 +92,14 @@ Every one of these takes `--dry-run` to print the resolved request unsent, and `
 
 ## Placing a test call
 
-`bird voice tools test-call <e164>` places one real call through a trunk, to prove the trunk works. It requires `baresip`. If `command -v baresip` finds nothing, install it with `brew install baresip`, or follow the [baresip installation guide](https://github.com/baresip/baresip/wiki/Install%3A-Stable-Release) for other platforms. The test uses the machine's own microphone and speakers, so it is only worth running where a human can hear the result.
+`bird voice tools test-call <e164>` places one real call through a trunk, to prove the trunk works. It requires `baresip`. If `command -v baresip` finds nothing, install it by following the [baresip installation guide](https://github.com/baresip/baresip/wiki/Install%3A-Stable-Release). The test uses the machine's own microphone and speakers, so it is only worth running where a human can hear the result.
 
 `--trunk` and `--caller-id` default to the workspace's first trunk and first verified caller ID, and both are printed when they are inferred. The call is capped by `--duration` (default 30s, max 2m).
 
 The SIP password comes from the trunk's own admission, in this order:
 
-- `BIRD_VOICE_TEST_CALL_API_KEY`, when set, is used as the secret on any trunk that challenges. It must be a `bk_` key the trunk allows.
-- Otherwise, on a trunk with `session_credentials_enabled`, the command mints a session credential for the call. **Minting needs `voice:write`**, so a read-only voice grant fails at this step.
-- Otherwise, an API key secret from `BIRD_API_KEY` when that is how the CLI is authenticated.
+- On a trunk with `session_credentials_enabled`, the command mints a session credential for the call, unless the user has set a test-call key override in the environment: the command uses that first, so ask the user to remove it to test with a session credential. **Minting needs `voice:write`**, so a read-only voice grant fails at this step.
+- A trunk that admits only API keys cannot take an OAuth login, and the command stops with `sip_credential_required`. Allowing session credentials on the trunk needs `voice_management:write`, and the retry needs `voice_management:read` to read the trunk and `voice:write` to mint. `--scope` replaces the grant, so request all three in one login: `bird auth login --scope voice:write --scope voice_management:read --scope voice_management:write`.
 - A trunk with neither session credentials nor allowed keys is admitted by source address alone, and the command sends no password.
 
 Check `bird voice verified-numbers list` first: a `verified` entry with `outbound_enabled: true` is ready to call from. Only when none fits, register one with `bird voice verified-numbers create --phone-number <e164>`, which places a real call, then submit the code from its verification call with `bird voice verified-numbers verify <verified-number-id> --code <code>`. A `verified` result with `outbound_enabled: false` means activation was refused. A 412 is incomplete identity verification (the user finishes it in the dashboard) or an eligibility review or denial (the user contacts support); a 503 is a pending or unavailable assessment, so retry later. Once resolved, run `verify <verified-number-id>` again without `--code` to reuse the saved proof, rather than deleting and re-registering. Configure allowed keys and session credentials through the CLI: `--session-credentials-enabled` is a flag, and `allowed_api_key_ids` goes through `--body-file`.
