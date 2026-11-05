@@ -7,7 +7,7 @@ There is no credential yet, so no region is known. Point the CLI at the region y
 Three steps, each feeding the next:
 
 1. `bird auth signup <email>` creates the account and emails a six-digit code. It sets no password — the same magic-link path the dashboard uses — so the emailed code is all you need.
-2. `bird auth verify-email <email> --code <code>` signs you in and, for a brand-new account, returns a single-use `onboarding_ticket`. The code arrives by email, so it comes from outside the CLI — read it from the signup inbox, or have the person who owns the address relay it.
+2. `bird auth verify-email <email> --code <code>` signs you in and, for a brand-new account, returns a single-use `onboarding_ticket`. The code arrives by email, so it comes from outside the CLI: read it from the inbox when the agent operates that address itself, and otherwise ask the person who owns the address for it.
 3. `bird auth create-org <org_name> --workspace-name <name> --region <region> --onboarding-ticket <ticket>` creates the organization and its first workspace, then stores the minted credential so `bird` and the MCP server authenticate as you. It is one-time: a second call returns `409`, and the ticket is single-use.
 
 Each step's `--response-schema` prints what it returns, and each write's `--example` prints a ready-to-edit body — neither needs a credential, so you can inspect the whole chain before running it.

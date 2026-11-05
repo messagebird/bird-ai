@@ -26,7 +26,7 @@ Then branch on what they asked for:
 
 Starting a verification for a recipient who already has one in progress **re-sends** the code after the resend cooldown rather than opening a second one — so the same command both sends and resends.
 
-**Done when** the command returns a verification object with an `id` and `status: pending`. The passcode is never returned; read it from wherever the recipient received it, then check it.
+**Done when** the command returns a verification object with an `id` and `status: pending`. The passcode is never returned; ask the recipient for the code, then check it.
 
 ## Check
 

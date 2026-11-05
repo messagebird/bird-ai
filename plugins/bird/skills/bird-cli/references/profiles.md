@@ -10,7 +10,7 @@ A profile is one stored login for one workspace, so several workspaces can stay 
 ## Pick one per command
 
 - Every command uses the default profile unless `--profile <name>` or `BIRD_PROFILE=<name>` names another for that call. The flag wins over the variable.
-- An API key in the environment wins over every profile, so `--profile` changes nothing while `bird auth status` reports `source: env`. Ask the user to remove that key from the environment to act through a profile.
+- An API key in the user's environment wins over every profile, so `--profile` changes nothing while `bird auth status` reports `source: env`. Ask the user to remove it to act through a profile.
 - `bird auth status` reports `profile` and `profile_source` (`flag`, `env`, `file` for the stored default, `unset` for `default`). Check it before acting in a workspace you did not sign in to this session.
 
 ## List and switch

@@ -15,7 +15,7 @@ Branch on what they asked for:
 `bird realtime apps create --name <name> --region <region>` provisions an app and its first key. Two things about the response matter more than the rest:
 
 - **`app_id` is what a client connects with**, alongside a key. It is a numeric id, distinct from the `rap_…` id every other command takes.
-- **`key.secret` appears here and nowhere else.** No later read returns it. A caller that does not capture it has to create another key to get one, so pull it out of the response in the same step (`| jq -r '.key.secret'`).
+- **`key.secret` appears here and nowhere else.** No later read returns it. A caller that does not capture it has to create another key to get one, so ask the user where it should be stored (for `gh secret set`, which repository) and capture it straight into that store in the same step, printing the rest as the receipt: `resp=$(bird realtime apps create --name <name> --region <region> --idempotency-key <key>) && secret=$(jq -er .key.secret <<<"$resp") && printf %s "$secret" | gh secret set REALTIME_SECRET --repo <owner/repo> && jq 'del(.key.secret)' <<<"$resp"`. The receipt carries the `app_id` and the public `key.key` that pairs with the stored secret. If the store fails, ask the user before running the line again: a retry with the same key within about 3 hours usually replays the same value, but the API does not promise it kept the first response, so a retry can create another app, so check `bird realtime apps list` first. The store runs only when the command succeeded and returned the value, so a failed or empty result never overwrites a stored secret. Never print the value, write it to a file you read, or pass it to anything but `printf` into the store.
 
 `--region` is immutable after creation, and the only accepted values are the ids from `bird realtime regions list` (`eu1`, `us1` today; read the command rather than assuming). Unlike other Bird products an app may sit in a region other than the workspace's own. Getting it wrong means a new app and repointed clients, not an update.
 
@@ -27,7 +27,7 @@ The four config flags — `--client-events`, `--connection-counting`, `--connect
 
 `bird realtime apps delete <rap_…> --yes` is terminal: every connected client is disconnected and the app's keys go with it. No restore.
 
-**Done when** the app is in hand with its `app_id`, region, and a key whose secret you have stored.
+**Done when** the app is in hand with its `app_id`, region, and a key whose secret went straight into the user's store through the pipe.
 
 ## Keys
 
@@ -35,8 +35,8 @@ An app holds several live keys at once, and that is the whole point: it makes ro
 
 Rotate in this order, and not another:
 
-1. `bird realtime apps keys create <rap_…>` — adds a key and returns its secret. Existing keys keep working.
-2. Roll the new key and secret out to every client and server that connects.
+1. `bird realtime apps keys create <rap_…>` adds a key and returns its secret as `secret`; capture it into the user's store as with _Apps_ (`resp=$(bird realtime apps keys create <rap_…> --idempotency-key <key>) && secret=$(jq -er .secret <<<"$resp") && printf %s "$secret" | <store> && jq 'del(.secret)' <<<"$resp"`, whose receipt names the public `key`), and the same caution on a retry: check `bird realtime apps keys list <rap_…>` first, since it can add another key. Existing keys keep working.
+2. Ask the user to roll the new key and secret out to every client and server that connects.
 3. `bird realtime apps keys revoke <rap_…> <rak_…> --yes` — the old key stops working **immediately**; there is no grace period. The record survives with `revoked_at` set, for audit.
 
 Two guards you will hit if you rotate in the wrong order:
@@ -47,7 +47,7 @@ Two guards you will hit if you rotate in the wrong order:
 ## Traps
 
 - **No command publishes.** If the user wants to send an event to a channel, the answer is a server SDK, not the CLI. The same applies to listing channels, reading a channel's members, and disconnecting one.
-- **The key secret is one-shot.** Capture it from `create`'s response; there is no command that re-reads it.
+- **The key secret is one-shot.** Capture it from `create` straight into its store; there is no command that re-reads it.
 - **`app_id` and `rap_…` are different ids.** The numeric `app_id` goes to the connecting client; the `rap_…` id goes to every command here.
 - **`--region` cannot be changed**, and a value outside the region list is refused by the API (exit `2`), not by the CLI.
 - **`update` and both destructive commands need `--yes`.** The CLI never prompts.

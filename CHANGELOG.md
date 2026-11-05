@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.85.6
+
+- The `bird-cli` skill no longer has the agent read, print or store a secret. An API key token, a Realtime key secret and the callback signing secret are piped from the command that returns them straight into the user's secret store, and the agent does not open the file that holds a webhook signing secret. For an mTLS client certificate, an API key in the environment, an eSIM activation code and an emailed or texted code, the skill asks the user to act.
+
 ## 0.85.5
 
 - `bird whatsapp templates get` and `whatsapp_templates_get` guidance now says that Meta reviews each submitted language. Bird records each verdict automatically, so a `pending` language needs only waiting until `pending_version_id` clears.

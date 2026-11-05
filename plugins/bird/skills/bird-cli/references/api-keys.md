@@ -2,7 +2,7 @@
 
 `bird api-keys create` issues a workspace API key and returns its token once, and `bird api-keys rotate` replaces one. Those are the two api-keys commands the CLI has: listing and revoking a key are dashboard-only, so a key minted here can be inspected, or retired without a replacement, only from the web app.
 
-**The credential that runs this command cannot be an API key.** A `bk_` key cannot carry `api_keys`, so it fails here however broad the key is. If `bird auth status` reports `source: env`, an API key in the environment is overriding the login; ask the user to remove it from the environment first. It needs a login: `bird auth login --scope api_keys:write`. A plain `bird auth login` is not enough either — the scopeless login takes a read-only floor that does not include `api_keys`, so the command shows as disabled in `--help` and fails with exit `4`. `bird api-keys create --help` prints the exact re-authentication line when the current grant is short.
+**The credential that runs this command cannot be an API key.** A `bk_` key cannot carry `api_keys`, so an API key fails here however broad it is. If `bird auth status` reports `source: env`, an API key in the user's environment is overriding the login; ask the user to remove it first. It needs a login: `bird auth login --scope api_keys:write`. A plain `bird auth login` is not enough either: the scopeless login takes a read-only floor that does not include `api_keys`, so the command shows as disabled in `--help` and fails with exit `4`. `bird api-keys create --help` prints the exact re-authentication line when the current grant is short.
 
 ## Create
 
@@ -14,11 +14,11 @@ The body is `{name, scopes, expires_at?, cidrs?}`:
 - **`expires_at`** (`--expires-at`) is RFC 3339 and must be in the future. Omitting it mints a key that **never expires**, and no call changes an expiry once set: the update endpoint carries only `name` and `scopes`, and the CLI has no update command at all. Rotating does not carry an expiry over either (see Rotate below), so a key that must expire has to be re-issued with `create`. A non-expiring key outlives the login that created it, including that login's revocation, so an expiry is worth setting on anything an agent mints for itself.
 - **`cidrs`** (`--cidr`) restricts the key to source IP ranges. The key and its restriction are written in one transaction, so an invalid range fails the whole call rather than leaving an unrestricted key behind.
 
-**The `token` in the response is the only copy.** No later call returns it, and there is no command that reads it back — a lost token means minting another key and retiring the first one in the dashboard. Capture it from the response before doing anything else.
+**The `token` in the response is the only copy.** No later call returns it, and there is no command that reads it back; a lost token means minting another key and retiring the first one in the dashboard. Ask the user where it should be stored (for `gh secret set`, which repository), then capture it straight into that store and print the rest of the response as the receipt: `resp=$(bird api-keys create --name "Email ops key" --scope emails:write --idempotency-key <key>) && token=$(jq -er .token <<<"$resp") && printf %s "$token" | gh secret set EMAIL_OPS_KEY --repo <owner/repo> && jq 'del(.token)' <<<"$resp"`. The receipt's `id` and `key_prefix` tie the stored token to its key, since the CLI cannot list keys. Any store that reads stdin works the same way. If the store fails, ask the user before running the line again: a retry with the same key within about 3 hours usually replays the same value, but the API does not promise it kept the first response, so a retry can mint another live key, which only the dashboard can retire. The store runs only when the command succeeded and returned the value, so a failed or empty result never overwrites a stored secret. Never print the value, write it to a file you read, or pass it to anything but `printf` into the store.
 
-`--idempotency-key` makes a retry safe: the same key replays the original result instead of minting a second credential. Worth passing on every call here, because the thing being duplicated is a live credential.
+`--idempotency-key` makes a retry usually replay the original result instead of minting a second credential, while the API kept that response. Worth passing on every call here, because the thing being duplicated is a live credential.
 
-**Done when** the response carries an `id` and a `token`, and the token has been stored somewhere durable.
+**Done when** the command succeeded and the user's store holds the token.
 
 ## Rotate
 
@@ -31,13 +31,13 @@ The replacement inherits the source key's name, source IP restrictions and permi
 
 **The replacement never expires, even when the key it replaced did**, and nothing can add an expiry afterwards. Rotating a 30-day key therefore hands back a perpetual one, so a key whose expiry matters should be re-issued with `create` rather than rotated.
 
-`--idempotency-key` matters more here than anywhere, for the opposite reason to `create`'s. A key can be rotated only once: `ReplacedByID` makes a second rotate of the same key fail `409` (`E08018`, "API key has already been rotated"), so a retry cannot double-mint but it also cannot return the token the first attempt already minted. With the key the retry replays that original response; without it, a rotation whose reply was lost in transit has produced a live key whose token nothing can read back, and the only remedy is rotating the replacement.
+`--idempotency-key` matters more here than anywhere, for the opposite reason to `create`'s. A key can be rotated only once: `ReplacedByID` makes a second rotate of the same key fail `409` (`E08018`, "API key has already been rotated"), so a retry cannot double-mint but it also cannot return the token the first attempt already minted. With the key the retry usually replays that original response, and when the API did not keep it, the retry fails with `E08018`; without it, a rotation whose reply was lost in transit has produced a live key whose token nothing can read back, and the only remedy is rotating the replacement.
 
-**Done when** the response carries a new `id`, a `token`, and `rotated_from_id` naming the key you rotated, and the token has been stored somewhere durable.
+**Done when** the command succeeded and the user's store holds the new token, captured the same way as in _Create_ (`resp=$(bird api-keys rotate <api-key-id> --yes --idempotency-key <key>) && token=$(jq -er .token <<<"$resp") && printf %s "$token" | <store> && jq 'del(.token)' <<<"$resp"`). A retry cannot rotate the same key twice: it either replays the token or fails with `E08018`, and then the replacement's token is lost, so ask the user before rotating the replacement.
 
 ## Traps
 
-- **An API key cannot mint an API key.** This command needs an interactive login carrying `api_keys:write`.
+- **An API key cannot mint an API key.** It fails no matter its scopes; this command needs an interactive login carrying `api_keys:write`.
 - **A plain `bird auth login` does not carry `api_keys:write`.** The scopeless login is a read-only floor, so the step-up is explicit.
 - **Omitting `expires_at` mints a key with no expiry**, and nothing can add one later. That key survives revocation of the grant that created it.
 - **`scopes` is the complete set, not an addition**, and it cannot be widened later from the CLI at all. The same holds for `--scope` over a `--body-file`: the flags replace the file's array rather than appending to it.
