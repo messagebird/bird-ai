@@ -66,6 +66,8 @@ To seed the first draft in the create itself, pass the whole body with `--body-f
 
 A marketing language can carry `optimization_spec`, its maximum price, in the same `--body-file` as its components. It is the one field `set` does not replace: leave it out to keep the price, or send `null` for WhatsApp's standard rate. `bird whatsapp business-accounts reach-estimate <business-account-id> --countries BR` suggests a `bid_amount`; a country without a maximum price fails with E15090. `bird whatsapp send --bid-multiplier 0.8` scales the price for one message; the resolved language must carry a maximum price and still be marketing. A maximum-price send needs the business account onboarded to Marketing Messages, or it fails with WhatsApp error 131061.
 
+Any language except an authentication one can carry `parameter_bindings`; an authentication language takes its code only from the `code` input, and submit refuses bindings there. A binding is Liquid that computes a placeholder's value from the send's `template.parameters` or from the recipient's contact (`bird.contact.*`). A binding that reads the contact shows up as a `system` variable; broadcasts fill it, and a single send refuses it with E15091. Like `optimization_spec`, leave it out to keep the bindings, or send `null` to clear them. Changing only the bindings never needs a new review.
+
 Any language can carry `message_send_ttl_seconds`: how long WhatsApp retries an undelivered message before dropping it. Like `optimization_spec`, leave it out to keep the value, or send `null` for WhatsApp's default. The range depends on the category: 30 to 900 for authentication, 30 to 43200 for utility, 43200 to 1209600 for marketing. A value outside it fails with E15100. Changing only the TTL of an approved language reaches WhatsApp without a new review.
 
 ## Submit and poll
@@ -74,7 +76,7 @@ Check before you freeze. `bird whatsapp templates versions submit <template-ref>
 
 Then submit for real by dropping `--validate-only`. That freezes the draft as an immutable version and answers `202`. Only the languages whose content differs from their approved copy go to WhatsApp as `pending`; one that already matches carries its `approved` verdict forward and is never sent, so a submit whose languages are all unchanged comes back settled with nothing to poll for. Use a different `--idempotency-key` for the check and the submit, because reusing one key with a different body is rejected. No replacement draft opens afterwards, so the next round of edits starts at `versions create` again.
 
-Meta reviews each submitted language. Bird does not review templates. Meta's review takes minutes to days. Bird records each verdict automatically. There is nothing for a person to do while a language is `pending`. No command refreshes or hurries it. A pending language's `whatsapp_manager_url` opens it in WhatsApp Manager for people with access to the business portfolio. The link can take a minute after submitting to appear.
+Meta reviews each submitted language. Bird does not review templates. Meta's systems approve some languages automatically. Others take longer, with no estimate or guarantee. Bird records each verdict automatically. There is nothing for a person to do while a language is `pending`. No command refreshes or hurries it. Bird support cannot speed it up either. A pending language's `whatsapp_manager_url` opens it in WhatsApp Manager for people with access to the business portfolio. The link can take a minute after submitting to appear.
 
 Approval arrives per language:
 

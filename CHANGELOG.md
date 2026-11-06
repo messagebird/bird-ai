@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.86.0
+
+- Add `bird assets uploads handoff` and `assets_uploads_handoff` to open a browser fallback when a code environment cannot reach the upload host. Keep the original connection, download any assistant-generated file, and read the session with `bird assets uploads get` or `assets_uploads_get` after the person publishes it.
+- The Bird CLI skill now covers drafting, checking, testing and sending WhatsApp broadcasts.
+- Guidance for a `pending` WhatsApp template language now says Meta gives no review estimate and Bird support cannot speed up the review.
+- `workspace rate-limits list` and `organization workspaces rate-limits update` / `delete` now explain how manual limits interact with automatic allocation in organizations with several workspaces. Clearing a manual limit can restore an automatic share rather than the full organization limit.
+- Add `limit_source`, `automatic_limit`, and `allocation_enabled` to workspace rate-limit reads. These fields are present for organizations with one workspace too; without a workspace limit or allocation, their values are `organization`, `null`, and `false`. Workspace rate-limit controls apply to organizations with several workspaces, or a manual limit or enabled allocation retained after deletion.
+
 ## 0.85.6
 
 - The `bird-cli` skill no longer has the agent read, print or store a secret. An API key token, a Realtime key secret and the callback signing secret are piped from the command that returns them straight into the user's secret store, and the agent does not open the file that holds a webhook signing secret. For an mTLS client certificate, an API key in the environment, an eSIM activation code and an emailed or texted code, the skill asks the user to act.

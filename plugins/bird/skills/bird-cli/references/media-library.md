@@ -43,6 +43,14 @@ After access is restored, use the same workspace and OAuth connection or API key
 
 A completed session needs no further transfer. Wait and read again if it is finalizing; an expired, rejected, or cancelled intent needs a new reference. Report publication after the session is completed.
 
+### Use the browser fallback
+
+If network policy prevents transfer and the customer cannot or does not want to change it, call `assets_uploads_handoff` (CLI: `bird assets uploads handoff <upload-id>`) for the existing pending session. Use the same workspace and OAuth connection or API key that created it. Show `browser_url` or use the client's browser prompt. The link grants no permission: a signed-in person with asset write access in that workspace selects the original file and chooses **Upload and publish**.
+
+Provide a download for a file generated inside the assistant; the person must download it and select those unchanged bytes. Their browser must still reach storage. The handoff preserves the file descriptor, metadata and original deadline. If the person declines, stop prompting unless they ask again; do not create another intent or cancel this one merely because they declined.
+
+After the person returns, use `assets_uploads_get` with the original connection. Opening the page or accepting its prompt does not establish publication. Report success from a completed receipt; follow the returned steps for other states. If handoff is unavailable, explain that limitation and retain the session for ordinary recovery or cancellation.
+
 ## Remove library entries
 
 Before `bird assets delete <id> --yes`, establish that removing the library entry is the user's intended action. Its URL continues serving existing content; this is not emergency takedown. `bird assets folders delete <folder-id> --yes` moves its contents to the parent and preserves asset URLs. A child-name conflict must be resolved before folder deletion can succeed.
