@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.87.0
+
+- `bird whatsapp numbers update` gains `--conversations-enabled`, and the `whatsapp_numbers_update` MCP tool gains `conversations_enabled`, to turn conversations on or off for a number. Number reads now return `conversations_enabled`.
+- The `bird-cli` skill now lists `register_10dlc_brand` among the actions `bird trust actions requirements` reports on.
+
 ## 0.86.0
 
 - Add `bird assets uploads handoff` and `assets_uploads_handoff` to open a browser fallback when a code environment cannot reach the upload host. Keep the original connection, download any assistant-generated file, and read the session with `bird assets uploads get` or `assets_uploads_get` after the person publishes it.

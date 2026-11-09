@@ -10,9 +10,9 @@ Then branch on what you have:
 
 ## What an action needs
 
-`bird trust actions requirements <action>` lists the requirements one action depends on, each with whether the organization has met it and how it gets met. The actions are `buy_number`, `register_sender_id`, `add_sender_id` (claim an alphanumeric sender), and `register_verified_number` (register a phone number as a verified caller ID). More may be added, so treat an unfamiliar value as valid rather than rejecting it.
+`bird trust actions requirements <action>` lists the requirements one action depends on, each with whether the organization has met it and how it gets met. The actions are `buy_number`, `register_sender_id`, `add_sender_id` (claim an alphanumeric sender), `register_verified_number` (register a phone number as a verified caller ID), and `register_10dlc_brand` (register or resubmit a US 10DLC brand). More may be added, so treat an unfamiliar value as valid rather than rejecting it.
 
-Every requirement must be met before the action is permitted; the order they come back in is a suggestion, not a sequence.
+Use the top-level `satisfied` to decide whether the action is permitted: an organization override can permit it while a requirement is still unmet. The order requirements come back in is a suggestion, not a sequence.
 
 **Done when** you have the list and can name the outstanding requirements by slug.
 

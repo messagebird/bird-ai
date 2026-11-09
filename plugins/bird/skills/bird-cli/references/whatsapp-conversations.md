@@ -4,7 +4,7 @@ Reads need `whatsapp:read` and updates need `whatsapp:write`, both workspace-lev
 
 ## What a conversation is
 
-One thread between a connected number and a single contact, or a group that number belongs to, with a `wacv_` id. It exists only on a number with conversations turned on, which is a dashboard setting, and appears once a first message is recorded. It is never closed: resolving it keeps the id, and the contact's next message reopens it.
+One thread between a connected number and a single contact, or a group that number belongs to, with a `wacv_` id. It exists only on a number with conversations turned on (`bird whatsapp numbers update <wan-id> --conversations-enabled`, which needs `whatsapp_management:write` rather than the `whatsapp` scope), and appears once a first message is recorded. It is never closed: resolving it keeps the id, and the contact's next message reopens it.
 
 ## Triage the inbox
 
