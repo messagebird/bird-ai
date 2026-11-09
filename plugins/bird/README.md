@@ -16,10 +16,6 @@ Registering the server is not the same as authenticating it. The server is OAuth
 
 The plugin reads no credential itself, and it sends nothing on its own. The MCP server signs in with OAuth in your browser. The `bird-cli` skill runs your own `bird` CLI and documents only its OAuth login, `bird auth login`, which the CLI then uses to call the Bird API. Feedback reaches the Bird team only when you approve sending it.
 
-## Feedback hook
-
-In Claude Code, when a Bird MCP tool or Bird skill fails, a hook asks the agent to draft short feedback for the Bird team about what failed. The agent shows you the draft and sends it with the `platform_feedback` MCP tool or the `bird` CLI only if you approve. It asks at most once per tool per session and never contacts the network itself.
-
 ## Install
 
 In Claude Code 2.1.275 or later:

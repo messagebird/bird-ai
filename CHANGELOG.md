@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.87.1
+
+- Claude Code no longer asks to send feedback to the Bird team after a Bird tool fails. To report a problem, ask the agent to send feedback with the `platform_feedback` MCP tool or `bird platform feedback`; both need you signed in to Bird.
+
 ## 0.87.0
 
 - `bird whatsapp numbers update` gains `--conversations-enabled`, and the `whatsapp_numbers_update` MCP tool gains `conversations_enabled`, to turn conversations on or off for a number. Number reads now return `conversations_enabled`.
