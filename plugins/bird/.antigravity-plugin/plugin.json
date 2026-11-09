@@ -1,4 +1,33 @@
 {
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
   "name": "bird",
-  "description": "Drive Bird from your coding agent: operate the Bird API from the terminal with the `bird` CLI, send across email, SMS, and WhatsApp Business, and audit a domain's email authentication."
+  "displayName": "Bird",
+  "version": "0.87.2",
+  "description": "Bird is the communications infrastructure AI agents operate: email, SMS, and WhatsApp Business, with a delivery timestamp or the exact failure reason.",
+  "logo": "assets/antigravity-logo.svg",
+  "suggestedPrompts": [
+    "Send me a test email and tell me the moment it's delivered",
+    "Audit the email authentication of my domain",
+    "Set up a webhook for delivery events"
+  ],
+  "author": {
+    "name": "Bird",
+    "url": "https://bird.com"
+  },
+  "homepage": "https://bird.com",
+  "repository": "https://github.com/messagebird/bird-ai",
+  "license": "MIT",
+  "keywords": [
+    "bird",
+    "api",
+    "cli",
+    "agent",
+    "messaging",
+    "email",
+    "sms",
+    "whatsapp",
+    "verify",
+    "realtime",
+    "webhooks"
+  ]
 }

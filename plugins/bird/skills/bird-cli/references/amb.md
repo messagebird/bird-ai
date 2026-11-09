@@ -6,7 +6,7 @@ Use `bird amb` to reply to customer-initiated conversations, inspect messages an
 
 - The sender must be a configured, connected business in the authenticated workspace. Use its apple_business_id as from, not its Bird record ID.
 - The customer must have opened a conversation with that business. Use the conversation's recipient.opaque_user_id as to. The conversation must be open and the recipient unsuppressed.
-- Supply the message as text, rich_link or interactive, or as template (a stored template reference) instead. Text beside rich_link or interactive arrives first as its own bubble. Template sends derive their category from the template, so omit category alongside template.
+- Supply the message as text, rich_link or interactive, or as template (a stored template reference) instead. Text beside interactive arrives first as its own bubble. Beside rich_link, the card replaces the first copy of its URL in it, splitting it around the card, or follows it when the URL is absent. Later copies of that URL are dropped. A rich_link image's layout, and a text's link_previews.layout for the links in it, choose icon (a small image beside the title, for a logo), square or large. link_previews is refused beside rich_link or interactive. Template sends derive their category from the template, so omit category alongside template.
 - Review the exact business, recipient and content before sending. Reuse the same idempotency key when retrying the same request.
 - `bird amb send`: Queues the reply and returns its message ID.
 

@@ -224,7 +224,13 @@ Bird is a communications platform you can operate end to end: email, SMS, WhatsA
 Then let's discuss next steps, given what Bird can do.
 ```
 
-Or install the plugin by hand:
+Or install the plugin by hand with Antigravity CLI:
+
+```bash
+agy plugin install https://github.com/messagebird/bird-ai
+```
+
+Or without Antigravity CLI:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/messagebird/bird-ai/main/antigravity.sh | bash
@@ -234,7 +240,7 @@ The script downloads the plugin from this repository's `main` branch and install
 
 **MCP server:** the plugin registers Bird's hosted server at `https://mcp.bird.com`. You still sign in once, because the server is OAuth-gated: open **Customizations** in the sidebar (in the IDE, open **Agent settings** with `Cmd+,` on macOS or `Ctrl+,` elsewhere), and select **Authenticate** next to `bird`. If `bird` is not listed, restart Antigravity. Approve Bird's consent screen in the browser, copy the authorization code it shows, paste it into Antigravity, and select **Submit**. Until then every tool call fails.
 
-The package's `VERSION` file records the Bird AI release, because Antigravity's plugin manifest accepts only a name and description. These are [local installation instructions](https://antigravity.google/docs/plugins/); inclusion in Google's curated marketplace requires its separate review.
+These are [local installation instructions](https://antigravity.google/docs/plugins/); inclusion in Google's curated marketplace requires its separate review.
 
 ## What's in the `bird` plugin
 

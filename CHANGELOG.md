@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.87.2
+
+- Installing the plugin in Antigravity from `https://github.com/messagebird/bird-ai` now registers the Bird MCP server as well as the skills, and Antigravity shows the plugin as Bird with its logo and starter prompts.
+- Deleting an email template that an active (non-archived) Verify configuration pins as its custom email sender's body now fails with a resource-in-use conflict; switch that configuration or country sender to Bird's built-in email or another template in the dashboard's Verify settings, then delete.
+- The Bird CLI skill now tells agents where `bird amb send` places an Apple Messages rich link card: in place of the first copy of its URL in the text sent beside it, or after that text when the text does not contain the URL.
+
 ## 0.87.1
 
 - Claude Code no longer asks to send feedback to the Bird team after a Bird tool fails. To report a problem, ask the agent to send feedback with the `platform_feedback` MCP tool or `bird platform feedback`; both need you signed in to Bird.
