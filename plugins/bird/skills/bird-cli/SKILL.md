@@ -9,6 +9,8 @@ description: Use when operating Bird through the bird CLI to preview or send mes
 
 This skill requires the `bird` CLI. If `command -v bird` finds nothing, install it by following the [CLI installation instructions](https://bird.com/docs/cli#install).
 
+Each `references/` link below points to a file beside this one. If your copy has no `references/` folder, read the same path from the Bird MCP server as `skill://bird-cli/references/<file>`, or from `https://raw.githubusercontent.com/messagebird/bird-ai/main/plugins/bird/skills/bird-cli/references/<file>`.
+
 ## The path
 
 **Step 0 — Authenticate for account operations.** For a WhatsApp preview, go directly to [Preview](references/whatsapp.md#preview); for public documentation questions, use [docs](references/docs.md). For account operations, confirm credentials first: [authenticate](references/authenticate.md). It is a no-op when `bird auth status` already reports `valid: true`. No account yet? Create one through [onboarding](references/onboarding.md); it ends by storing the same credential a login would.

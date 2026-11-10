@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.87.4
+
+- When a host installs the bird-cli skill's SKILL.md without its references folder, the skill now tells the agent to read each reference file from the Bird MCP server as a skill://bird-cli/references/ resource, or from the messagebird/bird-ai repository.
+
 ## 0.87.3
 
 - The WhatsApp broadcasts skill says a broadcast that failed with `workspace_suspended` needs Bird support to reactivate the workspace and does not resume after reactivation.
