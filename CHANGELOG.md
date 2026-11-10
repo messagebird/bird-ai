@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.87.3
+
+- The WhatsApp broadcasts skill says a broadcast that failed with `workspace_suspended` needs Bird support to reactivate the workspace and does not resume after reactivation.
+- Add a workflow guide for connecting a WhatsApp Business app number with coexistence, covering the expected Meta screens, where to look up Meta's errors, and how to confirm the number afterwards.
+
 ## 0.87.2
 
 - Installing the plugin in Antigravity from `https://github.com/messagebird/bird-ai` now registers the Bird MCP server as well as the skills, and Antigravity shows the plugin as Bird with its logo and starter prompts.
