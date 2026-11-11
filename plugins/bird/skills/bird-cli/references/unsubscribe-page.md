@@ -5,7 +5,9 @@ One page per workspace, shown to a recipient who unsubscribes from marketing ema
 ## Read it
 
 - `bird email unsubscribe-page get` returns the sender name the page shows, its three colors, and `example_url`, a link that previews the live page for a sample recipient. The preview is side-effect free: opening it opts nobody out and changes no suppression.
-- A null on any of the four means the built-in default: the page shows the company name, and the built-in style with its automatic dark theme.
+- A null on any of the four means the built-in default: the page shows the default sender name, and the built-in style with its automatic dark theme.
+
+The default sender name starts with the organization name (or workspace name if absent). After default Brand setup, its independently editable name supplies this fallback.
 
 ## Restyle it
 

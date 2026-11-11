@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.87.6
+
+- `bird email unsubscribe-page update` help now explains that clearing the page name restores the default sender name.
+
 ## 0.87.5
 
 - The plugin's logo files are now PNG instead of SVG. Codex, Cursor and Antigravity show the same Bird logo as before.
