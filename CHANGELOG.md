@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.87.5
+
+- The plugin's logo files are now PNG instead of SVG. Codex, Cursor and Antigravity show the same Bird logo as before.
+- Guidance for `bird assets uploads handoff` now explains how to publish the selected local file when chat processing changes an attachment.
+- With the `bird-cli` skill an agent can route received messages to a messaging profile by keyword: it sets `inbound.keyword` through `bird sms messaging-profiles create` or `update --body-file`, and recovers when another profile already holds the keyword.
+
 ## 0.87.4
 
 - When a host installs the bird-cli skill's SKILL.md without its references folder, the skill now tells the agent to read each reference file from the Bird MCP server as a skill://bird-cli/references/ resource, or from the messagebird/bird-ai repository.

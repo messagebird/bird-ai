@@ -15,6 +15,7 @@ Branch on what they asked for:
 
 - `senders` chooses a sender per destination country, with one entry that omits `country_code` as the default. Every sender must belong to the workspace; get IDs from `bird sms senders list`.
 - `inbound.numbers` lists the numbers that receive replies. A number belongs to one profile at a time, and a short code needs its `country_code`.
+- `inbound.keyword` routes a received message that opens with it to this profile, on any of the workspace's numbers and ahead of the receiving number's profile. One profile in a workspace can hold a keyword; a taken one returns `SMSMessagingProfileKeywordTaken`.
 - A send that names the profile takes its sender, default category, smart encoding, cost center, validity period and callback URL when it leaves them out; an explicit value on the send wins.
 
 **Done when** the command returns a profile object with an `id` (`mpr_…`). Pass it as `messaging_profile_id` on a send.
@@ -29,4 +30,4 @@ Branch on what they asked for:
 
 ## Delete
 
-`bird sms messaging-profiles delete <profile-id>` deletes the profile and frees its reply numbers. Messages already sent keep what they used, and a later send naming the profile returns `SMSMessagingProfileNotFound`, but sends and inbound reply attribution can keep using the deleted profile for up to 60 seconds because profiles are cached, so wait that long before treating the deletion as in effect or retrying a send. Confirm with the user first; the command refuses without `--yes` and never prompts.
+`bird sms messaging-profiles delete <profile-id>` deletes the profile and frees its reply numbers and keyword. Messages already sent keep what they used, and a later send naming the profile returns `SMSMessagingProfileNotFound`, but sends and inbound reply attribution can keep using the deleted profile for up to 60 seconds because profiles are cached, so wait that long before treating the deletion as in effect or retrying a send. Confirm with the user first; the command refuses without `--yes` and never prompts.
