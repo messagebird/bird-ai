@@ -23,7 +23,7 @@ Use the top-level `satisfied` to decide whether the action is permitted: an orga
 Two fields carry the decision:
 
 - `display_status` — whether the requirement is met.
-- `remediation.kind` — how it gets met. `hosted_verification` and `verify_flow` are yours to act on; `under_review` is a wait with nothing asked of you. `remediation` is `null` once the requirement is verified.
+- `remediation.kind` — how it gets met. `hosted_verification` and `verify_flow` are yours to act on; `under_review` is a wait with nothing asked of you. `compliance_submission` is met by Bird's review of the organization's business, not by a verification you start: `bird trust gates verification create` refuses it. `bird compliance requirements` (subject kind `identity`, program `business`, country `ZZ`) shows what that review asks for. `remediation` is `null` once the requirement is verified.
 
 ## Settling one
 

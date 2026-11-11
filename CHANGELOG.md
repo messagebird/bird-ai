@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.87.7
+
+- `bird trust gates list` and `bird trust actions requirements` can report a requirement whose `remediation.kind` is `compliance_submission`. It is met by Bird's review of your business, not by a verification you start: `bird trust gates verification create` refuses it, and `bird compliance requirements` shows what the review asks for.
+
 ## 0.87.6
 
 - `bird email unsubscribe-page update` help now explains that clearing the page name restores the default sender name.
