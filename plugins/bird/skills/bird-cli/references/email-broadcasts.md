@@ -11,12 +11,26 @@
 
    Before scheduling, run `bird email broadcasts send-quota <broadcast-id> --send-at <scheduled_at>` with the time you plan to pass to `bird email broadcasts send --scheduled-at`. The check uses current limits and does not subtract broadcasts that are scheduled but have not sent yet. Broadcasts scheduled for the same period may together exceed the limit even if each check shows enough quota. `allowed` and `limited_by` describe the email send allowance at that time. If an allowance resets by then, the check uses its full allowance. It does not reflect plan changes or temporary limit changes that take effect before that time. This check reserves nothing. The allowance is checked again when the broadcast sends, using what remains after other sends.
 
-   When present, `resets_at` is the earliest time the reported allowance resets. An audience larger than the full `limit` cannot send in any window with that limit. Without `--send-at`, the result is for a send now, even if the broadcast is already scheduled. `limit_reason` explains what sets the monthly email limit if you can read the organization's billing. If `broadcasts.remaining` is 0, you cannot send or schedule a draft.
+   When present, `resets_at` is the earliest time the reported allowance resets. An audience larger than a full daily or funded monthly limit cannot send in any window with that limit. A reported monthly `limit` can instead be a temporary funding restriction.
+
+   When present, use `can_start` to decide whether email limits permit starting, even if `allowed` or `remaining` is 0. For example, 60,000 recipients can exceed a temporary unfunded `limit` of 50,000 yet have `can_start: true` when daily and funded monthly limits permit them; the broadcast can start and wait for funds. If `can_start` is absent, use `allowed` and do not assume waiting is supported. Other send checks still apply.
+
+   Without `--send-at`, the result is for a send now, even if the broadcast is already scheduled. `limit_reason` explains what sets the monthly email limit if you can read the organization's billing. If `broadcasts.remaining` is 0, you cannot send or schedule a draft.
 
 3. Check the sender with `bird email domains list`. For template parameters, follow [published inputs, preview, and member test](#published-inputs-preview-and-member-test). `bird email templates preview <template-ref>` inspects authored content; it does not supply a broadcast preview fingerprint. An empty unsubscribe link in a preview is not live; marketing sends add unsubscribe content at send time.
 4. Confirm the broadcast, audience, and sender with the user before `bird email broadcasts send <broadcast-id>` or `bird email broadcasts create --send`. A send cannot be recalled after delivery begins.
 
 `counts` and `send-quota` can time out on very large audiences. An E01017 response gives no reliable pre-send estimate; do not treat it as zero or as permission to send. The quota result describes Bird's email send allowance for this broadcast. It does not report the current subscription plan or the external provider's account capacity.
+
+## Resume a paused broadcast
+
+Resume the same broadcast to continue delivery to its remaining recipients. Read it with `bird email broadcasts get <broadcast-id>` and check `status`, `started_at`, and the pinned `template.id`, `template.version_id`, and `template.language`. A `waiting_for_funds` broadcast continues automatically if funding recovers during its wait; explicit resume requires `paused`.
+
+Before continuing late delivery, ask the user whether the message is still appropriate. A reviewer with `email_management:read` can inspect a workspace template's pinned content with `bird email templates versions get <template-ref> <version-id>`, including after the template is deleted. Built-in lookups (`scope: system`) return current catalogue content. Broadcasts with frozen content keep it, but older broadcasts can read the catalogue again when resumed. Neither a current lookup nor an earlier message alone proves what remaining recipients will receive. Leave the broadcast paused unless that content can be verified.
+
+After the user confirms, run `bird email broadcasts resume <broadcast-id>`. If sending started at least 24 hours ago, pass `--yes` only after the user acknowledges that the remaining recipients will receive the message late. Older broadcasts without `started_at` use send authorization, or creation when that is also missing. The flag skips no funds, workspace activity, sending allowance, or concurrency check.
+
+A successful response accepts continuation; inspect the broadcast and its recipients to follow delivery. If the request times out, read its state before retrying. If funds or sending allowances still block it, resolve that restriction and retry the same broadcast. Do not create a replacement broadcast to recover the remaining recipients.
 
 ## Published inputs, preview, and member test
 

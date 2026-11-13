@@ -57,7 +57,9 @@ Mutations take flags or a `--body-file` JSON body (`--example` prints the shape,
 - `bird email templates versions submit <emt_…> <emv_…>` freezes the draft and makes it live. `--validate-only` runs every check without freezing anything; `--expected-revision <n>` refuses the submit if the draft moved since you read it.
 - `bird email templates versions rollback <emt_…> <emv_…> --revision <n> --yes` makes an earlier version live again and resets the draft to its content. No new version is created.
 - `bird email templates versions delete <emt_…> <emv_…> --yes` **discards the draft's edits**, resetting it to what is live. It does not delete a submitted version.
-- `bird email templates delete <slug|emt_…> --yes` deletes the template and every version. The slug becomes reusable, and a later send naming it fails.
+- `bird email templates delete <slug|emt_…> --yes` removes the template from authoring and lists. Published versions remain readable and previewable by template ID and version ID; the deleted draft and slug lookup are unavailable. The slug becomes reusable.
+
+To review a paused broadcast after template deletion, read its `template.id` and `template.version_id`, then run `bird email templates versions get <template-id> <version-id>` or `bird email templates preview <template-id> --version <version-id>`. Use its `template.language` when present; otherwise use the published version's default language. Review the original content before resuming, including offers that may have expired.
 
 ## Check in CI
 

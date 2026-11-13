@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.87.8
+
+- The `bird-cli` skill's email broadcast reference now uses `can_start`, when present, to distinguish temporary funding restrictions from daily and funded monthly limits. Its email template reference explains how to review a paused broadcast's original published content by template and version ID after template deletion. It also explains how to resume the same paused broadcast and obtain informed acknowledgment before continuing late delivery.
+- Bird CLI skill: `bird sms senders registrations create` no longer says registering a number is free, since any sender type can carry a setup fee and a recurring monthly charge, and says a reviewed registration's setup fee is charged when its paperwork is submitted, or on approval if it needs none.
+
 ## 0.87.7
 
 - `bird trust gates list` and `bird trust actions requirements` can report a requirement whose `remediation.kind` is `compliance_submission`. It is met by Bird's review of your business, not by a verification you start: `bird trust gates verification create` refuses it, and `bird compliance requirements` shows what the review asks for.
