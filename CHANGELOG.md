@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.88.0
+
+- The Bird CLI skill's voice guidance now places calls with `bird voice calls create` directly, with no browser review, only when the person asked for that call with its `from`, `to` and sequence, otherwise confirming those and the charges first. On a retry it reuses the same idempotency key with identical input, because a new key places another charged call and changed input conflicts.
+- Add `bird voice calls recordings list`, `bird voice calls transcript` and `bird voice legs recordings audio`, which list what a call recorded, read its transcript and download a recording. The MCP server gains the matching `voice_calls_recordings_list`, `voice_calls_transcript` and `voice_legs_recordings_audio` tools.
+
 ## 0.87.8
 
 - The `bird-cli` skill's email broadcast reference now uses `can_start`, when present, to distinguish temporary funding restrictions from daily and funded monthly limits. Its email template reference explains how to review a paused broadcast's original published content by template and version ID after template deletion. It also explains how to resume the same paused broadcast and obtain informed acknowledgment before continuing late delivery.

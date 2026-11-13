@@ -2,7 +2,7 @@
   "$schema": "https://antigravity.google/schemas/v1/plugin.json",
   "name": "bird",
   "displayName": "Bird",
-  "version": "0.87.8",
+  "version": "0.88.0",
   "description": "Bird is the communications infrastructure AI agents operate: email, SMS, and WhatsApp Business, with a delivery timestamp or the exact failure reason.",
   "logo": "assets/antigravity-logo.png",
   "suggestedPrompts": [
