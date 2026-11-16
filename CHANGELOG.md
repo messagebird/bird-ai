@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.89.1
+
+- The Bird CLI skill's WhatsApp suppressions guidance now says that adding an address already suppressed for that scope moves `last_asserted_at` on the existing record.
+
 ## 0.89.0
 
 - **Breaking:** `bird amb suppressions add` and `bird amb suppressions remove` replace the former create and delete verbs, matching `bird sms suppressions` and `bird whatsapp suppressions`; scripts calling the old verbs need the new names.
