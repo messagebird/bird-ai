@@ -17,7 +17,7 @@ Then jump to your client below. The fastest path is to paste the setup prompt an
 
 ## No Bird account yet?
 
-`bird auth login` signs in to an account you already have. An agent with **no** account can create one from the terminal — no browser, no password. Three commands take you from nothing to a stored credential:
+`bird auth login` signs in to an account you already have. An agent with **no** account can create one from the terminal — no dashboard, no password; the owner only opens the Terms page to read it. Four commands take you from nothing to a stored credential:
 
 ```bash
 # 1. Sign up. Emails a six-digit code to the address; no password is set.
@@ -27,15 +27,19 @@ bird auth signup you@example.com
 bird auth verify-email you@example.com --code 123456
 # → { "onboarding_ticket": "obt_…", "user_id": "usr_…" }
 
-# 3. Create your first org + workspace. Consumes the ticket, then mints and stores the credential.
+# 3. Read the current Terms. Show the page to the person who will own the organization.
+bird auth terms
+# → { "version": "2024-11-21", "url": "https://bird.com/legal/terms-2024-11-21", … }
+
+# 4. Create your first org + workspace once they agree. Consumes the ticket, then mints and stores the credential.
 #    --region picks where the account and its data live (us1 or eu1); the CLI routes there for you.
-bird auth create-org "Acme" --workspace-name "Production" --region us1 --onboarding-ticket obt_…
+bird auth create-org "Acme" --workspace-name "Production" --region us1 --onboarding-ticket obt_… --accept-terms 2024-11-21
 
 # Confirm it worked — reports the account, org, and workspace you're now acting as.
 bird auth status
 ```
 
-The code arrives by email, so it comes from outside the CLI — read it from the inbox and pass it to step 2. Signup and verification are region-agnostic; you pick the region once, at `create-org`, so there is no host or environment variable to set. Every step is self-describing: append `--help` for the flags, `--example` for a ready-to-edit request body, or `--response-schema` for what it returns — none of them need a credential, so an agent can plan the whole chain before running it. Full walkthrough: [Self-serve signup](https://bird.com/docs/ai/self-serve-signup).
+The code arrives by email, so it comes from outside the CLI — read it from the inbox and pass it to step 2. `--accept-terms` states that the owner agreed to the Terms on behalf of the organization, so pass it only after they do; without it, `create-org` returns `E02100` when acceptance is required. Signup and verification are region-agnostic; you pick the region once, at `create-org`, so there is no host or environment variable to set. Every step is self-describing: append `--help` for the flags, `--example` for a ready-to-edit request body, or `--response-schema` for what it returns — none of them need a credential, so an agent can plan the whole chain before running it. Full walkthrough: [Self-serve signup](https://bird.com/docs/ai/self-serve-signup).
 
 ## Any Agent Plugins client
 

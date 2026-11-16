@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.90.0
+
+- `bird auth terms` and the `auth_terms` tool of the local (stdio) MCP server return the current Terms of Service version and the URL of its page. Once the organization's owner has read that page and agreed, `bird auth create-org --accept-terms <version>` and the `accept_terms` input of `auth_create_org` state that acceptance, so organization setup can complete outside the dashboard when acceptance is required.
+
 ## 0.89.1
 
 - The Bird CLI skill's WhatsApp suppressions guidance now says that adding an address already suppressed for that scope moves `last_asserted_at` on the existing record.
