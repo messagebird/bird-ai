@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.89.0
+
+- **Breaking:** `bird amb suppressions add` and `bird amb suppressions remove` replace the former create and delete verbs, matching `bird sms suppressions` and `bird whatsapp suppressions`; scripts calling the old verbs need the new names.
+- **Breaking:** the MCP tools `amb_suppressions_add` and `amb_suppressions_remove` replace the former create and delete tools; hosts naming the old tools need the new names.
+- **Breaking:** the `address` filter on listing WhatsApp suppressions now matches one exact address, as the SMS `destination` filter does, instead of every address starting with the value; a partial number returns an empty page. A full phone number is matched in its canonical E.164 form, so spacing and punctuation still do not matter.
+- The Bird CLI skill's WhatsApp suppressions guidance now covers the `--waba` list filter, which returns that business account's suppressions together with the workspace-wide ones that block it too.
+
 ## 0.88.0
 
 - The Bird CLI skill's voice guidance now places calls with `bird voice calls create` directly, with no browser review, only when the person asked for that call with its `from`, `to` and sequence, otherwise confirming those and the charges first. On a retry it reuses the same idempotency key with identical input, because a new key places another charged call and changed input conflicts.

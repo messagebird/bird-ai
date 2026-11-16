@@ -33,7 +33,7 @@ An attachment ID (`aat_`) belongs to one business account. Received, sent and up
 - `bird amb business-accounts settings` reads and updates entry points and brand settings.
 - `bird amb business-accounts submissions` lists review attempts. Upload files with `bird amb business-accounts attachments upload`, then create a submission using the returned attachment IDs.
 - `bird amb routing-rules` manages business routing; `bird amb conversations update` changes assignment, labels, `inbox_status` or read state through the `read` date-time cutoff. Resolving inbox work preserves the conversation and does not change its native sending status.
-- `bird amb suppressions` reads, creates or ends suppression episodes. Only manual episodes can be ended; history is retained. Phone invitation consent uses preferences with channel `amb`.
+- `bird amb suppressions` lists, reads, adds and removes suppressions, the same `add`/`remove` verbs as `bird sms suppressions` and `bird whatsapp suppressions`. Removing ends a manual suppression and keeps its history; a customer's own close cannot be removed. Phone invitation consent uses preferences with channel `amb`.
 - `bird amb stats`, `bird amb stats inbound` and `bird amb stats conversations` use different time attribution; inspect the returned period and freshness metadata before comparing them.
 
 Native authentication, payment requests and invitations are not released agent operations. Journeys and simulation templates do not execute through these commands.

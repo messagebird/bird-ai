@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
       - name: Validate plugin manifests are well-formed JSON
         run: |
           for f in .claude-plugin/marketplace.json .cursor-plugin/marketplace.json \
