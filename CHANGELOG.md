@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.90.1
+
+- The `bird-cli` preferences reference now explains active email Brand complaint refusals, inspecting `preference` alongside `applied`, and individual re-consent.
+
 ## 0.90.0
 
 - `bird auth terms` and the `auth_terms` tool of the local (stdio) MCP server return the current Terms of Service version and the URL of its page. Once the organization's owner has read that page and agreed, `bird auth create-org --accept-terms <version>` and the `accept_terms` input of `auth_create_org` state that acceptance, so organization setup can complete outside the dashboard when acceptance is required.
