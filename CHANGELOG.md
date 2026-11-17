@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.90.2
+
+- Describe MMS content, sender requirements and billing in the Bird CLI skill.
+
 ## 0.90.1
 
 - The `bird-cli` preferences reference now explains active email Brand complaint refusals, inspecting `preference` alongside `applied`, and individual re-consent.
