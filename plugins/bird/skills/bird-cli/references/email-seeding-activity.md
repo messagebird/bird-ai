@@ -1,0 +1,13 @@
+# Inspect seeding activity
+
+Complete [access](email-seeding-access.md) with read permission. Skip settings reads: this task does not need settings or the trigger address.
+
+For a known run ID, call `bird email seeding runs get <run-id>` directly. For an original email or broadcast, use `bird email seeding sources list --source-email-id <original-message-id>` or the broadcast filter, then follow a returned `run_id`. A captured, scheduled or skipped observation can have no run. A `mixed_recipients` skip creates no automatic run, and ordinary copies may still send. Without either identifier, `bird email seeding runs list` accepts source, state and creation filters. Pass `next_cursor` back as `--starting-after` with the same filters; creation lower bounds are inclusive and upper bounds exclusive.
+
+Delivered, failed, not_sent, unknown and pending partition the planned copies. Admitted, provider_accepted and issue counts overlap those outcomes, so adding them double-counts. Provider acceptance refers to the sending provider; delivered means receiving-server evidence. Neither establishes inbox placement, and a separate domain-level Inbox Insights measurement cannot be attributed to this run. Report unknown and pending separately. Pending can be awaiting admission or an outcome; it does not establish a grant or cancellation. Unknown can resolve with later evidence. The pending count has no admission-stage breakdown, including on a stopped run. The not_sent count includes refusals and cancellations from multiple causes and cannot quantify how many deliveries a stop prevented.
+
+Reads can lag writes and history expires. An empty response establishes that it has no retained matching record. It cannot distinguish lag, expired history or a record that never existed, or establish whether seeding started or delivered. The original email status is separate from seed-copy outcomes. Absence does not authorize resending. `updated_at` describes run metadata and cannot establish frozen or stalled outcomes. A mutation replay returns its saved snapshot; read the run again for current retained progress. Dispatch-complete and stopped close new admissions; already granted copies may still send and acquire later outcomes.
+
+The `trigger_rotated` reason means the cancellation generation changed through rotation or disabling. Re-enabling does not advance that generation or resume those ungranted copies. The reason proves neither an address change nor that the address stayed unchanged. An unchanged integration configuration does not establish Bird's current trigger.
+
+Done when the observed state, uncertainty and pagination scope are reported. Link [stop](email-seeding-stop.md) only when the user wants future admissions stopped.

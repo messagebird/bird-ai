@@ -8,10 +8,11 @@ Account reads and writes require [authentication](authenticate.md). Confirm the 
 
 `bird whatsapp keyword-rules get <id>` reads either scope from one `wkr_` id space; `scope` on the row says whose it is.
 
-`bird whatsapp keyword-rules create --operation opt_out [--country US] [--waba 102290129340398] [--keywords ...] [--reply ...]` creates an override. `update <id>` changes `--keywords` and `--reply` only, and `delete <id> --yes` drops the override so Bird's rule answers the scope again.
+`bird whatsapp keyword-rules create --operation opt_out [--country US] [--waba 102290129340398] [--keywords ...] [--excluded-keywords ...] [--reply ...]` creates an override. `update <id>` changes `--keywords`, `--excluded-keywords` and `--reply` only, and `delete <id> --yes` drops the override so the next rule in the ladder answers the scope.
 
 - **`keywords` is additive, never a replacement.** A rule of yours stores only what you added; `effective_keywords` on the response is Bird's set plus yours. That is why a keyword Bird ships later starts matching with no edit from the workspace, and why `keywords` on a read looks emptier than the behaviour suggests.
 - **On a `workspace` rule with no `country`, `effective_keywords` is not the whole matched set.** A `system` rule is exact whatever its country, because its set is its own row. For a rule of the workspace's with no `country`, the field carries Bird's worldwide set, because a read cannot know who will write; matching substitutes Bird's set for the sender's country, which can be larger. Do not present the field as the whole matched set for such a rule, and suggest setting a `country` when the workspace wants to see and extend exactly what those senders match.
+- **`excluded_keywords` removes Bird's keywords for the rule's scope.** A message that is exactly one of them records nothing and gets no reply, and Bird's rule further down does not act instead. Excluding all of Bird's keywords switches them off, but a keyword Bird ships later still matches. An exclusion removes only from the Bird rule the rule inherits, never from another of the workspace's rules. Confirm the workspace honours opt-outs itself before removing any.
 - **`country` is the sender's, not the number's.** It is worked out from the person's own phone number, the only country signal WhatsApp sends.
 
 ## Traps

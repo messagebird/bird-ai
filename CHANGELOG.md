@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.91.0
+
+- The `bird-cli` skill reference for WhatsApp keyword rules now covers `excluded_keywords`, which removes Bird's keywords for a rule's scope.
+- The WhatsApp template guidance no longer says a maximum-price send needs Marketing Messages onboarding or fails with error 131061. It now says Meta refuses a maximum-price send to a BSUID recipient with error 131062.
+
 ## 0.90.2
 
 - Describe MMS content, sender requirements and billing in the Bird CLI skill.

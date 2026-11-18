@@ -1,6 +1,6 @@
 ---
 name: bird-cli
-description: Use when operating Bird through the bird CLI to preview or send messages, inspect or manage API resources, register or inspect Inbox Insights seed tests, or onboard an account; excludes client development.
+description: Use when operating Bird through the bird CLI to preview or send messages, inspect or manage API resources, manage Inbox Insights and Automatic Email Seeding, or onboard an account; excludes client development.
 ---
 
 # Bird CLI
@@ -44,6 +44,7 @@ Each `references/` link below points to a file beside this one. If your copy has
 - Manage sending domains (`bird email domains`), or find a verified `from` to send from → [domains](references/domains.md)
 - Count how much mail the workspace received, by period, day or hour (`bird email stats inbound`) → [received-mail-stats](references/received-mail-stats.md)
 - Inspect owned-domain placement and authentication, or configure, register and read seed tests (`bird email inbox-insights`) → [inbox-insights](references/inbox-insights.md)
+- Configure Automatic Email Seeding, submit a separate example, inspect runs, stop a run or rotate its trigger (`bird email seeding`) → [Automatic Email Seeding](references/email-seeding.md)
 - Inspect competitive email intelligence (`bird email competitive`) → [competitive](references/competitive.md)
 - Style the hosted page a marketing recipient lands on when they unsubscribe (`bird email unsubscribe-page`) → [unsubscribe-page](references/unsubscribe-page.md)
 - Manage dedicated IPs (`bird email dedicated-ips`), IP pools (`bird email ip-pools`) and which workspaces use them (sending reputation) → [ip-pools](references/ip-pools.md)

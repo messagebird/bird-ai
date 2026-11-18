@@ -1,92 +1,72 @@
 # Bird AI Marketplace
 
-Skills for driving the [Bird](https://bird.com) platform from your coding agent. Your agent operates Bird through the `bird` CLI; the `bird` plugin in this marketplace installs the skills that teach it Bird's workflows, and on clients that read the plugin's MCP declaration it wires up Bird's hosted MCP server too.
+Skills and hosted MCP configuration for operating [Bird](https://bird.com) from your coding agent. Your agent drives Bird through the `bird` CLI, and clients that read plugin MCP declarations also register Bird's hosted MCP server at `https://mcp.bird.com`.
 
 ## Quick start
 
-Every client starts the same way: install the CLI and sign in.
+Install the `bird` CLI and sign in with your browser:
 
 ```bash
-curl -fsSL https://cli.bird.com/install.sh | sh   # install the bird CLI
-bird auth login                                            # sign in (browser, no API key)
+curl -fsSL https://cli.bird.com/install.sh | sh
+bird auth login
 ```
 
-On macOS or Linux you can also install with Homebrew: `brew install messagebird/tap/bird`.
+On macOS or Linux, you can also install with Homebrew: `brew install messagebird/tap/bird`.
 
-Then jump to your client below. The fastest path is to paste the setup prompt and let your agent do the rest; a manual path is under each one.
+### Agent-driven setup prompt
 
-## No Bird account yet?
+Paste this prompt into your coding agent, substituting your client's skill-install step from the sections below for step 3:
 
-`bird auth login` signs in to an account you already have. An agent with **no** account can create one from the terminal — no dashboard, no password; the owner only opens the Terms page to read it. Four commands take you from nothing to a stored credential:
+```text
+Set Bird up for me end to end:
+1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
+2. Sign me in: run `bird auth login` and open the browser link for me.
+3. Install Bird's skills for this client using the instructions in github.com/messagebird/bird-ai.
+4. Confirm my account email with `bird whoami`.
+5. Send a test email to my `bird whoami` address from onboarding@messagebird.dev (subject "Your Bird account is ready", body "You're set up and ready to send.") and check it with `bird email get`.
+```
+
+## Create a Bird account from the terminal
+
+If you do not have a Bird account yet, an agent can create one without a password while the account owner reviews the Terms in a browser:
 
 ```bash
-# 1. Sign up. Emails a six-digit code to the address; no password is set.
+# 1. Request a six-digit verification code by email.
 bird auth signup you@example.com
 
-# 2. Verify. Read the code from that email, then exchange it for a single-use onboarding ticket.
+# 2. Exchange the emailed code for a single-use onboarding ticket.
 bird auth verify-email you@example.com --code 123456
-# → { "onboarding_ticket": "obt_…", "user_id": "usr_…" }
 
-# 3. Read the current Terms. Show the page to the person who will own the organization.
+# 3. Inspect the current Terms URL and version for the organization owner to review.
 bird auth terms
-# → { "version": "2024-11-21", "url": "https://bird.com/legal/terms-2024-11-21", … }
 
-# 4. Create your first org + workspace once they agree. Consumes the ticket, then mints and stores the credential.
-#    --region picks where the account and its data live (us1 or eu1); the CLI routes there for you.
-bird auth create-org "Acme" --workspace-name "Production" --region us1 --onboarding-ticket obt_… --accept-terms 2024-11-21
+# 4. Create the organization and workspace in us1 or eu1 once the owner agrees.
+bird auth create-org "Acme" --workspace-name "Production" --region us1 --onboarding-ticket obt_... --accept-terms 2024-11-21
 
-# Confirm it worked — reports the account, org, and workspace you're now acting as.
+# 5. Verify the stored credential.
 bird auth status
 ```
 
-The code arrives by email, so it comes from outside the CLI — read it from the inbox and pass it to step 2. `--accept-terms` states that the owner agreed to the Terms on behalf of the organization, so pass it only after they do; without it, `create-org` returns `E02100` when acceptance is required. Signup and verification are region-agnostic; you pick the region once, at `create-org`, so there is no host or environment variable to set. Every step is self-describing: append `--help` for the flags, `--example` for a ready-to-edit request body, or `--response-schema` for what it returns — none of them need a credential, so an agent can plan the whole chain before running it. Full walkthrough: [Self-serve signup](https://bird.com/docs/ai/self-serve-signup).
+Pass `--accept-terms` only after the organization owner agrees to the Terms (`create-org` returns `E02100` when acceptance is missing). Append `--help`, `--example`, or `--response-schema` to inspect any step before authenticating. See [Self-serve signup](https://bird.com/docs/ai/self-serve-signup) for the full walkthrough.
 
-## Any Agent Plugins client
+## Client setup
 
-The plugin ships a root `plugin.json` and `mcp.json` following [Agent Plugins](https://agent-plugins.org/specification), the portable plugin format. A client that implements the specification loads it from this repository as it is: the skills and the hosted MCP server, in one install. Point the client at `github.com/messagebird/bird-ai` and install `bird` from `plugins/bird`.
+### Agent Plugins 1.0 clients
 
-For a client with its own plugin format, or none, find it below.
+`plugins/bird` includes portable `plugin.json` and `mcp.json` manifests following [Agent Plugins](https://agent-plugins.org/specification). Point any compatible client at `github.com/messagebird/bird-ai` (`plugins/bird`) to install skills and the hosted MCP server together, then complete the OAuth browser sign-in when prompted.
 
-## Claude Code
-
-Paste this prompt into Claude Code and it installs the CLI, signs you in, installs the skills, and sends a test email:
-
-```text
-Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
-1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
-2. Sign me in: run `bird auth login` and open the browser link for me.
-3. Install Bird's skills so you know the workflows: run `claude plugin marketplace add messagebird/bird-ai`, then `claude plugin install bird@bird-ai`.
-4. Confirm who I am: run `bird whoami`, which prints the email of the account you're acting as.
-5. Send me a test email so I see it land in my own inbox: use my address from `bird whoami` as the recipient, send from onboarding@messagebird.dev, then confirm delivery with `bird email get`. Subject: "Your Bird account is ready". Body: "You're set up and ready to send. This email is the proof. Cheers, The Bird team".
-Then let's discuss next steps, given what Bird can do.
-```
-
-Or install the plugin manually:
+### Claude Code
 
 ```bash
 claude plugin marketplace add messagebird/bird-ai
 claude plugin install bird@bird-ai
 ```
 
-**MCP server:** installing the plugin registers Bird's hosted server at `https://mcp.bird.com`, so there is nothing to configure. You do have to sign in once, because the server is OAuth-gated: run `/mcp`, select `bird`, press Enter, and choose **Authenticate**. Your browser opens Bird's consent screen; approve it and the tools work. Until then `claude mcp list` reports `bird` as `! Needs authentication` and every tool call fails. For a headless run (`claude -p`) there is no `/mcp` panel, so authenticate first with `claude mcp login bird`.
+**MCP server:** Registered automatically at `https://mcp.bird.com`. Run `/mcp`, select `bird`, and choose **Authenticate** (or run `claude mcp login bird` before headless `claude -p` sessions) to complete browser OAuth consent.
 
-## Cursor
+### Cursor
 
-Paste this prompt into Cursor:
-
-```text
-Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
-1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
-2. Sign me in: run `bird auth login` and open the browser link for me.
-3. Give yourself Bird's skills (Cursor installs plugins through its UI, so set them up by file instead): fetch the skills from https://github.com/messagebird/bird-ai and write them into `.cursor/rules/` as `.mdc` files.
-4. Confirm who I am: run `bird whoami`, which prints the email of the account you're acting as.
-5. Send me a test email so I see it land in my own inbox: use my address from `bird whoami` as the recipient, send from onboarding@messagebird.dev, then confirm delivery with `bird email get`. Subject: "Your Bird account is ready". Body: "You're set up and ready to send. This email is the proof. Cheers, The Bird team".
-Then let's discuss next steps, given what Bird can do.
-```
-
-To set the skills up by hand, add the `messagebird/bird-ai` marketplace under **Settings → Plugins**, or write the skills from this repo into `.cursor/rules/` as `.mdc` files yourself.
-
-**MCP server:** add the hosted server once in `~/.cursor/mcp.json`:
+Add `messagebird/bird-ai` under **Settings** > **Plugins** (or copy the skill files into `.cursor/rules/` as `.mdc` files), then register the hosted MCP server in `~/.cursor/mcp.json`:
 
 ```json
 {
@@ -96,59 +76,26 @@ To set the skills up by hand, add the `messagebird/bird-ai` marketplace under **
 }
 ```
 
-Then sign in: open **Customize** in the Cursor sidebar, select **MCPs**, and follow the sign-in prompt for `bird`. Approve Bird's consent screen in the browser and return to Cursor. The tools fail until you do.
+Open **Customize** > **MCPs** in the Cursor sidebar and complete the browser sign-in for `bird`.
 
-## Codex
-
-Paste this prompt into Codex:
-
-```text
-Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
-1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
-2. Sign me in: run `bird auth login` and open the browser link for me.
-3. Install Bird's skills so you know the workflows: run `codex plugin marketplace add messagebird/bird-ai`, then `codex plugin add bird@bird-ai` (check `codex plugin --help` if the exact form differs).
-4. Confirm who I am: run `bird whoami`, which prints the email of the account you're acting as.
-5. Send me a test email so I see it land in my own inbox: use my address from `bird whoami` as the recipient, send from onboarding@messagebird.dev, then confirm delivery with `bird email get`. Subject: "Your Bird account is ready". Body: "You're set up and ready to send. This email is the proof. Cheers, The Bird team".
-Then let's discuss next steps, given what Bird can do.
-```
-
-Or install the plugin manually:
+### Codex
 
 ```bash
 codex plugin marketplace add messagebird/bird-ai
 codex plugin add bird@bird-ai
-```
-
-**MCP server:** the plugin registers `https://mcp.bird.com` automatically.
-
-Then sign in, which opens your browser for Bird's consent screen:
-
-```bash
 codex mcp login bird
 ```
 
-## GitHub Copilot
+The plugin registers `https://mcp.bird.com` automatically, and `codex mcp login bird` completes browser OAuth consent.
 
-Paste this prompt into Copilot:
-
-```text
-Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
-1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
-2. Sign me in: run `bird auth login` and open the browser link for me.
-3. Install Bird's skills so you know the workflows: run `copilot plugin marketplace add messagebird/bird-ai`, then `copilot plugin install bird@bird-ai`.
-4. Confirm who I am: run `bird whoami`, which prints the email of the account you're acting as.
-5. Send me a test email so I see it land in my own inbox: use my address from `bird whoami` as the recipient, send from onboarding@messagebird.dev, then confirm delivery with `bird email get`. Subject: "Your Bird account is ready". Body: "You're set up and ready to send. This email is the proof. Cheers, The Bird team".
-Then let's discuss next steps, given what Bird can do.
-```
-
-Or install the plugin manually:
+### GitHub Copilot
 
 ```bash
 copilot plugin marketplace add messagebird/bird-ai
 copilot plugin install bird@bird-ai
 ```
 
-**MCP server:** add the hosted server once in `.vscode/mcp.json`:
+Add `.vscode/mcp.json` to register the hosted MCP server:
 
 ```json
 {
@@ -158,99 +105,44 @@ copilot plugin install bird@bird-ai
 }
 ```
 
-VS Code asks you to trust the server the first time it starts, then runs the sign-in itself: approve Bird's consent screen in the browser window it opens. If no window appears, start `bird` from the **MCP: List Servers** command. Your grant is listed under the **Accounts** menu → **Manage Trusted MCP Servers**, which is also where you revoke it.
+Trust the server when VS Code prompts you and approve Bird's consent screen in your browser (or start `bird` from **MCP: List Servers**; manage grants under **Accounts** > **Manage Trusted MCP Servers**).
 
-## Factory Droid
-
-Paste this prompt into Droid:
-
-```text
-Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
-1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
-2. Sign me in: run `bird auth login` and open the browser link for me.
-3. Install Bird's skills so you know the workflows: Droid loads skills from `.factory/skills/`, so clone https://github.com/messagebird/bird-ai and copy every directory in `plugins/bird/skills/` into `.factory/skills/`.
-4. Confirm who I am: run `bird whoami`, which prints the email of the account you're acting as.
-5. Send me a test email so I see it land in my own inbox: use my address from `bird whoami` as the recipient, send from onboarding@messagebird.dev, then confirm delivery with `bird email get`. Subject: "Your Bird account is ready". Body: "You're set up and ready to send. This email is the proof. Cheers, The Bird team".
-Then let's discuss next steps, given what Bird can do.
-```
-
-To set the skills up by hand:
+### Factory Droid
 
 ```bash
 git clone https://github.com/messagebird/bird-ai
 cp -r bird-ai/plugins/bird/skills/. .factory/skills/
-```
-
-**MCP server:** add the hosted server once:
-
-```bash
 droid mcp add bird https://mcp.bird.com --type http
 ```
 
-Then run `/mcp` inside droid and complete the browser sign-in from the server manager.
+Run `/mcp` inside Droid to complete browser OAuth sign-in.
 
-## OpenCode
-
-Paste this prompt into OpenCode:
-
-```text
-Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
-1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
-2. Sign me in: run `bird auth login` and open the browser link for me.
-3. Install Bird's OpenCode plugin so you know the workflows: run `opencode plugin github:messagebird/bird-ai --global`, then tell me to restart OpenCode and run `opencode mcp auth bird`.
-4. Confirm who I am: run `bird whoami`, which prints the email of the account you're acting as.
-5. Send me a test email so I see it land in my own inbox: use my address from `bird whoami` as the recipient, send from onboarding@messagebird.dev, then confirm delivery with `bird email get`. Subject: "Your Bird account is ready". Body: "You're set up and ready to send. This email is the proof. Cheers, The Bird team".
-Then let's discuss next steps, given what Bird can do.
-```
-
-Or install the plugin by hand:
+### OpenCode
 
 ```bash
 opencode plugin github:messagebird/bird-ai --global
 opencode mcp auth bird
 ```
 
-The plugin adds Bird's skills and the hosted MCP server to your OpenCode config. By default OpenCode adds every MCP tool to the model's context, so the plugin connects to `https://mcp.bird.com/dynamic`, which offers two tools: `search` finds the Bird tool for a task and `execute` runs it. With OpenCode's experimental code mode on (`OPENCODE_EXPERIMENTAL_CODE_MODE=1`, or `OPENCODE_EXPERIMENTAL=1`), OpenCode keeps MCP tools behind its own search, so the plugin connects to the full catalog at `https://mcp.bird.com` instead.
+Restart OpenCode after installing the plugin. By default, the plugin connects to `https://mcp.bird.com/dynamic` (`search` and `execute`) and prompts before `bird_execute` mutations; when `OPENCODE_EXPERIMENTAL_CODE_MODE=1` (or `OPENCODE_EXPERIMENTAL=1`) is enabled, it connects to the full catalog at `https://mcp.bird.com` and prompts before `bird_*` calls unless overridden in `opencode.json`.
 
-By default the plugin makes OpenCode ask before each call that can change your workspace: before `bird_execute` on `/dynamic`, and before every Bird tool in code mode. Your own `opencode.json` takes precedence: a `bird_*` rule you set, a single `permission` value for every tool, or a `bird` server you configured replaces the plugin's.
+### Google Antigravity
 
-## Google Antigravity
-
-Paste this prompt into Antigravity:
-
-```text
-Bird is a communications platform you can operate end to end: email, SMS, WhatsApp, and voice through one API and one login. Set Bird up for me, end to end.
-1. Install the Bird CLI: run `curl -fsSL https://cli.bird.com/install.sh | sh`.
-2. Sign me in: run `bird auth login` and open the browser link for me.
-3. Install Bird's Antigravity plugin so you know the workflows: run `curl -fsSL https://raw.githubusercontent.com/messagebird/bird-ai/main/antigravity.sh | bash`, then tell me to open Customizations in the sidebar and authenticate `bird`.
-4. Confirm who I am: run `bird whoami`, which prints the email of the account you're acting as.
-5. Send me a test email so I see it land in my own inbox: use my address from `bird whoami` as the recipient, send from onboarding@messagebird.dev, then confirm delivery with `bird email get`. Subject: "Your Bird account is ready". Body: "You're set up and ready to send. This email is the proof. Cheers, The Bird team".
-Then let's discuss next steps, given what Bird can do.
-```
-
-Or install the plugin by hand with Antigravity CLI:
+Install with Antigravity CLI or the standalone installer script:
 
 ```bash
 agy plugin install https://github.com/messagebird/bird-ai
-```
-
-Or without Antigravity CLI:
-
-```bash
+# Or without Antigravity CLI (pass `bash -s -- --project` for `.agents/plugins/bird`):
 curl -fsSL https://raw.githubusercontent.com/messagebird/bird-ai/main/antigravity.sh | bash
 ```
 
-The script downloads the plugin from this repository's `main` branch and installs it in `~/.gemini/config/plugins/bird`, where Antigravity 2.0, the IDE, and Antigravity CLI load it in every workspace. To install it in one project, run it from the project root with `bash -s -- --project`, which writes `.agents/plugins/bird`. Run the same command again to update. From a clone of this repository, run `bash antigravity.sh` with the same options.
+**MCP server:** Open **Customizations** in the sidebar (or **Agent settings** via `Cmd+,` / `Ctrl+,` in the IDE), select **Authenticate** next to `bird` (restart Antigravity if `bird` is not yet listed), approve Bird's browser consent screen, and paste the authorization code back into Antigravity. See [Antigravity plugins](https://antigravity.google/docs/plugins/) for local plugin details.
 
-**MCP server:** the plugin registers Bird's hosted server at `https://mcp.bird.com`. You still sign in once, because the server is OAuth-gated: open **Customizations** in the sidebar (in the IDE, open **Agent settings** with `Cmd+,` on macOS or `Ctrl+,` elsewhere), and select **Authenticate** next to `bird`. If `bird` is not listed, restart Antigravity. Approve Bird's consent screen in the browser, copy the authorization code it shows, paste it into Antigravity, and select **Submit**. Until then every tool call fails.
+## Included in the `bird` plugin
 
-These are [local installation instructions](https://antigravity.google/docs/plugins/); inclusion in Google's curated marketplace requires its separate review.
-
-## What's in the `bird` plugin
-
-- **`bird-cli`**: operate the Bird API from the terminal. One reference per CLI command group, covering sending and inspecting messages on every channel Bird runs, the setup each channel needs before it can send, one-time-passcode verification, recipient lookup, contacts and audiences, messaging preferences, Realtime provisioning, webhooks, API keys, support tickets, and documentation search.
-- **`email-audit`**: grade a domain's live DMARC, SPF, DKIM, BIMI, and MX records and read the findings back as a prioritized fix list. DNS-only, so it needs no sign-in.
-- **Bird MCP server**: the hosted server at `https://mcp.bird.com`, so your agent can call Bird directly with a browser sign-in and no API key. Registered for you on Claude Code, Codex, OpenCode, Antigravity and any Agent Plugins host; a one-time config elsewhere (above). Every client needs the one-time browser sign-in described in its section: the server is OAuth-gated, and a client that has the URL but no grant lists the tools and fails every call.
+- **`bird-cli`**: Terminal workflows across messaging channels, sender setup, OTP verification, lookup, contacts, audiences, preferences, Realtime, webhooks, API keys, support tickets, and docs search.
+- **`email-audit`**: DNS-only inspection and prioritized remediation for DMARC, SPF, DKIM, BIMI, and MX records.
+- **Hosted Bird MCP server (`https://mcp.bird.com`)**: OAuth-authenticated MCP access without static API keys.
 
 ## License
 
