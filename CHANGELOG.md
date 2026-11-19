@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.92.0
+
+- The `bird-cli` skill now covers the `bird labels` commands.
+- The `bird-cli` skill's email broadcast guidance says a used parameter value that opens Liquid, such as `{{` or `{%`, saves but cannot send, so agents put Liquid in the template.
+- The WhatsApp keyword rules guidance now says an excluded keyword also stops a less specific rule of the workspace from acting on it, and shows how to clear exclusions with `update --body-file`.
+
 ## 0.91.0
 
 - The `bird-cli` skill reference for WhatsApp keyword rules now covers `excluded_keywords`, which removes Bird's keywords for a rule's scope.

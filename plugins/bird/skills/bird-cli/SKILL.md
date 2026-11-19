@@ -41,6 +41,7 @@ Each `references/` link below points to a file beside this one. If your copy has
 - Manage media-library assets and folders (`bird assets`) → [media library](references/media-library.md)
 - Manage contacts, audiences, and contact properties (`bird contacts`, `bird audiences`, `bird contact-properties`) → [contacts](references/contacts.md)
 - Record and look up messaging consent grants and opt-outs (`bird preferences`) → [preferences](references/preferences.md)
+- List, create, rename, recolour or delete the workspace's conversation labels (`bird labels`) → [labels](references/labels.md)
 - Manage sending domains (`bird email domains`), or find a verified `from` to send from → [domains](references/domains.md)
 - Count how much mail the workspace received, by period, day or hour (`bird email stats inbound`) → [received-mail-stats](references/received-mail-stats.md)
 - Inspect owned-domain placement and authentication, or configure, register and read seed tests (`bird email inbox-insights`) → [inbox-insights](references/inbox-insights.md)
