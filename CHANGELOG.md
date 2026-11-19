@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.93.0
+
+- The `bird-cli` skill points agents to `bird whatsapp templates list-events` for the status and quality changes Bird recorded on a template.
+- The Bird CLI skill now says a received Apple Messages attachment downloads from Bird's copy for 30 days from when its message arrived, with a retryable error while that copy is still arriving and a gone error once Bird has none.
+
 ## 0.92.1
 
 - Organization creation guidance now directs you to sign in if creation consumes the `onboarding_ticket` but its response is lost.

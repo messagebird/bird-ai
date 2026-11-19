@@ -14,11 +14,12 @@ Branch on what they asked for:
 - **Create a template, or change its metadata** → _Author_ below.
 - **Write or edit a language's content** → _Author_ below.
 - **Get a template approved, or find out where a review stands** → _Submit and poll_ below.
+- **Find out when a language was paused or its quality changed** → _Read_ below.
 - **Undo an edit, drop a language, or retire a template** → _Undo and remove_ below.
 
 ## Permissions
 
-The six reads need `whatsapp_management:read` and the ten writes need `whatsapp_management:write`, both workspace-level; nothing here needs an elevated or resource-scoped grant. A plain `bird auth login` requests a read-only baseline, so the writes need a step-up: `--yolo` requests the full delegable catalogue, which is what an agent that will author wants. Reach for `--scope whatsapp_management` only to mint a deliberately minimal token, because `--scope` replaces the baseline rather than adding to it and drops every other scope the token would have held. [authenticate](authenticate.md) has the full rule.
+The seven reads need `whatsapp_management:read` and the ten writes need `whatsapp_management:write`, both workspace-level; nothing here needs an elevated or resource-scoped grant. A plain `bird auth login` requests a read-only baseline, so the writes need a step-up: `--yolo` requests the full delegable catalogue, which is what an agent that will author wants. Reach for `--scope whatsapp_management` only to mint a deliberately minimal token, because `--scope` replaces the baseline rather than adding to it and drops every other scope the token would have held. [authenticate](authenticate.md) has the full rule.
 
 A workspace may author only on a WhatsApp Business Account it has connected. An account it does not hold is refused, and so is a Bird built-in template (`scope: system`), which lives on Bird's own account: fork one with `duplicate` onto your own account instead of trying to edit it.
 
@@ -26,6 +27,7 @@ A workspace may author only on a WhatsApp Business Account it has connected. An 
 
 - `bird whatsapp templates list` returns a cursor envelope of the workspace's templates, each with its handle, lifecycle status, and where each of its languages stands. Content is not included. Narrow with `--category`, `--status` (repeatable), `--scope system|workspace`, `--waba`, and `--q`, which matches slug, name, and description.
 - `bird whatsapp templates get <template-ref>` returns one template by slug or `wat_…` id, same shape as a `list` row: no content.
+- `bird whatsapp templates list-events <template-ref>` returns the status and quality changes Bird recorded for the template's languages, newest first, such as a pause, a reinstatement, or a rating drop. Narrow to one language with `--language`. `get` shows only the current values. Each `created_at` is when Bird recorded the change, not WhatsApp's own time, and a repeated pause on a language that is still paused can be missing, so do not read the count as the number of pauses WhatsApp applied.
 - `bird whatsapp templates versions list <template-ref>` returns every version the template holds, newest first, including an open draft if one exists. Each version is otherwise immutable once submitted.
 - `bird whatsapp templates versions get <template-ref> <version-id>` returns the whole version: every language's content blocks, what the submission did with each, and the `variables` the content fills in, combined across languages. This is the one call that carries content for all languages at once — `versions list` returns the same shape without content.
 - `bird whatsapp templates versions languages list <template-ref> <version-id>` names the languages a version holds, each with its own review verdict and a content hash, so you can tell which languages differ before fetching any of them.

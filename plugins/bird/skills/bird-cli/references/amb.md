@@ -25,11 +25,11 @@ An attachment ID (`aat_`) belongs to one business account. Received, sent and up
 2. Run `bird amb attachments upload --from <apple-business-id> --file <path>`, or `--source-url <https-url>` for a file Bird downloads, and read the returned `id`. Keep `--idempotency-key` across retries.
 3. Check the attachment before sending: `business_account_id` must be the business account you send from. `--from` takes that account's `apple_business_id`, which `bird amb business-accounts get <business_account_id>` returns. A send within 24 hours of `expires_at` is refused; sending the attachment again moves `expires_at` 30 days on.
 4. Send it with `text.attachments[].attachment_id` in place of `source_url`, or `--attachments` on the CLI. Supplying both is refused.
-5. Run `bird amb attachments download <attachment-id> --output <file>` for the decrypted bytes. Past `expires_at`, the download fails once Apple no longer holds the attachment, unless Bird kept a copy of a received one.
+5. Run `bird amb attachments download <attachment-id> --output <file>` for the decrypted bytes. A received attachment downloads from Bird's copy for 30 days from when its message arrived, whatever `expires_at` says: a retryable error with `retry_after` means the copy is still arriving, a gone error that Bird has none. A sent or uploaded one downloads from Apple and fails past `expires_at` once Apple no longer holds it.
 
 ## Manage and investigate
 
-- `bird amb attachment <message-id> <index> --output <file>` downloads and decrypts an attachment by its position in the message's `text.attachments`; for a received attachment the message ID is the `message.id` of the `amb.received` webhook. Apple keeps attachments for 30 days, so download on receipt.
+- `bird amb attachment <message-id> <index> --output <file>` downloads and decrypts an attachment by its position in the message's `text.attachments`; for a received attachment the message ID is the `message.id` of the `amb.received` webhook. Bird keeps a received attachment for 30 days; right after the webhook the copy may still be arriving, so retry a retryable error after its `retry_after`.
 - `bird amb business-accounts settings` reads and updates entry points and brand settings.
 - `bird amb business-accounts submissions` lists review attempts. Upload files with `bird amb business-accounts attachments upload`, then create a submission using the returned attachment IDs.
 - `bird amb routing-rules` manages business routing; `bird amb conversations update` changes assignment, labels, `inbox_status` or read state through the `read` date-time cutoff. Resolving inbox work preserves the conversation and does not change its native sending status.
