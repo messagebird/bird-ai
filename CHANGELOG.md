@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.92.1
+
+- Organization creation guidance now directs you to sign in if creation consumes the `onboarding_ticket` but its response is lost.
+
 ## 0.92.0
 
 - The `bird-cli` skill now covers the `bird labels` commands.
