@@ -12,7 +12,7 @@ Run `bird assets --help`. If the group is missing, update the CLI before continu
 - `bird assets list --kind image` returns a cursor page. `get <id>` returns metadata and the public URL, including soft-deleted assets.
 - `bird assets folders create --name "Campaign images"` creates a root folder. `--parent-id` nests it. Folder listing is flat and paginated; a parent may occur on a later page.
 - `bird assets update <id> --folder-id <folder-id>` files an asset without changing its URL. A JSON body with `folder_id: null` moves it to the root; `alt_text: null` clears alternative text. `--body-file` accepts these explicit nulls.
-- `bird assets references list <asset-id>` finds saved content the caller may read. Email-template usage requires `email_management:read` alongside `assets:read`.
+- `bird assets references list <asset-id>` finds saved content the caller may read. Email-template and reusable-block usage requires `email_management:read` alongside `assets:read`; a reusable block is listed by ID and name only.
 
 Uploads publish a URL accessible without authentication. Identical bytes can return an existing asset with its existing metadata and folder unchanged. MCP's matching `assets_upload` tool runs on local stdio. For hosted MCP, use the upload-session flow below when available.
 

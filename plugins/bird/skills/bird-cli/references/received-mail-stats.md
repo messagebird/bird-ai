@@ -17,7 +17,7 @@
 ## Traps
 
 - **These count received mail only, and there is no direction flag.** The workspace's own sending is a separate group of commands one level up, so a total that looks too low is usually the wrong group rather than missing data.
-- **A zero is an answer, not an empty result.** Every bucket in the window comes back, so a run of zeros means no mail arrived rather than no data — check the window and the tag before concluding the pipeline is broken.
-- **The counts are a rolling aggregation.** `period.data_as_of` is the instant the numbers are current to, a few seconds behind live. Read it rather than treating the totals as to-the-second.
+- **A zero is an answer, not an empty result.** Every bucket in the window comes back, so a run of zeros means no arrivals were counted in those buckets rather than no data. Buckets near or after `period.data_as_of` may still be incomplete, so check it, the window and the tag before concluding the pipeline is broken.
+- **The counts are a rolling aggregation.** `period.data_as_of` is the best-effort refresh time of the numbers (the oldest one when several rollups contribute), which can trail live by a minute or more. Read it rather than treating the totals as up to the second.
 
 These actions inherit the output (`--format`), exit-code, and credential-resolution conventions from the `bird-cli` entry; the credential step itself is [authenticate](authenticate.md).

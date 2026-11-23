@@ -53,13 +53,22 @@ Mutations take flags or a `--body-file` JSON body (`--example` prints the shape,
 - `bird email templates update <slug|emt_…> --revision <n>` changes metadata only (`--name`, `--description`, `--default-language`, `--on-missing-language`, `--language-source-required`). Content is never edited here.
 - `bird email templates duplicate <slug|emt_…>` forks a workspace template or a built-in into a new unpublished template; `--slug` names the copy, otherwise one is derived.
 - `bird email templates preview <slug|emt_…> --parameters '{...}'` renders the draft (or `--version <emv_…>`) and returns the subject and bodies for inspection. An empty unsubscribe link is a preview placeholder: sending inserts a URL for each recipient. Nothing is sent. This author preview does not validate a saved broadcast or provide its test fingerprint; use [broadcast preview and test](email-broadcasts.md#published-inputs-preview-and-member-test) for that workflow.
-- `bird email templates versions languages set <emt_…> <emv_…> <lang> --subject … --html …` writes one language in full; `… languages update …` changes only the flags you pass; `… languages delete … --yes` removes a language.
+- `bird email templates versions languages set <emt_…> <emv_…> <lang> --subject … --html …` writes one language in full, including its links to reusable blocks (see [Linking reusable blocks](#linking-reusable-blocks)); `… languages update …` changes only the flags you pass; `… languages delete … --yes` removes a language.
 - `bird email templates versions submit <emt_…> <emv_…>` freezes the draft and makes it live. `--validate-only` runs every check without freezing anything; `--expected-revision <n>` refuses the submit if the draft moved since you read it.
 - `bird email templates versions rollback <emt_…> <emv_…> --revision <n> --yes` makes an earlier version live again and resets the draft to its content. No new version is created.
 - `bird email templates versions delete <emt_…> <emv_…> --yes` **discards the draft's edits**, resetting it to what is live. It does not delete a submitted version.
 - `bird email templates delete <slug|emt_…> --yes` removes the template from authoring and lists. Published versions remain readable and previewable by template ID and version ID; the deleted draft and slug lookup are unavailable. The slug becomes reusable.
 
-To review a paused broadcast after template deletion, read its `template.id` and `template.version_id`, then run `bird email templates versions get <template-id> <version-id>` or `bird email templates preview <template-id> --version <version-id>`. Use its `template.language` when present; otherwise use the published version's default language. Review the original content before resuming, including offers that may have expired.
+To review a paused broadcast after template deletion, read its `template.id` and `template.version_id`, then run `bird email templates versions get <template-id> <version-id>` or `bird email templates preview <template-id> --version <version-id>`. Use its `template.language` when present; otherwise use the published version's default language. Review the content before resuming, including offers that may have expired. Both commands show the template's own frozen wording but sections linked from reusable blocks as currently published, and a version read without link markers does not prove the version links nothing; leave the broadcast paused if you cannot verify what its remaining recipients will receive.
+
+## Linking reusable blocks
+
+A template language can link reusable sections from `bird email blocks` instead of copying their HTML. A send fills each link with the block's latest published content in the template's language, so a block publication changes the template without a new version. The full loop is in [email-blocks](email-blocks.md#link-a-block-into-a-template); the template side is:
+
+- `… languages get <emt_…> <emv_…> <lang> --authoring` returns the source HTML with `<!--bird:shared-block:UUID-->` comments, the `shared_blocks` map, `authoring_mode` and the `revision` to save with. Without `--authoring` the read returns filled HTML and `has_shared_blocks`.
+- `… languages set` saves the comments, the `shared_blocks` map (`--body-file` only), the `revision` and an empty `text` together; `--replace-custom-text` replaces existing custom plain text.
+- Only an HTML-authored language (`authoring_mode: html`) links blocks through commands. A visually authored linked language is edited in the dashboard and refuses body replacement with `E04108`.
+- A linked language refuses a body save without `shared_blocks` (`E04109`), and `duplicate` and `rollback` keep the links.
 
 ## Check in CI
 

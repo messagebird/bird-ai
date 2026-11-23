@@ -19,6 +19,7 @@ Each `references/` link below points to a file beside this one. If your copy has
 
 - Send or inspect email messages (`bird email`, including `send-batch`) → [email](references/email.md)
 - Author reusable email templates, submit a draft, or roll one back (`bird email templates`) → [email-templates](references/email-templates.md)
+- Author, check and publish reusable email sections such as a shared footer, or link them into templates (`bird email blocks`) → [email-blocks](references/email-blocks.md)
 - Prepare, send, or inspect a marketing broadcast (`bird email broadcasts`) → [email-broadcasts](references/email-broadcasts.md)
 - Send or inspect SMS messages, or browse SMS templates (`bird sms`) → [sms](references/sms.md)
 - Draft the carrier verification a US toll-free number needs before it can send, read what the carrier asks for, or see why one was declined (`bird sms tfn verifications`) → [tfn-verifications](references/tfn-verifications.md)

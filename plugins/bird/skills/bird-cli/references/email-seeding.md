@@ -5,6 +5,7 @@
 
 - [Read or replace settings](email-seeding-settings.md)
 - [Submit a separate example](email-seeding-example.md)
+- [Seed a broadcast](email-seeding-broadcast.md)
 - [Inspect sources and run progress](email-seeding-activity.md)
 - [Stop a run](email-seeding-stop.md)
 - [Rotate the trigger address](email-seeding-rotate.md)

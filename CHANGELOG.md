@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.94.0
+
+- The Bird CLI skill now covers `bird email blocks`: authoring and publishing reusable HTML sections, linking them into HTML template languages, and the publication and editing rules that apply.
+- The `bird-cli` skill explains how to send seed copies with an email broadcast through `--seed` and `--seed-contact`, and that `validate` warns about seeding problems without stopping the send.
+- The `bird-cli` skill now opens one seed test's results with `bird email inbox-insights seed-tests get`.
+- The `bird-cli` skill's resume steps say that reading a paused broadcast's pinned template version shows sections linked from reusable blocks as currently published, so that read cannot confirm what the broadcast will send.
+- Email broadcast guidance uses `can_start` to check whether email limits permit starting, including when the broadcast must wait for funds.
+- `data_as_of` on email statistics is now described as a best-effort refresh time, which can trail the latest events by a minute or more.
+- The Bird CLI skill now says `bird assets references list` includes reusable email blocks by ID and name, and that they require `email_management:read`. Its deleted-template review steps also say a version read shows linked sections as currently published, so a paused broadcast stays paused when its content cannot be verified.
+- The WhatsApp keyword rules guidance now states that `excluded_keywords` accepts only Bird's own keywords for the rule, and that the API refuses any other word with a 422.
+
 ## 0.93.0
 
 - The `bird-cli` skill points agents to `bird whatsapp templates list-events` for the status and quality changes Bird recorded on a template.

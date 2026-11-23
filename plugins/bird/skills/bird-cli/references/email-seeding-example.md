@@ -30,6 +30,6 @@ printf '%s' "$body" | bird email send --body-file - \
 
 Replace the illustrative sender, subject and content with the authorized values. Retain the exact body and key in the execution environment until the outcome is known. If a response is lost, recover the outcome or obtain approval for a manual retry when it is not already authorized; do not create a fresh intent or rebuild from changed settings.
 
-Retain the original message ID, then follow [activity](email-seeding-activity.md) using `source_email_id`. SMTP examples use the externally submitted MIME flow; broadcasts use their existing send workflow. Neither needs a manual run-create, registration, dispatch or resend tool.
+Retain the original message ID, then follow [activity](email-seeding-activity.md) using `source_email_id`. SMTP examples use the externally submitted MIME flow; broadcasts follow [seed a broadcast](email-seeding-broadcast.md). Neither needs a manual run-create, registration, dispatch or resend tool.
 
 Done when the send is accepted and its source observation or current absence is reported. Acceptance alone does not establish a run, delivery or placement.
