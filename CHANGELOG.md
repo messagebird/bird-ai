@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.95.0
+
+- Add `sip_trunking_enabled`, `did_delivery_enabled` and `workspace_users_enabled` to voice trunks: each trunk reports them, and you can set them when you create or update one.
+- Voice trunk `outbound_enabled`, `inbound_enabled` and `session_credentials_enabled` are now deprecated in favor of those fields, and a request that sets one to a value its replacement contradicts is rejected.
+- Setting voice trunk `outbound_enabled` to `false` turns off every caller that places calls, and setting it back to `true` turns on `sip_trunking_enabled` alone. To pause and resume a trunk that has `workspace_users_enabled` on, set the switches themselves.
+- Turning on `workspace_users_enabled` or `session_credentials_enabled` no longer requires outbound calling on the trunk.
+- `bird email blocks publish` guidance no longer says a refused publication's idempotency key stays bound to the refusal. When you deliberately confirm a publication that adds inputs live senders must supply, once they supply them, repeat it with `--yes` under a new key, because the confirmed publication is a different request.
+- Email broadcast guidance explains that a broadcast held with `send_limit_reached` continues if the sending limit allows its next batch before `wait_until`, that adding funds does not lift the limit, and that a paused one resumes only once the limit allows more email.
+- `bird voice tools test-call` picks the SIP password from the trunk's caller switches. An API key or allow list stored on a trunk with `sip_trunking_enabled` off no longer counts, and the command stops with an error naming the switch to turn on, before any `--dry-run` output or dialing, when the trunk cannot admit the test call.
+- The `bird-cli` voice reference checks a trunk's caller switches before its credentials, and uses the `--sip-trunking-enabled`, `--did-delivery-enabled` and `--workspace-users-enabled` flags in place of the deprecated ones.
+- **Breaking:** WhatsApp maximum-price inputs are narrower. A template language's `optimization_spec.bid_amount` accepts at most 50000 per 1,000 deliveries (0.50 per delivery), country overrides and a send's `bid_multiplier` accept 0.1 to 2, and a send is refused when its multiplier takes the recipient country's maximum price above 0.50 per delivery. Requests outside these ranges that were accepted before now return 422; lower the value to stay within them.
+
 ## 0.94.0
 
 - The Bird CLI skill now covers `bird email blocks`: authoring and publishing reusable HTML sections, linking them into HTML template languages, and the publication and editing rules that apply.
